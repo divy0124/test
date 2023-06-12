@@ -1,4 +1,3 @@
-
 /* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require */
 
@@ -20,6 +19,7 @@
  * --------------------------------------------------
  */
 
+const CracoLessPlugin = require('craco-less');
 const { merge } = require('webpack-merge');
 
 const commonConfig = require('./webpack/webpack.common');
@@ -30,6 +30,18 @@ module.exports = (envVars) => {
   const config = merge(commonConfig, envConfig);
 
   return {
+    plugins: [
+      {
+        plugin: CracoLessPlugin,
+        options: {
+          lessLoaderOptions: {
+            lessOptions: {
+              javascriptEnabled: true,
+            },
+          },
+        },
+      },
+    ],
     babel: {
       presets: [
         ['@babel/preset-env'],
@@ -40,6 +52,7 @@ module.exports = (envVars) => {
           },
         ],
       ],
+
       plugins: [
         [
           '@babel/plugin-transform-runtime',
@@ -52,3 +65,4 @@ module.exports = (envVars) => {
     webpack: { ...config },
   };
 };
+

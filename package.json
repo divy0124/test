@@ -1,11 +1,12 @@
 {
-  "name": "testname",
+  "name": "topprops-frontend-admin",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "craco-less": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -47,7 +48,7 @@
     "Eslint",
     "York.IE"
   ],
-  "description": "cvwgrw",
+  "description": "This is Topprops frontend admin panel.",
   "engines": {
     "node": "v18.12.0",
     "yarn": "1.22.19",
@@ -99,3 +100,4 @@
     "*.{ts,tsx,js,jsx,}": "eslint src/**/*.{js,jsx,ts,tsx,json}"
   }
 }
+

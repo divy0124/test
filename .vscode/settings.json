@@ -8,5 +8,8 @@
     "source.fixAll.eslint": true,
     "source.organizeImports": true
   },
-  "editor.wordWrap": "on"
+  "editor.wordWrap": "on",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
