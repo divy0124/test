@@ -1,6 +1,6 @@
 {
-  "short_name": "York.IE",
-  "name": "York React App",
+  "short_name": "TopProp",
+  "name": "TopProp Admin",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "york-logo-192.png",
+      "src": "topprops-logo-192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "york-logo-512.png",
+      "src": "topprops-logo-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
@@ -23,3 +23,4 @@
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
+

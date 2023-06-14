@@ -1,5 +1,9 @@
+import AppRoutes from 'routes/Router';
+
+import './assets/styles/utility.less';
+
 function App() {
-  return <div> Welcome</div>;
+  return <AppRoutes />;
 }
 
 export default App;

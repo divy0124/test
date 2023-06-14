@@ -1,0 +1,76 @@
+@import '../assets/styles/utility.less';
+
+.admin-sidebar-main {
+  border-right: 1px solid #a6a6a6;
+  .bg-white !important;
+
+  .nav-logo-img {
+    text-align: center;
+    padding: 14px 68px 14px 26px;
+    align-items: center;
+    img {
+      margin-inline-start: 12px;
+    }
+  }
+
+  .ant-layout-sider-children {
+    .ant-menu-root {
+      border-top: 1px solid #a6a6a6;
+      .font-alegreya;
+
+      :hover {
+        background-color: transparent;
+      }
+
+      .ant-menu-submenu {
+        .ant-menu-submenu-title {
+          .ant-menu-submenu-arrow {
+            .text-black;
+          }
+          .text-gray;
+          .ant-menu-title-content {
+            .text-regular;
+            .text-black-200;
+          }
+        }
+
+        .ant-menu-sub {
+          .bg-white;
+
+          .ant-menu-item:hover {
+            background-color: transparent;
+          }
+
+          .ant-menu-item {
+            margin: 0;
+            width: 100%;
+            .text-gray;
+
+            .ant-menu-title-content {
+              .text-regular;
+              .text-black-200;
+            }
+
+            &.active-tab {
+              .text-primary;
+              .bg-secondary;
+              border-radius: 0;
+
+              .ant-menu-title-content {
+                transition: none;
+                .text-primary;
+                .fw-500;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.admin-header {
+  height: 69px;
+  padding: 0 26px;
+}
+

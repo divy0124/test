@@ -1,13 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@400;500&display=swap');
+
+@font-face {
+  font-family: 'Calluna Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/CallunaSans-Regular.otf') format('opentype');
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Alegreya SC', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Alegreya SC', serif;
 }
