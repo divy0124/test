@@ -1,0 +1,132 @@
+@import './variables.less';
+@import './utility.less';
+
+@input-box-length: 549px;
+
+.contest-title {
+  .sport {
+    margin-left: 26px;
+    width: 80px;
+    height: 26px;
+    .d-flex;
+    align-items: center;
+    .sport-image {
+      width: 18px;
+      height: 18px;
+    }
+    .sport-name {
+      margin-left: 7.47px;
+      .font-alegreya;
+      color: @color-primary;
+      font-size: 18px;
+      .fw-500;
+      line-height: 22px;
+    }
+  }
+
+  .ant-form-item .ant-form-item-label > label::after {
+    content: '';
+  }
+
+  .title,
+  .player-title {
+    border: 1px solid @color-border-white;
+    background: #fffefb;
+    border-radius: 4px;
+    width: 1100px;
+    height: 80px;
+  }
+  .player-title {
+    height: auto;
+    .sport {
+      margin-top: 16px;
+      padding-top: 22px;
+    }
+  }
+
+  .ant-form-horizontal {
+    max-width: 100%;
+    .ant-form-item {
+      .d-flex;
+      align-items: center;
+    }
+  }
+  #sport-title_nba {
+    width: @input-box-length;
+    border-color: @color-border-gold;
+    height: 38px;
+    padding: 8px 12px 8px 12px;
+    border-radius: 2px;
+    margin-left: 23px;
+    .ant-input {
+      color: @color-black-100;
+      .text-regular;
+      .font-calluna !important;
+    }
+  }
+  .ant-input:focus {
+    box-shadow: 0 0 0 1px @color-border-gold;
+  }
+
+  .players-type {
+    margin: 16px 26px;
+    .pitcher,
+    .hitter,
+    .gk,
+    .fp {
+      .d-flex;
+      width: @input-box-length;
+      height: 38px;
+      .font-calluna;
+      .text-regular;
+      color: @color-black;
+
+      pre {
+        .d-flex;
+        align-items: center;
+        margin-right: 14px;
+        width: 62px;
+        .font-calluna !important;
+      }
+
+      .ant-input {
+        border-color: @color-border-gold;
+        border-radius: 2px;
+      }
+
+      .ant-input:focus {
+        box-shadow: 0 0 0 1px @color-border-gold;
+      }
+    }
+    .hitter,
+    .fp {
+      margin-top: 23px;
+      .ant-input {
+        margin-left: 8px;
+      }
+    }
+    .gk,
+    .fp {
+      .ant-input {
+        margin-left: 23px;
+      }
+    }
+  }
+
+  // Save Button
+
+  .save {
+    width: 140px;
+    border-radius: 4px;
+    height: auto;
+    background-color: @color-primary;
+    padding: 8px 15px;
+    .text-medium;
+    .font-alegreya;
+  }
+  .save:hover {
+    background-color: #d4a968;
+    cursor: pointer;
+  }
+}
+
