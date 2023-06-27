@@ -1,12 +1,12 @@
 @import './variables.less';
 @import './utility.less';
 
-@input-box-length: 549px;
+@input-box-length: 573px;
 
 .contest-title {
   .sport {
     margin-left: 26px;
-    width: 80px;
+    width: auto;
     height: 26px;
     .d-flex;
     align-items: center;
@@ -24,109 +24,170 @@
     }
   }
 
-  .ant-form-item .ant-form-item-label > label::after {
-    content: '';
-  }
-
-  .title,
-  .player-title {
+  .nba {
     border: 1px solid @color-border-white;
     background: #fffefb;
     border-radius: 4px;
     width: 1100px;
     height: 80px;
-  }
-  .player-title {
-    height: auto;
-    .sport {
-      margin-top: 16px;
-      padding-top: 22px;
-    }
-  }
-
-  .ant-form-horizontal {
-    max-width: 100%;
-    .ant-form-item {
+    .nba-container {
       .d-flex;
-      align-items: center;
-    }
-  }
-  #sport-title_nba {
-    width: @input-box-length;
-    border-color: @color-border-gold;
-    height: 38px;
-    padding: 8px 12px 8px 12px;
-    border-radius: 2px;
-    margin-left: 23px;
-    .ant-input {
-      color: @color-black-100;
-      .text-regular;
-      .font-calluna !important;
-    }
-  }
-  .ant-input:focus {
-    box-shadow: 0 0 0 1px @color-border-gold;
-  }
 
-  .players-type {
-    margin: 16px 26px;
-    .pitcher,
-    .hitter,
-    .gk,
-    .fp {
-      .d-flex;
-      width: @input-box-length;
-      height: 38px;
-      .font-calluna;
-      .text-regular;
-      color: @color-black;
-
-      pre {
+      .nba-logo {
         .d-flex;
         align-items: center;
-        margin-right: 14px;
-        width: 62px;
-        .font-calluna !important;
+        height: 80px;
       }
 
-      .ant-input {
-        border-color: @color-border-gold;
-        border-radius: 2px;
-      }
-
-      .ant-input:focus {
-        box-shadow: 0 0 0 1px @color-border-gold;
-      }
-    }
-    .hitter,
-    .fp {
-      margin-top: 23px;
-      .ant-input {
-        margin-left: 8px;
-      }
-    }
-    .gk,
-    .fp {
-      .ant-input {
+      .nba-player {
+        .d-flex;
+        align-items: center;
         margin-left: 23px;
+        padding-top: 20px;
+
+        #sport-title_nba {
+          width: @input-box-length;
+          border-color: @color-border-gold;
+          height: 38px;
+          padding: 8px 12px 8px 12px;
+          border-radius: 2px;
+          .ant-input {
+            color: @color-black-100;
+            .text-regular;
+            .font-calluna !important;
+          }
+        }
+        .ant-input:focus {
+          box-shadow: 0 0 0 1px @color-border-gold;
+        }
       }
     }
   }
 
+  .mlb {
+    margin-top: 16px;
+    border: 1px solid @color-border-white;
+    display: block;
+    background: #fffefb;
+    border-radius: 4px;
+    width: 1100px;
+    height: auto;
+
+    .container {
+      .d-flex;
+
+      .mlb-logo {
+        margin-left: 0px;
+        padding: 4px 0px 0px 0px;
+        .sport {
+          margin-left: 0px;
+        }
+      }
+
+      .players-type {
+        width: @input-box-length;
+        margin-left: 23px;
+        .pitcher,
+        .hitter {
+          .d-flex;
+
+          .text {
+            width: 74px;
+            margin-top: 7px;
+            span {
+              .d-flex;
+              .font-calluna !important;
+              .text-regular;
+            }
+          }
+          .ant-input {
+            color: @color-black-100;
+            .text-regular;
+            .font-calluna !important;
+            border-radius: 2px;
+            margin-left: 14px;
+            padding: 8px 12px;
+            border-color: @color-border-gold;
+          }
+
+          .ant-input:focus {
+            box-shadow: 0 0 0 2px @color-border-gold;
+          }
+        }
+      }
+    }
+  }
+
+  .soccer {
+    margin-top: 16px;
+    border: 1px solid @color-border-white;
+    display: block;
+    background: #fffefb;
+    border-radius: 4px;
+    width: 1100px;
+    height: auto;
+    .container {
+      .d-flex;
+
+      .soccer-logo {
+        margin-left: 0px;
+        padding: 4px 0px 0px 0px;
+        .sport {
+          margin-left: 0px;
+        }
+      }
+      .player-type {
+        display: inline;
+        .fp,
+        .gk {
+          .d-flex;
+
+          .text {
+            width: 86px;
+            margin-top: 7px;
+            margin-left: 23px;
+            span {
+              .d-flex;
+              .font-calluna !important;
+              .text-regular;
+            }
+          }
+          .ant-input {
+            color: @color-black-100;
+            .text-regular;
+            .font-calluna !important;
+            border-radius: 2px;
+            // margin-left: 14px;
+            padding: 8px 12px;
+            border-color: @color-border-gold;
+            margin-left: 14px;
+            width: 446px;
+          }
+
+          .ant-input:focus {
+            box-shadow: 0 0 0 2px @color-border-gold;
+          }
+        }
+      }
+    }
+  }
   // Save Button
 
   .save {
-    width: 140px;
-    border-radius: 4px;
-    height: auto;
-    background-color: @color-primary;
-    padding: 8px 15px;
-    .text-medium;
-    .font-alegreya;
-  }
-  .save:hover {
-    background-color: #d4a968;
-    cursor: pointer;
+    margin-top: 20px;
+    Button {
+      width: 140px;
+      border-radius: 4px;
+      height: auto;
+      background-color: @color-primary;
+      padding: 8px 15px;
+      .text-medium;
+      .font-alegreya;
+    }
+    Button:hover {
+      background-color: #d4a968;
+      cursor: pointer;
+    }
   }
 }
 

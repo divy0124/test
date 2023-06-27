@@ -2,6 +2,7 @@ import { Tabs } from 'antd';
 import '../../../assets/styles/configure.less';
 
 import ContestTitle from '../components/ContestTitle';
+import TouchdownMath from '../components/TouchdownMath';
 
 function onChange(key) {
   console.log(key);
@@ -11,7 +12,7 @@ function Configure() {
     {
       key: '1',
       label: `TOUCHDOWN MATH`,
-      children: <ContestTitle />,
+      children: <TouchdownMath />,
     },
     {
       key: '2',

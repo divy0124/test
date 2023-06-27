@@ -30,60 +30,84 @@ export default function ContestTitle() {
         onFinish={onFinish}
         style={{ maxWidth: 500 }}
       >
-        <Form.Item
-          className="title"
-          label={getLabel(nba, 'NBA')}
-          name="nba"
-          rules={[{ required: false }]}
-        >
-          <Input />
-        </Form.Item>
+        <div className="nba">
+          <div className="nba-container">
+            <div className="nba-logo">{getLabel(nba, 'NBA')}</div>
 
-        <Form.Item
-          className="player-title"
-          label={getLabel(mlb, 'MLB')}
-          name="mlb"
-          rules={[{ required: false }]}
-        >
-          <div className="players-type">
-            <div className="pitcher">
-              <pre>Pitchers :</pre>
-              <Input />
-            </div>
-            <div className="hitter">
-              <pre>Hitters :</pre>
-              <Input />
+            <div className="nba-player">
+              <Form.Item name="nba" rules={[{ required: false }]}>
+                <Input />
+              </Form.Item>
             </div>
           </div>
-        </Form.Item>
+        </div>
 
-        <Form.Item
-          className="player-title"
-          label={getLabel(soccer, 'SOCCER')}
-          name="mlb"
-          rules={[{ required: false }]}
-        >
-          <div className="players-type">
-            <div className="gk">
-              <pre>GoalKeeper :</pre>
-              <Input />
-            </div>
-            <div className="fp">
-              <pre>FieldPlayer :</pre>
-              <Input />
-            </div>
-            <div className="fp">
-              <pre>FieldPlayer :</pre>
-              <Input />
+        <div className="mlb">
+          <div className="container">
+            <div className="mlb-logo">{getLabel(mlb, 'MLB')}</div>
+            <div className="players-type">
+              <Form.Item
+                name="mlbPitcher"
+                rules={[{ required: true, message: 'Username is required' }]}
+              >
+                <div className="pitcher">
+                  <div className="text">
+                    <span>Pitchers &#58;</span>
+                  </div>
+                  <Input />
+                </div>
+              </Form.Item>
+              <Form.Item name="mlbHitter">
+                <div className="hitter">
+                  <div className="text">
+                    <span>Hitters &#58;</span>
+                  </div>
+                  <Input />
+                </div>
+              </Form.Item>
             </div>
           </div>
-        </Form.Item>
+        </div>
 
-        <Form.Item {...tailLayout}>
-          <Button className="save" htmlType="submit" type="primary">
-            SAVE
-          </Button>
-        </Form.Item>
+        <div className="soccer">
+          <div className="container">
+            <div className="soccer-logo">{getLabel(soccer, 'SOCCER')}</div>
+            <div className="player-type">
+              <Form.Item name="soccerGK">
+                <div className="gk">
+                  <div className="text">
+                    <span>GoalKeeper &#58;</span>
+                  </div>
+                  <Input />
+                </div>
+              </Form.Item>
+              <Form.Item name="soccerfp1">
+                <div className="fp">
+                  <div className="text">
+                    <span>FieldPlayer &#58;</span>
+                  </div>
+                  <Input />
+                </div>
+              </Form.Item>
+              <Form.Item name="soccerfp2">
+                <div className="fp">
+                  <div className="text">
+                    <span>FieldPlayer &#58;</span>
+                  </div>
+                  <Input />
+                </div>
+              </Form.Item>
+            </div>
+          </div>
+        </div>
+
+        <div className="save">
+          <Form.Item {...tailLayout}>
+            <Button htmlType="submit" type="primary">
+              SAVE
+            </Button>
+          </Form.Item>
+        </div>
       </Form>
     </div>
   );
