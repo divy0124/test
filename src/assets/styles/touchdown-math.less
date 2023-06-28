@@ -2,10 +2,17 @@
 @import './utility.less';
 
 .touchdown-math {
+  background-color: #fff;
   .equation {
     width: 601px;
     height: auto;
     margin-top: 10px;
+    .six-for-seven-var {
+      display: flex;
+      pre {
+        margin-left: 12px;
+      }
+    }
     .constant-name {
       width: 150px;
     }
@@ -210,6 +217,80 @@
     .fw-500;
     .l-28;
     margin-top: 53px;
+    margin-bottom: 64px;
+    margin-right: 26px;
+
+    .ant-form-item {
+      margin-bottom: 0px;
+    }
+    .container {
+      border-color: #eee8dc;
+      margin-left: 0px;
+      background-color: #fffefb;
+      .row-1,
+      .row-2 {
+        .ant-form-item-control-input {
+          width: 194px;
+        }
+        .ant-row .ant-form-item-row {
+          width: 194px;
+        }
+        .ant-col {
+          padding: 0px;
+        }
+        #advanced_search {
+          padding-left: 10px;
+        }
+        .ant-form-item-label {
+          .font-alegreya;
+          font-size: 14px;
+          line-height: 20px;
+          color: @color-black-100;
+        }
+      }
+      .row-1 {
+        .ant-input {
+          border-color: #d4d4d4;
+        }
+        .ant-input:focus {
+          box-shadow: 0px 0px 0px 1px #d4d4d4;
+        }
+      }
+
+      #advanced_search .row-1 .row-1-col-2 {
+        padding: 0px !important;
+      }
+
+      // }
+
+      .row-2 {
+        margin-top: 24px;
+
+        .row-2-col1,
+        .row-2-col2,
+        .row-2-col3,
+        .row-2-col4,
+        .row-2-col5 {
+          max-width: 194px;
+          display: flex;
+          .ant-form-item-label {
+            .font-alegreya;
+            font-size: 14px;
+            line-height: 20px;
+            color: @color-black-100;
+          }
+        }
+        .row-2-col2,
+        .row-2-col3,
+        .row-2-col4,
+        .row-2-col5 {
+          margin-left: 20px;
+        }
+      }
+    }
+    .ant-col .ant-col-5 .row-1-col-2 {
+      padding-left: 0px;
+    }
   }
 }
 
