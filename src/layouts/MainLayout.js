@@ -9,9 +9,9 @@ import './mainLayout.less';
 
 function MainLayout() {
   return (
-    <Layout className="h-100vh">
+    <Layout className="main-layout">
       <Sidebar />
-      <Layout>
+      <Layout className="main-content-layout">
         <Header />
         <Content className="p-25 bg-white-100">
           <Outlet />

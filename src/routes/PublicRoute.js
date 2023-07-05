@@ -8,7 +8,7 @@ function PublicRoute({ component: Component }) {
 }
 
 PublicRoute.propTypes = {
-  component: PropTypes.node.isRequired,
+  component: PropTypes.elementType.isRequired,
 };
 
 export default PublicRoute;

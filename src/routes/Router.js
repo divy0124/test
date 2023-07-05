@@ -13,8 +13,9 @@ import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 
 const ROUTES = {
-  HOME: '/',
   LOGIN: '/login',
+  HOME: '/',
+  HOME_TOUCHDOWN: '/touchdown',
   TOUCHDOWN: {
     DASHBOARD: '/touchdown/dashboard',
     CONTEST: '/touchdown/contest',
@@ -29,8 +30,12 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route
-          element={<Navigate to={ROUTES.TOUCHDOWN.DASHBOARD} />}
+          element={<Navigate replace to={ROUTES.TOUCHDOWN.DASHBOARD} />}
           path={ROUTES.HOME}
+        />
+        <Route
+          element={<Navigate replace to={ROUTES.TOUCHDOWN.DASHBOARD} />}
+          path={ROUTES.HOME_TOUCHDOWN}
         />
 
         {/* Public Routes */}
