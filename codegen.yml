@@ -1,0 +1,12 @@
+overwrite: true
+schema: http://localhost:5501/api/admin/touchdown/
+documents: './src/**/**/*.graphql'
+generates:
+  ./src/graphql/graphql.generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      fetcher: graphql-request
+

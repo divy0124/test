@@ -13,9 +13,12 @@
     "craco-less": "^2.0.0",
     "dayjs": "^1.11.8",
     "loadash": "^1.0.0",
+    "graphql": "^16.7.1",
+    "graphql-request": "^6.1.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-query": "^3.39.3",
     "react-router-dom": "6",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.0"
@@ -28,7 +31,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "generate": "graphql-codegen --config codegen.yml"
   },
   "eslintConfig": {
     "extends": [
@@ -69,6 +73,10 @@
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
     "@craco/craco": "^7.1.0",
+    "@graphql-codegen/cli": "^4.0.1",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@graphql-codegen/typescript-react-query": "^4.1.0",
     "autoprefixer": "^10.4.14",
     "babel-loader": "^9.1.2",
     "copy-webpack-plugin": "^11.0.0",

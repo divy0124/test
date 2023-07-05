@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 
 import Button from 'components/base/components/Button';
 import Table from 'components/base/components/Table';
+import { useGetTouchdownByDateQuery } from 'graphql/graphql.generated.ts';
+import requestClient from 'graphql/graphqlRequestClient';
 import {
   DATE_FORMAT,
   dashboardTotalCountsLabels,
@@ -266,6 +268,43 @@ function Dashboard() {
     getTouchDownByDateRange(dateString);
   };
 
+  // const { data, isError, error, isLoading } = useGetMathConstantQuery(
+  //   RequestClient,
+  //   {},
+  // );
+  // console.log(
+  //   ' data, isError, error, isLoading',
+  //   data,
+  //   ',',
+  //   isError,
+  //   ',',
+  //   error,
+  //   ',',
+  //   isLoading,
+  //   ',',
+  // );
+
+  // const {
+  //   data: contests,
+  //   isLoading,
+  //   refetch: refetchContests,
+  // } = useGetAllContestsQuery(
+  //   { data: { filter: ContestsReportFilterType.Open } },
+  //   {
+  //     staleTime: 300_000, // 5 min
+  //   },
+  // );
+
+  const { data: contests, isLoading } = useGetTouchdownByDateQuery(
+    requestClient,
+    {
+      startDate: '2023-06-19',
+      endDate: '2023-07-04',
+    },
+  );
+
+  console.log('contests', contests);
+  console.log('isLoading', isLoading);
   return (
     <div>
       {selectedPrizePool ? (
