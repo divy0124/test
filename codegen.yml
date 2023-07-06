@@ -1,4 +1,4 @@
-overwrite: true
+# overwrite: true
 schema: http://localhost:5501/api/admin/touchdown/
 documents: './src/**/**/*.graphql'
 generates:
@@ -8,5 +8,8 @@ generates:
       - typescript-operations
       - typescript-react-query
     config:
-      fetcher: graphql-request
+      skipTypename: true
+      fetcher:
+        func: ./fetcher#useFetchData
+        isReactHook: true
 

@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import Button from 'components/base/components/Button';
 import Table from 'components/base/components/Table';
 import { useGetTouchdownByDateQuery } from 'graphql/graphql.generated.ts';
-import requestClient from 'graphql/graphqlRequestClient';
 import {
   DATE_FORMAT,
   dashboardTotalCountsLabels,
@@ -295,13 +294,18 @@ function Dashboard() {
   //   },
   // );
 
-  const { data: contests, isLoading } = useGetTouchdownByDateQuery(
-    requestClient,
-    {
-      startDate: '2023-06-19',
-      endDate: '2023-07-04',
-    },
-  );
+  // const { data: contests, isLoading } = useGetTouchdownByDateQuery(
+  //   requestClient,
+  //   {
+  //     startDate: '2023-06-19',
+  //     endDate: '2023-07-04',
+  //   },
+  // );
+
+  const { data: contests, isLoading } = useGetTouchdownByDateQuery({
+    startDate: '2023-06-19',
+    endDate: '2023-07-04',
+  });
 
   console.log('contests', contests);
   console.log('isLoading', isLoading);

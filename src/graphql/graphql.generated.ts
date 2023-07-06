@@ -1,8 +1,6 @@
-/* eslint-disable  */
-
-import { GraphQLClient } from 'graphql-request';
-import { RequestInit } from 'graphql-request/dist/types.dom';
+/* eslint-disable */
 import { useQuery, UseQueryOptions } from 'react-query';
+import useFetchData from './fetcher.ts';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -23,20 +21,6 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
     };
-
-function fetcher<TData, TVariables extends { [key: string]: any }>(
-  client: GraphQLClient,
-  query: string,
-  variables?: TVariables,
-  requestHeaders?: RequestInit['headers'],
-) {
-  return async (): Promise<TData> =>
-    client.request({
-      document: query,
-      variables,
-      requestHeaders,
-    });
-}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -47,7 +31,6 @@ export type Scalars = {
 };
 
 export type DailyLeaderBoardObjectType = {
-  __typename?: 'DailyLeaderBoardObjectType';
   entryId: Scalars['Int']['output'];
   entryNumber: Scalars['Int']['output'];
   name: Scalars['String']['output'];
@@ -59,7 +42,6 @@ export type DailyLeaderBoardObjectType = {
 };
 
 export type LeaderBoardObjectType = {
-  __typename?: 'LeaderBoardObjectType';
   name: Scalars['String']['output'];
   payout: Scalars['String']['output'];
   rank: Scalars['Int']['output'];
@@ -69,7 +51,6 @@ export type LeaderBoardObjectType = {
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
   createOrUpdateMathConstant: Array<UpdatableMathConstantObjectType>;
   createOrUpdateSportsQuestions: Array<UpdatableSportsQuestionsObjectType>;
 };
@@ -83,7 +64,6 @@ export type MutationCreateOrUpdateSportsQuestionsArgs = {
 };
 
 export type PaginatedDailyLeaderBoardObjectType = {
-  __typename?: 'PaginatedDailyLeaderBoardObjectType';
   data: Array<DailyLeaderBoardObjectType>;
   limit: Scalars['Int']['output'];
   page: Scalars['Int']['output'];
@@ -91,7 +71,6 @@ export type PaginatedDailyLeaderBoardObjectType = {
 };
 
 export type PaginatedLeaderBoardObjectType = {
-  __typename?: 'PaginatedLeaderBoardObjectType';
   data: Array<LeaderBoardObjectType>;
   limit: Scalars['Int']['output'];
   page: Scalars['Int']['output'];
@@ -99,7 +78,6 @@ export type PaginatedLeaderBoardObjectType = {
 };
 
 export type PrizePoolObjectType = {
-  __typename?: 'PrizePoolObjectType';
   actualJackpotAmount?: Maybe<Scalars['Float']['output']>;
   actualReserveAmountStr: Scalars['String']['output'];
   actualTopPropFees?: Maybe<Scalars['Float']['output']>;
@@ -132,7 +110,6 @@ export enum PrizePoolStatus {
 }
 
 export type Query = {
-  __typename?: 'Query';
   abc: Scalars['String']['output'];
   getAllSportsQuestion: Array<UpdatableSportsQuestionsObjectType>;
   getDailyLeaderBoard: PaginatedDailyLeaderBoardObjectType;
@@ -204,7 +181,6 @@ export enum TouchdownMathConstant {
 }
 
 export type TouchdownObjectType = {
-  __typename?: 'TouchdownObjectType';
   endDate?: Maybe<Scalars['String']['output']>;
   isActive: Scalars['Boolean']['output'];
   isOpen: Scalars['Boolean']['output'];
@@ -226,7 +202,6 @@ export type UpdatableMathConstantInputType = {
 };
 
 export type UpdatableMathConstantObjectType = {
-  __typename?: 'UpdatableMathConstantObjectType';
   id?: Maybe<Scalars['Int']['output']>;
   name: TouchdownMathConstant;
   value: Scalars['Float']['output'];
@@ -239,14 +214,12 @@ export type UpdatableSportsQuestionsInputType = {
 };
 
 export type UpdatableSportsQuestionsObjectType = {
-  __typename?: 'UpdatableSportsQuestionsObjectType';
   question: Scalars['String']['output'];
   sportName: SupportedSports;
   statName: SportsStatName;
 };
 
 export type WeeklyHistoryObjectType = {
-  __typename?: 'WeeklyHistoryObjectType';
   DateRange: Scalars['String']['output'];
   entryFee: Scalars['Int']['output'];
   profit: Scalars['Float']['output'];
@@ -259,7 +232,6 @@ export type WeeklyHistoryObjectType = {
 };
 
 export type WeeklySubscriberObjectType = {
-  __typename?: 'WeeklySubscriberObjectType';
   amount: Scalars['Int']['output'];
   fullName: Scalars['String']['output'];
   subScribedDays: Scalars['Int']['output'];
@@ -277,14 +249,11 @@ export type GetDailyLeaderBoardQueryVariables = Exact<{
 }>;
 
 export type GetDailyLeaderBoardQuery = {
-  __typename?: 'Query';
   getDailyLeaderBoard: {
-    __typename?: 'PaginatedDailyLeaderBoardObjectType';
     page: number;
     limit: number;
     totalCount: number;
     data: Array<{
-      __typename?: 'DailyLeaderBoardObjectType';
       rank: number;
       winAmount: number;
       name: string;
@@ -300,9 +269,7 @@ export type GetDailyLeaderBoardQuery = {
 export type GetMathConstantQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetMathConstantQuery = {
-  __typename?: 'Query';
   getMathConstant: Array<{
-    __typename?: 'UpdatableMathConstantObjectType';
     id?: number | null;
     name: TouchdownMathConstant;
     value: number;
@@ -315,9 +282,7 @@ export type GetTouchdownByDateQueryVariables = Exact<{
 }>;
 
 export type GetTouchdownByDateQuery = {
-  __typename?: 'Query';
   getTouchdownByDate: Array<{
-    __typename?: 'TouchdownObjectType';
     touchdownId: string;
     startDate?: string | null;
     endDate?: string | null;
@@ -326,7 +291,6 @@ export type GetTouchdownByDateQuery = {
     isOpen: boolean;
     touchDownType: TouchdownType;
     prizePools?: Array<{
-      __typename?: 'PrizePoolObjectType';
       prizePoolId: string;
       entryFees: number;
       totalEntrants: number;
@@ -383,19 +347,14 @@ export const useGetDailyLeaderBoardQuery = <
   TData = GetDailyLeaderBoardQuery,
   TError = unknown,
 >(
-  client: GraphQLClient,
   variables: GetDailyLeaderBoardQueryVariables,
   options?: UseQueryOptions<GetDailyLeaderBoardQuery, TError, TData>,
-  headers?: RequestInit['headers'],
 ) =>
   useQuery<GetDailyLeaderBoardQuery, TError, TData>(
     ['GetDailyLeaderBoard', variables],
-    fetcher<GetDailyLeaderBoardQuery, GetDailyLeaderBoardQueryVariables>(
-      client,
+    useFetchData<GetDailyLeaderBoardQuery, GetDailyLeaderBoardQueryVariables>(
       GetDailyLeaderBoardDocument,
-      variables,
-      headers,
-    ),
+    ).bind(null, variables),
     options,
   );
 export const GetMathConstantDocument = `
@@ -411,21 +370,16 @@ export const useGetMathConstantQuery = <
   TData = GetMathConstantQuery,
   TError = unknown,
 >(
-  client: GraphQLClient,
   variables?: GetMathConstantQueryVariables,
   options?: UseQueryOptions<GetMathConstantQuery, TError, TData>,
-  headers?: RequestInit['headers'],
 ) =>
   useQuery<GetMathConstantQuery, TError, TData>(
     variables === undefined
       ? ['GetMathConstant']
       : ['GetMathConstant', variables],
-    fetcher<GetMathConstantQuery, GetMathConstantQueryVariables>(
-      client,
+    useFetchData<GetMathConstantQuery, GetMathConstantQueryVariables>(
       GetMathConstantDocument,
-      variables,
-      headers,
-    ),
+    ).bind(null, variables),
     options,
   );
 export const GetTouchdownByDateDocument = `
@@ -469,18 +423,13 @@ export const useGetTouchdownByDateQuery = <
   TData = GetTouchdownByDateQuery,
   TError = unknown,
 >(
-  client: GraphQLClient,
   variables: GetTouchdownByDateQueryVariables,
   options?: UseQueryOptions<GetTouchdownByDateQuery, TError, TData>,
-  headers?: RequestInit['headers'],
 ) =>
   useQuery<GetTouchdownByDateQuery, TError, TData>(
     ['GetTouchdownByDate', variables],
-    fetcher<GetTouchdownByDateQuery, GetTouchdownByDateQueryVariables>(
-      client,
+    useFetchData<GetTouchdownByDateQuery, GetTouchdownByDateQueryVariables>(
       GetTouchdownByDateDocument,
-      variables,
-      headers,
-    ),
+    ).bind(null, variables),
     options,
   );

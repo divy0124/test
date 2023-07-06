@@ -8,7 +8,6 @@ import Input from 'components/base/components/Input';
 import Table from 'components/base/components/Table';
 import { BackArrowIcon } from 'components/core/Icons';
 import { useGetDailyLeaderBoardQuery } from 'graphql/graphql.generated.ts';
-import requestClient from 'graphql/graphqlRequestClient';
 import { DATE_FORMAT } from 'utils/constants/labels';
 
 const dailyLeaderBoard =
@@ -98,7 +97,7 @@ function DailyLeaderBoard({ onBack, prizePool }) {
 
   const [dailyLeaderBoard, setDailyLeaderBoard] = useState([]);
 
-  const { data } = useGetDailyLeaderBoardQuery(requestClient, {
+  const { data } = useGetDailyLeaderBoardQuery({
     limit: 10,
     page: 1,
     prevRank: 1,
