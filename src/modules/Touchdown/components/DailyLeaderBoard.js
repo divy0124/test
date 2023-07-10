@@ -1,5 +1,5 @@
+import { useLazyQuery } from '@apollo/client';
 import { Col, Row } from 'antd';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
@@ -7,25 +7,8 @@ import { useEffect, useState } from 'react';
 import Input from 'components/base/components/Input';
 import Table from 'components/base/components/Table';
 import { BackArrowIcon } from 'components/core/Icons';
-import { useGetDailyLeaderBoardQuery } from 'graphql/graphql.generated.ts';
+import { GET_DAILY_LEADER_BOARD } from 'graphql/queries';
 import { DATE_FORMAT } from 'utils/constants/labels';
-
-const dailyLeaderBoard =
-  'http://localhost:5008/api/admin/touchdown/daily/leaderboard';
-
-const getDailyLeaderBoard = async (
-  prizePoolId = 1,
-  page = 1,
-  limit = 10,
-  searchStr = '',
-  prevRank = 1,
-  prevScore = 0,
-) =>
-  axios
-    .get(
-      `${dailyLeaderBoard}/${prizePoolId}?page=${page}&limit=${limit}&searchStr=${searchStr}&prevRank=${prevRank}&prevScore=${prevScore}`,
-    )
-    .then((res) => res.data);
 
 const dailyLeaderBoardColumns = [
   {
@@ -94,23 +77,23 @@ const dailyLeaderBoardColumns = [
 
 function DailyLeaderBoard({ onBack, prizePool }) {
   const { prizePoolId, startDate } = prizePool;
+  const [getDailyLeaderBoard] = useLazyQuery(GET_DAILY_LEADER_BOARD);
 
   const [dailyLeaderBoard, setDailyLeaderBoard] = useState([]);
 
-  const { data } = useGetDailyLeaderBoardQuery({
-    limit: 10,
-    page: 1,
-    prevRank: 1,
-    prevScore: 0,
-    prizePoolId,
-    searchStr: '',
-  });
-
-  console.log('data', data);
   useEffect(() => {
-    getDailyLeaderBoard(prizePoolId).then((resp) => {
-      const { data } = resp;
-      setDailyLeaderBoard([...data]);
+    getDailyLeaderBoard({
+      variables: {
+        prizePoolId,
+        page: 1,
+        limit: 10,
+        searchStr: '',
+        prevRank: 1,
+        prevScore: 0,
+      },
+    }).then(({ data }) => {
+      const { getDailyLeaderBoard } = data;
+      setDailyLeaderBoard([...getDailyLeaderBoard.data]);
     });
   }, [prizePoolId]);
 
@@ -131,7 +114,6 @@ function DailyLeaderBoard({ onBack, prizePool }) {
         justify="space-between"
       >
         <Col className="text-h4 font-alegreya">
-          {console.log('first', startDate)}
           Daily Leaderboard ({dayjs(startDate).format(DATE_FORMAT)})
         </Col>
         <Col>
