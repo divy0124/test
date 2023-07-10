@@ -1,7 +1,0 @@
-query GetMathConstant {
-  getMathConstant {
-    id
-    name
-    value
-  }
-}

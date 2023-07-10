@@ -1,47 +1,22 @@
+import { useLazyQuery } from '@apollo/client';
 import { Col, Row } from 'antd';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 
 import Input from 'components/base/components/Input';
 import Table from 'components/base/components/Table';
-
-const weeklyLeaderBoard =
-  'http://localhost:5008/api/admin/touchdown/weekly/leaderboard';
-
-const getWeeklyLeaderBoard = async (
-  touchdownId = 1,
-  page = 1,
-  limit = 10,
-  searchStr = '',
-  prevRank = 1,
-  prevScore = 0,
-) =>
-  axios
-    .get(
-      `${weeklyLeaderBoard}/${touchdownId}?page=${page}&limit=${limit}&searchStr=${searchStr}&prevRank=${prevRank}&prevScore=${prevScore}`,
-    )
-    .then((res) => res.data);
+import { GET_WEEKLY_LEADER_BOARD } from 'graphql/queries';
 
 const weeklyLeaderBoardColumns = [
   {
     title: 'Rank',
     dataIndex: 'rank',
     key: 'rank',
-    // width: 250,
-    render: (text, record) => (
+    render: (text) => (
       <span>
         &nbsp; &nbsp;
         {text}
-        &nbsp; &nbsp;
-        {record.score === 7 ? (
-          <span className="bg-green winners-label">7-For-7</span>
-        ) : record.score === 6 ? (
-          <span className="bg-primary winners-label">6-For-7</span>
-        ) : (
-          ''
-        )}
       </span>
     ),
   },
@@ -92,13 +67,24 @@ const weeklyLeaderBoardColumns = [
 
 function WeeklyLeaderBoard({ dateRange, touchdown }) {
   const { touchdownId } = touchdown || {};
+  const [getWeeklyLeaderBoard] = useLazyQuery(GET_WEEKLY_LEADER_BOARD);
+
   const [weeklyLeaderBoard, setWeeklyLeaderBoard] = useState([]);
 
   useEffect(() => {
     if (touchdownId) {
-      getWeeklyLeaderBoard(1 || touchdownId).then((resp) => {
-        const weeklyLeaderBoard = resp.data;
-        setWeeklyLeaderBoard([...weeklyLeaderBoard]);
+      getWeeklyLeaderBoard({
+        variables: {
+          touchdownId,
+          page: 1,
+          limit: 10,
+          searchStr: '',
+          prevRank: 1,
+          prevScore: 0,
+        },
+      }).then(({ data }) => {
+        const { getWeeklyLeaderBoard } = data;
+        setWeeklyLeaderBoard([...getWeeklyLeaderBoard.data]);
       });
     }
   }, [touchdownId]);

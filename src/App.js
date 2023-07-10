@@ -1,23 +1,15 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { ApolloProvider } from '@apollo/client';
 
+import client from 'graphql/graphqlRequestClient';
 import AppRoutes from 'routes/Router';
 
 import './assets/styles/utility.less';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      // refetchOnWindowFocus: false,
-      staleTime: 60 * 1000, // 60 sec
-    },
-  },
-});
-
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <ApolloProvider client={client}>
       <AppRoutes />;
-    </QueryClientProvider>
+    </ApolloProvider>
   );
 }
 

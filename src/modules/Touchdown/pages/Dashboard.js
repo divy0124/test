@@ -1,12 +1,12 @@
+import { useLazyQuery } from '@apollo/client';
 import { Col, DatePicker, Row } from 'antd';
-import axios from 'axios';
 import cx from 'classnames';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import Button from 'components/base/components/Button';
 import Table from 'components/base/components/Table';
-import { useGetTouchdownByDateQuery } from 'graphql/graphql.generated.ts';
+import { GET_TOUCHDOWN_BY_DATE } from 'graphql/queries';
 import {
   DATE_FORMAT,
   dashboardTotalCountsLabels,
@@ -16,8 +16,6 @@ import DailyLeaderBoard from '../components/DailyLeaderBoard';
 import WeeklyLeaderBoard from '../components/WeeklyLeaderBoard';
 
 import '../../../assets/styles/dashboard.less';
-
-const getTouchdownUrl = 'http://localhost:5008/api/admin/touchdown';
 
 const initTotals = {
   totalEntries: 0,
@@ -55,11 +53,6 @@ const getRowClassName = (record) => {
   return '';
 };
 
-const getTouchDown = async (startDate, endDate) =>
-  axios
-    .get(`${getTouchdownUrl}?startDate=${startDate}&endDate=${endDate}`)
-    .then((res) => res.data);
-
 const currentDate = dayjs();
 const currentMonday = currentDate
   .startOf('week')
@@ -72,27 +65,28 @@ function Dashboard() {
   const [dateRange, setDateRange] = useState([]);
   const [totalCountInfo, setTotalCountInfo] = useState(initTotals);
   const [touchdown, setTouchdown] = useState(null);
-  const [selectedPrizePool, setSelectedPrizePool] = useState({
-    prizePoolId: 1,
-  });
+  const [selectedPrizePool, setSelectedPrizePool] = useState(null);
+
+  const [getTouchDown] = useLazyQuery(GET_TOUCHDOWN_BY_DATE);
 
   const getTouchDownByDateRange = async (dateRange) => {
-    console.log('first', dateRange[0]);
     const startDate = dayjs(dateRange[0], DATE_FORMAT).format('YYYY-MM-DD');
     const endDate = dayjs(dateRange[1], DATE_FORMAT).format('YYYY-MM-DD');
 
-    getTouchDown(startDate, endDate).then((resp) => {
-      if (resp[0]) {
+    getTouchDown({ variables: { startDate, endDate } }).then(({ data }) => {
+      const { getTouchdownByDate } = data;
+      if (getTouchdownByDate.length > 0) {
+        const firstObj = getTouchdownByDate[0];
         const copyInitTotals = { ...initTotals };
         copyInitTotals.weeklyPrize = parseFloat(
-          resp[0].predetermineWeeklyPrize,
+          firstObj.predetermineWeeklyPrize,
         ).toFixed(2);
-        resp[0].prizePools.forEach(({ userEntryCount, entryFees }) => {
+        firstObj.prizePools.forEach(({ userEntryCount, entryFees }) => {
           copyInitTotals.totalEntries += userEntryCount;
           copyInitTotals.receivedFees += userEntryCount * entryFees;
         });
-        const prizePoolList = createPrizePoolList(resp[0]);
-        const touchdown = { ...resp[0], prizePools: prizePoolList };
+        const prizePoolList = createPrizePoolList(firstObj);
+        const touchdown = { ...firstObj, prizePools: prizePoolList };
 
         setTotalCountInfo({ ...copyInitTotals });
         setTouchdown({ ...touchdown });
@@ -267,48 +261,6 @@ function Dashboard() {
     getTouchDownByDateRange(dateString);
   };
 
-  // const { data, isError, error, isLoading } = useGetMathConstantQuery(
-  //   RequestClient,
-  //   {},
-  // );
-  // console.log(
-  //   ' data, isError, error, isLoading',
-  //   data,
-  //   ',',
-  //   isError,
-  //   ',',
-  //   error,
-  //   ',',
-  //   isLoading,
-  //   ',',
-  // );
-
-  // const {
-  //   data: contests,
-  //   isLoading,
-  //   refetch: refetchContests,
-  // } = useGetAllContestsQuery(
-  //   { data: { filter: ContestsReportFilterType.Open } },
-  //   {
-  //     staleTime: 300_000, // 5 min
-  //   },
-  // );
-
-  // const { data: contests, isLoading } = useGetTouchdownByDateQuery(
-  //   requestClient,
-  //   {
-  //     startDate: '2023-06-19',
-  //     endDate: '2023-07-04',
-  //   },
-  // );
-
-  const { data: contests, isLoading } = useGetTouchdownByDateQuery({
-    startDate: '2023-06-19',
-    endDate: '2023-07-04',
-  });
-
-  console.log('contests', contests);
-  console.log('isLoading', isLoading);
   return (
     <div>
       {selectedPrizePool ? (
@@ -380,7 +332,7 @@ function Dashboard() {
               <Row className="border-primary-100 br-2px border-1px mb-30">
                 <Table
                   columns={touchdownInfoColumns}
-                  dataSource={touchdown?.prizePools}
+                  dataSource={touchdown?.prizePools || []}
                   rowClassName={(record) => getRowClassName(record)}
                 />
               </Row>
