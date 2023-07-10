@@ -12,18 +12,26 @@ export default function TouchdownMath() {
 
   const onFinish = async () => {
     const inputData = [];
-    console.log('CON ', constant);
     obj.forEach((data) => {
       inputData.push({ ...data, value: constant[data.name] });
     });
 
+    const numberRegex = /^-?\d*\.?\d+$/;
+    let validValues = true;
+    inputData.forEach((data) => {
+      if (!numberRegex.test(data.value)) validValues = false;
+    });
+    if (!validValues) {
+      message.error('Only Numbers allowed.');
+      return;
+    }
     const response = await axios
       .post('http://localhost:5008/api/admin/touchdown/math', inputData)
       .catch((error) => {
         message.error(error?.message);
       });
 
-    if (response.status === 201) {
+    if (response?.status === 201) {
       message.success('Equation updated');
     }
   };
@@ -91,7 +99,15 @@ export default function TouchdownMath() {
               colon={false}
               label={getLable('prize pool :')}
               name="PRIZE_POOL"
-              // rules={[{ required: true, message: 'Is required' }]}
+              rules={[
+                {
+                  required:
+                    constant.PRIZE_POOL === undefined ||
+                    constant.PRIZE_POOL === null ||
+                    Number.isNaN(constant.PRIZE_POOL),
+                  message: 'Is required',
+                },
+              ]}
             >
               <div className="prizePoolConstant">
                 <pre>
@@ -115,7 +131,15 @@ export default function TouchdownMath() {
                   <Form.Item
                     className="numerator"
                     name="SIX_FOR_SEVEN_NUMERATOR"
-                    // rules={[{ required: true, message: 'Is required' }]}
+                    rules={[
+                      {
+                        required:
+                          constant.SIX_FOR_SEVEN_NUMERATOR === undefined ||
+                          constant.SIX_FOR_SEVEN_NUMERATOR === null ||
+                          Number.isNaN(constant.SIX_FOR_SEVEN_NUMERATOR),
+                        message: 'Is required',
+                      },
+                    ]}
                   >
                     <Input
                       defaultValue={() => constant.SIX_FOR_SEVEN_NUMERATOR}
@@ -129,7 +153,15 @@ export default function TouchdownMath() {
                   <Form.Item
                     className="denominator"
                     name="SIX_FOR_SEVEN_DENOMINATOR"
-                    // rules={[{ required: true, message: 'Is required' }]}
+                    rules={[
+                      {
+                        required:
+                          constant.SIX_FOR_SEVEN_DENOMINATOR === undefined ||
+                          constant.SIX_FOR_SEVEN_DENOMINATOR === null ||
+                          Number.isNaN(constant.SIX_FOR_SEVEN_DENOMINATOR),
+                        message: 'Is required',
+                      },
+                    ]}
                   >
                     <Input
                       defaultValue={() => constant.SIX_FOR_SEVEN_DENOMINATOR}
@@ -150,14 +182,13 @@ export default function TouchdownMath() {
               className="SixForSevenReserveConstant"
               colon={false}
               label={getLable('6-for-7 reserve:')}
-              // rules={[{ required: true, message: 'Is required' }]}
-              style={{ marginBottom: 0 }}
+              rules={[{ required: true, message: 'Is required' }]}
             >
               <pre>
                 {' '}
                 Round (( &nbsp;
                 <Input
-                  defaultValue={() => constant.SIX_FOR_SEVEN_RESERVE}
+                  defaultValue={constant.SIX_FOR_SEVEN_RESERVE}
                   onChange={(e) =>
                     handleChange(e.target.value, 'SIX_FOR_SEVEN_RESERVE')
                   }
@@ -173,7 +204,15 @@ export default function TouchdownMath() {
               colon={false}
               label={getLable('weekly reserve :')}
               name="WEEKLY_RESERVE"
-              // rules={[{ required: true, message: 'Is required' }]}
+              rules={[
+                {
+                  required:
+                    constant.WEEKLY_RESERVE === undefined ||
+                    constant.WEEKLY_RESERVE === null ||
+                    Number.isNaN(constant.WEEKLY_RESERVE),
+                  message: 'Is required',
+                },
+              ]}
             >
               <pre>
                 <Input
