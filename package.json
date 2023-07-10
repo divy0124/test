@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
     "antd": "^5.6.1",
+    "axios": "^1.4.0",
     "craco-less": "^2.0.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -104,4 +105,3 @@
     "*.{ts,tsx,js,jsx,}": "eslint src/**/*.{js,jsx,ts,tsx,json}"
   }
 }
-

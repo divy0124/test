@@ -1,0 +1,202 @@
+@import './variables.less';
+@import './utility.less';
+
+@input-box-length: 573px;
+
+.contest-title {
+  .sport {
+    margin-left: 26px;
+    width: auto;
+    height: 26px;
+    .d-flex;
+    align-items: center;
+    .sport-image {
+      width: 18px;
+      height: 18px;
+    }
+    .sport-name {
+      margin-left: 7.47px;
+      .font-alegreya;
+      color: @color-primary;
+      font-size: 18px;
+      .fw-500;
+      line-height: 22px;
+    }
+  }
+
+  .nba {
+    border: 1px solid @color-border-white;
+    background: #fffefb;
+    border-radius: 4px;
+    width: 1100px;
+    height: 80px;
+    .nba-container {
+      .d-flex;
+
+      .nba-logo {
+        .d-flex;
+        align-items: center;
+        height: 80px;
+      }
+
+      .nba-player {
+        .d-flex;
+        align-items: center;
+        margin-left: 23px;
+        padding-top: 20px;
+
+        #sport-title_POINTS {
+          width: @input-box-length;
+          border-color: @color-border-gold;
+          height: 38px;
+          padding: 8px 12px 8px 12px;
+          border-radius: 2px;
+          .ant-input {
+            color: @color-black-100;
+            .text-regular;
+            .font-calluna !important;
+          }
+        }
+        .ant-input:focus {
+          box-shadow: 0 0 0 1px @color-border-gold;
+        }
+      }
+    }
+  }
+
+  .mlb {
+    margin-top: 16px;
+    border: 1px solid @color-border-white;
+    display: block;
+    background: #fffefb;
+    border-radius: 4px;
+    width: 1100px;
+    height: auto;
+
+    .container {
+      .d-flex;
+
+      .mlb-logo {
+        margin-left: 0px;
+        padding: 4px 0px 0px 0px;
+        .sport {
+          margin-left: 0px;
+        }
+      }
+
+      .ant-form-item-required {
+        width: 62px;
+      }
+      .players-type {
+        width: 560px;
+        margin-left: 23px;
+
+        .ant-form-item-control-input-content {
+          margin-left: 14px;
+        }
+        .ant-col .ant-form-item-label {
+          width: 62px;
+        }
+        .ant-form-item-required,
+        label {
+          .font-calluna !important;
+          .text-regular;
+        }
+        .ant-input {
+          color: @color-black-100;
+          .text-regular;
+          .font-calluna !important;
+          border-radius: 2px;
+          margin-left: 14px;
+          padding: 8px 12px;
+          border-color: @color-border-gold;
+        }
+
+        .ant-input:focus {
+          box-shadow: 0 0 0 1px @color-border-gold;
+        }
+        #sport-title_TOTAL_BASES_help,
+        #sport-title_STRIKEOUTS_help {
+          margin-left: 28px;
+        }
+      }
+    }
+  }
+
+  .soccer {
+    margin-top: 16px;
+    border: 1px solid @color-border-white;
+    display: block;
+    background: #fffefb;
+    border-radius: 4px;
+    width: 1100px;
+    height: auto;
+    .container {
+      .d-flex;
+
+      .soccer-logo {
+        margin-left: 0px;
+        padding: 4px 0px 0px 0px;
+        .sport {
+          margin-left: 0px;
+        }
+      }
+      .player-type {
+        display: inline;
+        margin-left: 23px;
+
+        label {
+          .font-calluna !important;
+          .text-regular;
+        }
+        .ant-input {
+          color: @color-black-100;
+          .text-regular;
+          .font-calluna !important;
+          border-radius: 2px;
+          // margin-left: 14px;
+          padding: 8px 12px;
+          border-color: @color-border-gold;
+          margin-left: 14px;
+          width: 446px;
+        }
+
+        .ant-input:focus {
+          box-shadow: 0 0 0 1px @color-border-gold;
+        }
+        #sport-title_SHOTS,
+        #sport-title_PASSES_COMPLETED,
+        #sport-title_GOAL_KEEPER_SAVES {
+          width: 436px;
+        }
+        #sport-title_GOAL_KEEPER_SAVES {
+          width: 435px;
+        }
+        #sport-title_GOAL_KEEPER_SAVES_help,
+        #sport-title_SHOTS_help,
+        #sport-title_PASSES_COMPLETED_help {
+          margin-left: 15px;
+        }
+      }
+    }
+  }
+  // Save Button
+
+  .save {
+    margin-top: 20px;
+    Button {
+      width: 140px;
+      border-radius: 4px;
+      height: auto;
+      background-color: @color-primary;
+      padding: 8px 15px;
+      .text-medium;
+      .font-alegreya;
+    }
+    Button:hover {
+      background-color: #d4a968;
+      cursor: pointer;
+    }
+  }
+}
+
