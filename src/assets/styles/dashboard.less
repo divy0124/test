@@ -1,0 +1,76 @@
+@import './utility.less';
+
+.ant-picker-range.dashboard-date-picker {
+  &:hover {
+    .border-primary-100;
+  }
+
+  border-radius: 2px;
+  box-shadow: none;
+  padding: 8px;
+  .ant-picker-active-bar {
+    display: none;
+  }
+
+  .ant-picker-input > input {
+    .font-alegreya;
+    .text-medium;
+    padding-left: 30px;
+  }
+  .ant-picker-suffix {
+    position: absolute;
+  }
+}
+.col-total-value {
+  padding: 16px;
+  border: 1px solid;
+  border-radius: 4px;
+  width: 154px;
+  height: 104px;
+
+  div {
+    min-height: 44px;
+    margin-bottom: 5px;
+  }
+  .text-total-value {
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 22px;
+  }
+}
+
+.profit-block {
+  background-color: #eaf1ed;
+  border-color: #93bba1;
+
+  .text-total-value {
+    color: @color-green;
+  }
+}
+
+.loss-block {
+  background-color: @color-red-200;
+  border-color: #fca7b9;
+  .text-total-value {
+    color: @color-red-100;
+  }
+}
+
+.view-btn {
+  .text-primary;
+  .bg-white;
+  border-radius: 4px;
+  padding: 4px 15px;
+  border: 1px solid @color-primary;
+  width: fit-content;
+  .fw-500 !important;
+}
+
+.ant-picker-dropdown {
+  .ant-picker-week-panel-row-selected {
+    .ant-picker-cell::before {
+      background-color: @color-primary !important;
+    }
+  }
+}
+

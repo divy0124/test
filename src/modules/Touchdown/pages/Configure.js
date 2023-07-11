@@ -4,26 +4,24 @@ import '../../../assets/styles/configure.less';
 import ContestTitle from '../components/ContestTitle';
 import TouchdownMath from '../components/TouchdownMath';
 
-function onChange(key) {
-  console.log(key);
-}
+const items = [
+  {
+    key: 'touchdown-math',
+    label: `TOUCHDOWN MATH`,
+    children: <TouchdownMath />,
+  },
+  {
+    key: 'contest-title',
+    label: `TITLE OF THE CONTESTS`,
+    children: <ContestTitle />,
+  },
+];
+
 function Configure() {
-  const items = [
-    {
-      key: '1',
-      label: `TOUCHDOWN MATH`,
-      children: <TouchdownMath />,
-    },
-    {
-      key: '2',
-      label: `TITLE OF THE CONTESTS`,
-      children: <ContestTitle />,
-    },
-  ];
   return (
     <div className="configure">
       <div className="container">
-        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+        <Tabs defaultActiveKey="touchdown-math" items={items} />
       </div>
     </div>
   );

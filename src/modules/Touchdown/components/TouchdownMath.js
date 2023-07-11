@@ -1,11 +1,19 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { Button, Col, Form, Input, Row, Space, message, theme } from 'antd';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+
+import { CREATE_OR_UPDATE_MATH_CONSTANT } from 'graphql/mutations';
+import { GET_MATH_CONSTANT } from 'graphql/queries';
+
 import '../../../assets/styles/touchdown-math.less';
 
 export default function TouchdownMath() {
   const [form] = Form.useForm();
+  const [getMathConstants] = useLazyQuery(GET_MATH_CONSTANT);
+  const [createOrUpdateMathConstants] = useMutation(
+    CREATE_OR_UPDATE_MATH_CONSTANT,
+  );
 
   const [constant, setConstant] = useState(null);
   const [obj, setObj] = useState([]);
@@ -13,7 +21,11 @@ export default function TouchdownMath() {
   const onFinish = async () => {
     const inputData = [];
     obj.forEach((data) => {
-      inputData.push({ ...data, value: constant[data.name] });
+      inputData.push({
+        ...data,
+        value: constant[data.name],
+        __typename: undefined,
+      });
     });
 
     const numberRegex = /^-?\d*\.?\d+$/;
@@ -25,15 +37,14 @@ export default function TouchdownMath() {
       message.error('Only Numbers allowed.');
       return;
     }
-    const response = await axios
-      .post('http://localhost:5008/api/admin/touchdown/math', inputData)
+
+    createOrUpdateMathConstants({ variables: { mathConstant: inputData } })
+      .then(() => {
+        message.success('Equation updated');
+      })
       .catch((error) => {
         message.error(error?.message);
       });
-
-    if (response?.status === 201) {
-      message.success('Equation updated');
-    }
   };
 
   function getLable(name) {
@@ -75,19 +86,15 @@ export default function TouchdownMath() {
   };
 
   useEffect(() => {
-    async function fetchData() {
+    getMathConstants().then(({ data }) => {
+      const { getMathConstant } = data;
       const initialValues = {};
-      const { data } = await axios.get(
-        'http://localhost:5008/api/admin/touchdown/math',
-      );
-      data.forEach((con) => {
+      getMathConstant.forEach((con) => {
         initialValues[con.name] = con.value;
       });
       setConstant({ ...initialValues });
-      setObj(data);
-      console.log('contest :>> ', constant);
-    }
-    fetchData();
+      setObj([...getMathConstant]);
+    });
   }, []);
 
   return (

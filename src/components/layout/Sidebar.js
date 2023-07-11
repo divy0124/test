@@ -1,6 +1,5 @@
 import { Layout, Menu } from 'antd';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import {
   AnalyticsIcon,
@@ -57,10 +56,11 @@ const menuItems = [
 function Sidebar() {
   const { Sider } = Layout;
   const { SubMenu, Item } = Menu;
-  const [activeKey, setActiveKey] = useState('dashboard');
+  const { pathname } = useLocation();
+  const selectedKeys = [pathname.split('/').pop()];
 
   return (
-    <Sider className="admin-sidebar-main bg-white" width="236px">
+    <Sider className="admin-sidebar-main bg-white h-100vh" width="236px">
       <div className="nav-logo-img d-flex">
         <div className="menu-icon">
           <MenuIcon />
@@ -72,7 +72,7 @@ function Sidebar() {
           width="110px"
         />
       </div>
-      <Menu className="menu-items" mode="inline">
+      <Menu className="menu-items" mode="inline" selectedKeys={selectedKeys}>
         {menuItems?.map((item) => (
           <SubMenu
             key={item.key}
@@ -81,14 +81,7 @@ function Sidebar() {
             title={item.name}
           >
             {item.subMenu.map(({ key, icon, path, name }) => (
-              <Item
-                key={key}
-                className={key === activeKey && 'active-tab'}
-                icon={icon}
-                onClick={() => {
-                  setActiveKey(key);
-                }}
-              >
+              <Item key={key} icon={icon}>
                 <Link to={path}>{name}</Link>
               </Item>
             ))}

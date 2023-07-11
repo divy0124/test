@@ -1,7 +1,10 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { Button, Form, Input, message } from 'antd';
-import axios from 'axios';
 import { useEffect } from 'react';
+
+import { CREATE_OR_UPDATE_QUESTIONS } from 'graphql/mutations';
+import { GET_SPORTS_QUESTIONS } from 'graphql/queries';
 
 import mlb from '../../../assets/images/sports-logo/mlb.svg';
 import nba from '../../../assets/images/sports-logo/nba.svg';
@@ -11,40 +14,41 @@ import '../../../assets/styles/contest-title.less';
 
 export default function ContestTitle() {
   const [form] = Form.useForm();
+  const [getQuestions] = useLazyQuery(GET_SPORTS_QUESTIONS);
+  const [createOrUpdateTitles] = useMutation(CREATE_OR_UPDATE_QUESTIONS);
 
   const sportName = (key) => {
-    if (key === 'POINTS') {
-      return 'NBA';
+    switch (key) {
+      case 'POINTS':
+        return 'NBA';
+
+      case 'SHOTS':
+      case 'GOAL_KEEPER_SAVES':
+      case 'PASSES_COMPLETED':
+        return 'Soccer';
+
+      case 'TOTAL_BASES':
+      case 'STRIKEOUTS':
+        return 'MLB';
+
+      default:
+        return '';
     }
-    if (
-      key === 'SHOTS' ||
-      key === 'GOAL_KEEPER_SAVES' ||
-      key === 'PASSES_COMPLETED'
-    ) {
-      return 'Soccer';
-    }
-    if (key === 'TOTAL_BASES' || key === 'STRIKEOUTS') {
-      return 'MLB';
-    }
-    return '';
   };
   const onFinish = async (values) => {
-    const inputData = Object.keys(values).map((key) => ({
+    const questions = Object.keys(values).map((key) => ({
       sportName: sportName(key),
       statName: key,
       question: values[key],
     }));
-    const response = await axios
-      .post(
-        'http://localhost:5008/api/admin/touchdown/sport/question',
-        inputData,
-      )
+
+    createOrUpdateTitles({ variables: { updateTitles: questions } })
+      .then(() => {
+        message.success('Title updated successfully !');
+      })
       .catch((error) => {
         message.error(error?.message);
       });
-    if (response.status === 201) {
-      message.success('Title updated successfully !');
-    }
   };
 
   function getLabel(image, sportName) {
@@ -61,20 +65,15 @@ export default function ContestTitle() {
   };
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await axios.get(
-        'http://localhost:5008/api/admin/touchdown/sport/question',
-      );
-
+    getQuestions().then(({ data }) => {
       const titles = {};
-      response.data?.forEach((title) => {
+      const { getAllSportsQuestion } = data;
+      getAllSportsQuestion?.forEach((title) => {
         const { statName, question } = title;
         titles[statName] = question;
       });
       form.setFieldsValue(titles);
-    }
-
-    fetchData();
+    });
   }, [form]);
 
   return (
