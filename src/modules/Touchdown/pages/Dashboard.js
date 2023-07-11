@@ -1,10 +1,11 @@
 import { useLazyQuery } from '@apollo/client';
-import { Col, DatePicker, Row } from 'antd';
+import { Col, Row } from 'antd';
 import cx from 'classnames';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import Button from 'components/base/components/Button';
+import DatePicker from 'components/base/components/DatePicker';
 import Table from 'components/base/components/Table';
 import { GET_TOUCHDOWN_BY_DATE } from 'graphql/queries';
 import {
@@ -54,18 +55,13 @@ const getRowClassName = (record) => {
 };
 
 const currentDate = dayjs();
-const currentMonday = currentDate
-  .startOf('week')
-  .add(1, 'day')
-  .format(DATE_FORMAT);
-const nextSunday = currentDate.endOf('week').add(1, 'day').format(DATE_FORMAT);
 
 function Dashboard() {
-  const { RangePicker } = DatePicker;
   const [dateRange, setDateRange] = useState([]);
   const [totalCountInfo, setTotalCountInfo] = useState(initTotals);
   const [touchdown, setTouchdown] = useState(null);
   const [selectedPrizePool, setSelectedPrizePool] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(currentDate);
 
   const [getTouchDown] = useLazyQuery(GET_TOUCHDOWN_BY_DATE);
 
@@ -98,9 +94,12 @@ function Dashboard() {
   };
 
   useEffect(() => {
+    const monday = currentDate.startOf('week').format(DATE_FORMAT);
+    const sunday = currentDate.endOf('week').format(DATE_FORMAT);
+    const selectedWeek = [monday, sunday];
     setSelectedPrizePool(null);
-    setDateRange([currentMonday, nextSunday]);
-    getTouchDownByDateRange([currentMonday, nextSunday]);
+    setDateRange(selectedWeek);
+    getTouchDownByDateRange(selectedWeek);
   }, []);
 
   const touchdownInfoColumns = [
@@ -256,9 +255,13 @@ function Dashboard() {
     },
   ];
 
-  const handleDateChange = (date, dateString) => {
-    setDateRange([...dateString]);
-    getTouchDownByDateRange(dateString);
+  const handleDateChange = (date) => {
+    const monday = date.startOf('week').format(DATE_FORMAT);
+    const sunday = date.endOf('week').format(DATE_FORMAT);
+    const selectedWeek = [monday, sunday];
+    setDateRange([...selectedWeek]);
+    setSelectedDate(date);
+    getTouchDownByDateRange(selectedWeek);
   };
 
   return (
@@ -277,18 +280,12 @@ function Dashboard() {
                 className="font-alegreya"
                 justify="space-between"
               >
-                <Col>
-                  <RangePicker
-                    allowClear={false}
-                    className="dashboard-date-picker border-primary-100"
-                    defaultValue={[
-                      dayjs(currentMonday, DATE_FORMAT),
-                      dayjs(nextSunday, DATE_FORMAT),
-                    ]}
-                    format={DATE_FORMAT}
-                    onChange={handleDateChange}
-                  />
-                </Col>
+                <DatePicker
+                  dateRange={dateRange}
+                  onChange={handleDateChange}
+                  selectedDate={selectedDate}
+                />
+
                 <Col>
                   <Button
                     buttonText="CREATE TOUCHDOWN"
