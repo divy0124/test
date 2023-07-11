@@ -10,6 +10,16 @@ export const GET_MATH_CONSTANT = gql`
   }
 `;
 
+export const GET_SPORTS_QUESTIONS = gql`
+  query GetAllSportsQuestion {
+    getAllSportsQuestion {
+      sportName
+      statName
+      question
+    }
+  }
+`;
+
 export const GET_TOUCHDOWN_BY_DATE = gql`
   query GetTouchdownByDate($startDate: String!, $endDate: String!) {
     getTouchdownByDate(startDate: $startDate, endDate: $endDate) {
@@ -27,6 +37,7 @@ export const GET_TOUCHDOWN_BY_DATE = gql`
         supportedSports
         maxEntriesPerUser
         predetermineReserveAmountStr
+        actualReserveAmountStr
         predetermineJackpot
         actualJackpotAmount
         actualWeeklyReserveAmount
@@ -42,7 +53,11 @@ export const GET_TOUCHDOWN_BY_DATE = gql`
         pgaContestsCount
         nflContestsCount
         soccerContestsCount
-        actualReserveAmountStr
+        rollsOver
+        topPropVig
+        prizePool
+        profit
+        addedByTopProp
       }
     }
   }

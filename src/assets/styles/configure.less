@@ -1,0 +1,35 @@
+@import './variables.less';
+@import './utility.less';
+
+.configure {
+  border: 1px solid @color-border-white;
+  background: @color-white;
+
+  .container {
+    margin-left: 26px;
+    margin-top: 16px;
+
+    .ant-tabs .ant-tabs-ink-bar {
+      background: @color-primary !important;
+    }
+    .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+      color: @color-primary !important;
+      text-shadow: 0 0 0.25px currentcolor;
+      .font-alegreya;
+    }
+
+    .ant-tabs-tab-btn {
+      .font-alegreya;
+    }
+
+    .ant-tabs-tab-btn:hover {
+      color: @color-primary !important;
+    }
+    .ant-tabs .ant-tabs-tab + .ant-tabs-tab {
+      margin-left: 16px;
+    }
+
+    // }
+  }
+}
+
