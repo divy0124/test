@@ -8,7 +8,7 @@ import Input from 'components/base/components/Input';
 import Table from 'components/base/components/Table';
 import { BackArrowIcon } from 'components/core/Icons';
 import { GET_DAILY_LEADER_BOARD } from 'graphql/queries';
-import { DATE_FORMAT } from 'utils/constants/labels';
+import { MM_DD_YYYY } from 'utils/constants/labels';
 
 const dailyLeaderBoardColumns = [
   {
@@ -114,7 +114,7 @@ function DailyLeaderBoard({ onBack, prizePool }) {
         justify="space-between"
       >
         <Col className="text-h4 font-alegreya">
-          Daily Leaderboard ({dayjs(startDate).format(DATE_FORMAT)})
+          Daily Leaderboard ({dayjs(startDate).format(MM_DD_YYYY)})
         </Col>
         <Col>
           <Input

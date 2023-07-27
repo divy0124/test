@@ -19,7 +19,12 @@ const authLink = setContext((_, { headers }) => {
 
 const graphqlClient = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({ addTypename: false }),
+  defaultOptions: {
+    query: {
+      fetchPolicy: 'no-cache', // This tells Apollo to fetch fresh data on each query
+    },
+  },
   name: 'topprops-admin-client',
   version: '1.0.1',
 });

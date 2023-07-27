@@ -8,6 +8,70 @@ import { GET_MATH_CONSTANT } from 'graphql/queries';
 
 import '../../../assets/styles/touchdown-math.less';
 
+const touchdownCalcRow1 = [
+  {
+    key: 1,
+    label: 'Entry fee',
+    placeholder: '',
+    name: 'entryFee',
+    className: 'row-1-col-1',
+  },
+  {
+    key: 2,
+    label: 'Entrants',
+    placeholder: 'Enter entrants',
+    name: 'entrants',
+    className: 'row-1-col-2',
+  },
+];
+
+const touchdownCalcRow2 = [
+  {
+    key: 3,
+    label: 'Prize pool',
+    placeholder: '',
+    name: 'prizePool',
+    className: 'row-2-col1',
+    disable: true,
+    isInfo: true,
+  },
+  {
+    key: 4,
+    label: '7-for-7',
+    placeholder: '',
+    name: 'sevenForSeven',
+    className: 'row-2-col2',
+    disable: true,
+    isInfo: true,
+  },
+  {
+    key: 5,
+    label: '6-for-7',
+    placeholder: '',
+    name: 'sixForSeven',
+    className: 'row-2-col3',
+    disable: true,
+    isInfo: true,
+  },
+  {
+    key: 6,
+    label: 'Weekly Reserve',
+    placeholder: 'Enter entrants',
+    name: 'weeklyReserve',
+    className: 'row-2-col4',
+    disable: true,
+    isInfo: true,
+  },
+  {
+    key: 7,
+    label: 'Topprop Vig',
+    placeholder: '',
+    name: 'toppropVig',
+    className: 'row-2-col5',
+    disable: true,
+    isInfo: true,
+  },
+];
 export default function TouchdownMath() {
   const [form] = Form.useForm();
   const [getMathConstants] = useLazyQuery(GET_MATH_CONSTANT);
@@ -16,24 +80,30 @@ export default function TouchdownMath() {
   );
 
   const [constant, setConstant] = useState(null);
+  // rename this
   const [obj, setObj] = useState([]);
 
-  const onFinish = async () => {
-    const inputData = [];
-    obj.forEach((data) => {
-      inputData.push({
-        ...data,
-        value: constant[data.name],
-        __typename: undefined,
-      });
-    });
+  const { token } = theme.useToken();
 
-    const numberRegex = /^-?\d*\.?\d+$/;
-    let validValues = true;
-    inputData.forEach((data) => {
-      if (!numberRegex.test(data.value)) validValues = false;
-    });
-    if (!validValues) {
+  const formStyle = {
+    maxWidth: 'none',
+    background: token.colorFillAlter,
+    borderRadius: token.borderRadiusLG,
+    padding: 24,
+  };
+
+  const onFinish = async () => {
+    // const inputData = [];
+
+    let inputData = obj.map((o) => ({ ...o, value: constant[o.name] }));
+    // Remove unwanted typename fields
+    inputData = inputData.map(({ id, name, value }) => ({
+      id,
+      name,
+      value,
+    }));
+    const isInvalid = inputData.find((e) => !/^-?\d*\.?\d+$/.test(e.value));
+    if (isInvalid) {
       message.error('Only Numbers allowed.');
       return;
     }
@@ -45,18 +115,6 @@ export default function TouchdownMath() {
       .catch((error) => {
         message.error(error?.message);
       });
-  };
-
-  function getLable(name) {
-    return <div className="label-name">{name}</div>;
-  }
-  const { token } = theme.useToken();
-
-  const formStyle = {
-    maxWidth: 'none',
-    background: token.colorFillAlter,
-    borderRadius: token.borderRadiusLG,
-    padding: 24,
   };
 
   const handleChange = (value, constantName) => {
@@ -71,17 +129,16 @@ export default function TouchdownMath() {
     );
   }
   const getFields = (data) => {
-    const children = [];
-    for (let i = 0; i < data.length; i += 1) {
-      const { key, className, label, name, disable, isInfo } = data[i];
-      children.push(
+    const children = data.map(
+      ({ key, className, label, name, disable, isInfo }) => (
         <Col key={key} className={className} span={5}>
           <Form.Item label={isInfo ? getLabel(label) : label} name={name}>
             <Input disabled={disable} />
           </Form.Item>
-        </Col>,
-      );
-    }
+        </Col>
+      ),
+    );
+
     return children;
   };
 
@@ -92,10 +149,19 @@ export default function TouchdownMath() {
       getMathConstant.forEach((con) => {
         initialValues[con.name] = con.value;
       });
+      console.log(getMathConstant);
       setConstant({ ...initialValues });
       setObj([...getMathConstant]);
     });
   }, []);
+
+  const {
+    PRIZE_POOL,
+    SIX_FOR_SEVEN_NUMERATOR,
+    SIX_FOR_SEVEN_DENOMINATOR,
+    SIX_FOR_SEVEN_RESERVE,
+    WEEKLY_RESERVE,
+  } = constant || {};
 
   return (
     <div className="touchdown-math">
@@ -104,33 +170,25 @@ export default function TouchdownMath() {
           <Form form={form} onFinish={onFinish}>
             <Form.Item
               colon={false}
-              label={getLable('prize pool :')}
+              label={<div className="label-name">prize pool :</div>}
               name="PRIZE_POOL"
               rules={[
                 {
-                  required:
-                    constant.PRIZE_POOL === undefined ||
-                    constant.PRIZE_POOL === null ||
-                    Number.isNaN(constant.PRIZE_POOL),
+                  required: Number.isNaN(PRIZE_POOL),
                   message: 'Is required',
                 },
               ]}
             >
               <div className="prizePoolConstant">
-                <pre>
-                  {' '}
-                  ( entrants &nbsp; X &nbsp; entry fee ) &nbsp;&nbsp;X{' '}
-                </pre>
+                <pre>( entrants &nbsp; X &nbsp; entry fee ) &nbsp;&nbsp;X </pre>
                 <Input
-                  defaultValue={() => constant.PRIZE_POOL}
+                  defaultValue={() => PRIZE_POOL}
                   onChange={(e) => handleChange(e.target.value, 'PRIZE_POOL')}
                 />
               </div>
             </Form.Item>
-
             <div className="six-for-seven-var">
-              {getLable('x 6-for-7 :')}
-
+              <div className="label-name">x 6-for-7 :</div>
               <pre>
                 {' '}
                 ( &nbsp;
@@ -140,16 +198,13 @@ export default function TouchdownMath() {
                     name="SIX_FOR_SEVEN_NUMERATOR"
                     rules={[
                       {
-                        required:
-                          constant.SIX_FOR_SEVEN_NUMERATOR === undefined ||
-                          constant.SIX_FOR_SEVEN_NUMERATOR === null ||
-                          Number.isNaN(constant.SIX_FOR_SEVEN_NUMERATOR),
+                        required: Number.isNaN(SIX_FOR_SEVEN_NUMERATOR),
                         message: 'Is required',
                       },
                     ]}
                   >
                     <Input
-                      defaultValue={() => constant.SIX_FOR_SEVEN_NUMERATOR}
+                      defaultValue={() => SIX_FOR_SEVEN_NUMERATOR}
                       onChange={(e) =>
                         handleChange(e.target.value, 'SIX_FOR_SEVEN_NUMERATOR')
                       }
@@ -162,16 +217,13 @@ export default function TouchdownMath() {
                     name="SIX_FOR_SEVEN_DENOMINATOR"
                     rules={[
                       {
-                        required:
-                          constant.SIX_FOR_SEVEN_DENOMINATOR === undefined ||
-                          constant.SIX_FOR_SEVEN_DENOMINATOR === null ||
-                          Number.isNaN(constant.SIX_FOR_SEVEN_DENOMINATOR),
+                        required: Number.isNaN(SIX_FOR_SEVEN_DENOMINATOR),
                         message: 'Is required',
                       },
                     ]}
                   >
                     <Input
-                      defaultValue={() => constant.SIX_FOR_SEVEN_DENOMINATOR}
+                      defaultValue={() => SIX_FOR_SEVEN_DENOMINATOR}
                       onChange={(e) =>
                         handleChange(
                           e.target.value,
@@ -181,21 +233,20 @@ export default function TouchdownMath() {
                       onPressEnter={(event) => event.preventDefault()}
                     />
                   </Form.Item>
-                </Space.Compact>{' '}
+                </Space.Compact>
                 &nbsp; ) &nbsp; X &nbsp; Entrants
               </pre>
             </div>
             <Form.Item
               className="SixForSevenReserveConstant"
               colon={false}
-              label={getLable('6-for-7 reserve:')}
+              label={<div className="label-name">6-for-7 reserve:</div>}
               rules={[{ required: true, message: 'Is required' }]}
             >
               <pre>
-                {' '}
                 Round (( &nbsp;
                 <Input
-                  defaultValue={constant.SIX_FOR_SEVEN_RESERVE}
+                  defaultValue={SIX_FOR_SEVEN_RESERVE}
                   onChange={(e) =>
                     handleChange(e.target.value, 'SIX_FOR_SEVEN_RESERVE')
                   }
@@ -205,25 +256,21 @@ export default function TouchdownMath() {
                 , 1 )
               </pre>
             </Form.Item>
-
             <Form.Item
               className="weekly-reserve"
               colon={false}
-              label={getLable('weekly reserve :')}
+              label={<div className="label-name">weekly reserve :</div>}
               name="WEEKLY_RESERVE"
               rules={[
                 {
-                  required:
-                    constant.WEEKLY_RESERVE === undefined ||
-                    constant.WEEKLY_RESERVE === null ||
-                    Number.isNaN(constant.WEEKLY_RESERVE),
+                  required: Number.isNaN(WEEKLY_RESERVE),
                   message: 'Is required',
                 },
               ]}
             >
               <pre>
                 <Input
-                  defaultValue={() => constant.WEEKLY_RESERVE}
+                  defaultValue={() => WEEKLY_RESERVE}
                   onChange={(e) =>
                     handleChange(e.target.value, 'WEEKLY_RESERVE')
                   }
@@ -232,22 +279,20 @@ export default function TouchdownMath() {
                 &nbsp; % &nbsp;Prize Pool
               </pre>
             </Form.Item>
-
             <Form.Item
               className="jackpot"
               colon={false}
-              label={getLable('jackpot:')}
+              label={<div className="label-name">jackpot:</div>}
             >
               <pre>
                 Prize Prize &nbsp; - &nbsp; Weekly Reserve &nbsp; - &nbsp;6 For
                 7 Reserve
               </pre>
             </Form.Item>
-
             <Form.Item
               className="profit"
               colon={false}
-              label={getLable('Topprop Vig:')}
+              label={<div className="label-name">Topprop Vig:</div>}
             >
               <pre>
                 ( Entrants &nbsp; X &nbsp;Entry Fee )&nbsp; - &nbsp;Prize Pool
@@ -273,75 +318,10 @@ export default function TouchdownMath() {
             style={formStyle}
           >
             <Row className="row-1" gutter={24}>
-              {getFields([
-                {
-                  key: 1,
-                  label: 'Entry fee',
-                  placeholder: '',
-                  name: 'entryFee',
-                  className: 'row-1-col-1',
-                },
-                {
-                  key: 2,
-                  label: 'Entrants',
-                  placeholder: 'Enter entrants',
-                  name: 'entrants',
-                  className: 'row-1-col-2',
-                },
-              ])}
+              {getFields(touchdownCalcRow1)}
             </Row>
 
-            <Row className="row-2">
-              {getFields([
-                {
-                  key: 3,
-                  label: 'Prize pool',
-                  placeholder: '',
-                  name: 'prizePool',
-                  className: 'row-2-col1',
-                  disable: true,
-                  isInfo: true,
-                },
-                {
-                  key: 4,
-                  label: '7-for-7',
-                  placeholder: '',
-                  name: 'sevenForSeven',
-                  className: 'row-2-col2',
-                  disable: true,
-                  isInfo: true,
-                },
-                {
-                  key: 5,
-                  label: '6-for-7',
-                  placeholder: '',
-                  name: 'sixForSeven',
-                  className: 'row-2-col3',
-                  disable: true,
-                  isInfo: true,
-                },
-                {
-                  key: 6,
-                  label: 'Weekly Reserve',
-                  placeholder: 'Enter entrants',
-                  name: 'weeklyReserve',
-                  className: 'row-2-col4',
-                  disable: true,
-                  isInfo: true,
-                },
-                {
-                  key: 7,
-                  label: 'Topprop Vig',
-                  placeholder: '',
-                  name: 'toppropVig',
-                  className: 'row-2-col5',
-                  disable: true,
-                  isInfo: true,
-                },
-              ])}
-            </Row>
-
-            {/* <div style={{ textAlign: 'right' }} /> */}
+            <Row className="row-2">{getFields(touchdownCalcRow2)}</Row>
           </Form>
         </div>
       </div>
