@@ -25,6 +25,7 @@ Button.defaultProps = {
   className: '',
   textClassName: '',
   variant: '',
+  onClick: () => {},
 };
 
 Button.propTypes = {
@@ -32,7 +33,7 @@ Button.propTypes = {
   className: PropTypes.string,
   textClassName: PropTypes.string,
   variant: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
 };
 
 export default Button;

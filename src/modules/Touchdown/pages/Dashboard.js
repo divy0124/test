@@ -3,15 +3,13 @@ import { Col, Row } from 'antd';
 import cx from 'classnames';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Button from 'components/base/components/Button';
 import DatePicker from 'components/base/components/DatePicker';
 import Table from 'components/base/components/Table';
 import { GET_TOUCHDOWN_BY_DATE } from 'graphql/queries';
-import {
-  DATE_FORMAT,
-  dashboardTotalCountsLabels,
-} from 'utils/constants/labels';
+import { MM_DD_YYYY, dashboardTotalCountsLabels } from 'utils/constants/labels';
 
 import DailyLeaderBoard from '../components/DailyLeaderBoard';
 import WeeklyLeaderBoard from '../components/WeeklyLeaderBoard';
@@ -33,7 +31,7 @@ const profitLossClass = (value) => (value > 0 ? 'profit-block' : 'loss-block');
 const createPrizePoolList = (touchdownInfo) =>
   touchdownInfo.prizePools.map((pp) => ({
     ...pp,
-    date: dayjs(pp.startDate).format(DATE_FORMAT),
+    date: dayjs(pp.startDate).format(MM_DD_YYYY),
     predetermineJackpot: '$'.concat(
       parseFloat(pp.predetermineJackpot).toFixed(2),
     ),
@@ -63,11 +61,12 @@ function Dashboard() {
   const [selectedPrizePool, setSelectedPrizePool] = useState(null);
   const [selectedDate, setSelectedDate] = useState(currentDate);
 
+  const navigate = useNavigate();
   const [getTouchDown] = useLazyQuery(GET_TOUCHDOWN_BY_DATE);
 
   const getTouchDownByDateRange = async (dateRange) => {
-    const startDate = dayjs(dateRange[0], DATE_FORMAT).format('YYYY-MM-DD');
-    const endDate = dayjs(dateRange[1], DATE_FORMAT).format('YYYY-MM-DD');
+    const startDate = dayjs(dateRange[0], MM_DD_YYYY).format('YYYY-MM-DD');
+    const endDate = dayjs(dateRange[1], MM_DD_YYYY).format('YYYY-MM-DD');
 
     getTouchDown({ variables: { startDate, endDate } }).then(({ data }) => {
       const { getTouchdownByDate } = data;
@@ -94,8 +93,8 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    const monday = currentDate.startOf('week').format(DATE_FORMAT);
-    const sunday = currentDate.endOf('week').format(DATE_FORMAT);
+    const monday = currentDate.startOf('week').format(MM_DD_YYYY);
+    const sunday = currentDate.endOf('week').format(MM_DD_YYYY);
     const selectedWeek = [monday, sunday];
     setSelectedPrizePool(null);
     setDateRange(selectedWeek);
@@ -256,8 +255,8 @@ function Dashboard() {
   ];
 
   const handleDateChange = (date) => {
-    const monday = date.startOf('week').format(DATE_FORMAT);
-    const sunday = date.endOf('week').format(DATE_FORMAT);
+    const monday = date.startOf('week').format(MM_DD_YYYY);
+    const sunday = date.endOf('week').format(MM_DD_YYYY);
     const selectedWeek = [monday, sunday];
     setDateRange([...selectedWeek]);
     setSelectedDate(date);
@@ -282,6 +281,8 @@ function Dashboard() {
               >
                 <DatePicker
                   dateRange={dateRange}
+                  disabledDate={false}
+                  iconColor="#B69056"
                   onChange={handleDateChange}
                   selectedDate={selectedDate}
                 />
@@ -290,7 +291,7 @@ function Dashboard() {
                   <Button
                     buttonText="CREATE TOUCHDOWN"
                     className="fw-500 fs-16"
-                    onClick={() => {}}
+                    onClick={() => navigate('/touchdown/contest')}
                     style={{ padding: '8px 15px' }}
                     variant="btn-primary"
                   />

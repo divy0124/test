@@ -29,15 +29,6 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          element={<Navigate replace to={ROUTES.TOUCHDOWN.DASHBOARD} />}
-          path={ROUTES.HOME}
-        />
-        <Route
-          element={<Navigate replace to={ROUTES.TOUCHDOWN.DASHBOARD} />}
-          path={ROUTES.HOME_TOUCHDOWN}
-        />
-
         {/* Public Routes */}
         <Route element={<AuthLayout />}>
           <Route
@@ -69,6 +60,19 @@ function Router() {
             path={ROUTES.TOUCHDOWN.CONFIGURE}
           />
         </Route>
+
+        <Route
+          element={<Navigate replace to={ROUTES.TOUCHDOWN.DASHBOARD} />}
+          path={ROUTES.HOME}
+        />
+        <Route
+          element={<Navigate replace to={ROUTES.TOUCHDOWN.DASHBOARD} />}
+          path={ROUTES.HOME_TOUCHDOWN}
+        />
+        <Route
+          element={<Navigate replace to={ROUTES.TOUCHDOWN.DASHBOARD} />}
+          path="*"
+        />
       </Routes>
     </BrowserRouter>
   );

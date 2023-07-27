@@ -8,7 +8,7 @@ import './assets/styles/utility.less';
 function App() {
   return (
     <ApolloProvider client={client}>
-      <AppRoutes />;
+      <AppRoutes />
     </ApolloProvider>
   );
 }

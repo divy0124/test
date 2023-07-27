@@ -15,7 +15,7 @@ import '../../../assets/styles/contest-title.less';
 export default function ContestTitle() {
   const [form] = Form.useForm();
   const [getQuestions] = useLazyQuery(GET_SPORTS_QUESTIONS);
-  const [createOrUpdateTitles] = useMutation(CREATE_OR_UPDATE_QUESTIONS);
+  const [createOrUpdateQuestions] = useMutation(CREATE_OR_UPDATE_QUESTIONS);
 
   const sportName = (key) => {
     switch (key) {
@@ -42,7 +42,7 @@ export default function ContestTitle() {
       question: values[key],
     }));
 
-    createOrUpdateTitles({ variables: { updateTitles: questions } })
+    createOrUpdateQuestions({ variables: { updateTitles: questions } })
       .then(() => {
         message.success('Title updated successfully !');
       })

@@ -1,5 +1,7 @@
+import Touchdown from '../components/Touchdown';
+
 function Contest() {
-  return <div>Contest</div>;
+  return <Touchdown />;
 }
 
 export default Contest;

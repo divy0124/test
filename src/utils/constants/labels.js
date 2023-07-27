@@ -1,4 +1,7 @@
-export const DATE_FORMAT = 'MM-DD-YYYY';
+export const MM_DD_YYYY = 'MM-DD-YYYY';
+export const YYYY_MM_DD = 'YYYY-MM-DD';
+
+export const EST_TIME_ZONE = 'America/New_York';
 
 export const dashboardTotalCountsLabels = [
   {

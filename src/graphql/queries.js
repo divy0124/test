@@ -27,8 +27,6 @@ export const GET_TOUCHDOWN_BY_DATE = gql`
       startDate
       endDate
       predetermineWeeklyPrize
-      isActive
-      isOpen
       touchDownType
       prizePools {
         prizePoolId
@@ -124,6 +122,46 @@ export const GET_WEEKLY_LEADER_BOARD = gql`
         score
         status
         payout
+      }
+    }
+  }
+`;
+
+//= =====> Create Touchdown Queries <====== //
+
+export const GET_TOUCHDOWN_BY_DATE_CUSTOM = gql`
+  query GetTouchdownByDate($startDate: String!, $endDate: String!) {
+    getTouchdownByDate(startDate: $startDate, endDate: $endDate) {
+      touchdownId
+      startDate
+      endDate
+      predetermineWeeklyPrize
+      touchDownType
+      prizePools {
+        prizePoolId
+        entryFees
+        totalEntrants
+        supportedSports
+        maxEntriesPerUser
+        actualReserveAmount {
+          SIX_FOR_SEVEN
+        }
+        predetermineReserveAmount {
+          SIX_FOR_SEVEN
+        }
+        predetermineJackpot
+        actualJackpotAmount
+        actualWeeklyReserveAmount
+        startDate
+        endDate
+        actualTopPropFees
+        status
+        topPropVig
+        prizePool
+        predetermineWeeklyReserveAmount
+        predeterminePrizePool
+        predetermineTopPropFees
+        userEntryCount
       }
     }
   }
