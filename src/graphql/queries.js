@@ -137,6 +137,13 @@ export const GET_TOUCHDOWN_BY_DATE_CUSTOM = gql`
       endDate
       predetermineWeeklyPrize
       touchDownType
+      mathConstant {
+        WEEKLY_RESERVE
+        SIX_FOR_SEVEN_NUMERATOR
+        SIX_FOR_SEVEN_DENOMINATOR
+        PRIZE_POOL
+        SIX_FOR_SEVEN_RESERVE
+      }
       prizePools {
         prizePoolId
         entryFees

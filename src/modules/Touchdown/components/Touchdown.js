@@ -59,17 +59,6 @@ const initPrizePoolData = {
   userEntryCount: 0,
 };
 
-// const initPrizePoolForm = {
-//   entryFees: 1,
-//   totalEntrants: 10,
-//   maxEntriesPerUser: 10,
-//   predeterminePrizePool: 10,
-//   predetermineJackpot: 10,
-//   predetermineReserveAmount: 10,
-//   predetermineWeeklyReserveAmount: 10,
-//   predetermineTopPropFees: 10,
-// };
-
 const currentDate = dayjs();
 
 function Touchdown() {
@@ -150,6 +139,9 @@ function Touchdown() {
           });
 
           setPrizePoolFormValues(currentPrizePool);
+          const { mathConstant } = firstObj;
+
+          setMathConstants(mathConstant);
         } else {
           const prizePools = dates.map((date) => ({
             ...initPrizePoolData,
@@ -165,6 +157,7 @@ function Touchdown() {
           setDisable(['COMPLETED', 'LIVE'].includes(currentPrizePool.status));
           setTouchdownInfo(touchdownInfo);
           setPrizePoolFormValues(currentPrizePool);
+          getTouchdownMath();
         }
       })
       .catch((error) => {
@@ -207,7 +200,7 @@ function Touchdown() {
     setDateRange([...selectedWeek]);
     setSelectedDate(date);
     getTouchDownByDateRange(selectedWeek);
-    getTouchdownMath();
+    // getTouchdownMath();
   };
 
   const disablePreviousWeeksDate = (current) => {
