@@ -73,9 +73,9 @@ function Dashboard() {
       if (getTouchdownByDate.length > 0) {
         const firstObj = getTouchdownByDate[0];
         const copyInitTotals = { ...initTotals };
-        copyInitTotals.weeklyPrize = parseFloat(
-          firstObj.predetermineWeeklyPrize,
-        ).toFixed(2);
+        copyInitTotals.weeklyPrize = parseFloat(firstObj.weeklyPrize).toFixed(
+          2,
+        );
         firstObj.prizePools.forEach(({ userEntryCount, entryFees }) => {
           copyInitTotals.totalEntries += userEntryCount;
           copyInitTotals.receivedFees += userEntryCount * entryFees;

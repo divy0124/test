@@ -26,7 +26,7 @@ export const GET_TOUCHDOWN_BY_DATE = gql`
       touchdownId
       startDate
       endDate
-      predetermineWeeklyPrize
+      weeklyPrize
       touchDownType
       prizePools {
         prizePoolId
@@ -135,7 +135,7 @@ export const GET_TOUCHDOWN_BY_DATE_CUSTOM = gql`
       touchdownId
       startDate
       endDate
-      predetermineWeeklyPrize
+      weeklyPrize
       touchDownType
       mathConstant {
         WEEKLY_RESERVE

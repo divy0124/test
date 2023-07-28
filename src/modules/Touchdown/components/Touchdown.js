@@ -29,7 +29,7 @@ const initTouchdownData = {
   touchdownId: 0,
   startDate: null,
   endDate: null,
-  predetermineWeeklyPrize: '0',
+  weeklyPrize: '0',
   touchDownType: '7 FOR 7',
   totalWeeklyReserve: 0,
   totalTopPropVig: 0,
