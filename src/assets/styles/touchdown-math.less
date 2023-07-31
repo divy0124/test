@@ -25,7 +25,6 @@
       content: '';
     }
     .label-name {
-      // border: 1px solid black;
       width: 154px;
       display: flex;
       text-transform: capitalize;
@@ -228,81 +227,88 @@
     .fs-20;
     .fw-500;
     .l-28;
-    margin-top: 53px;
-    margin-bottom: 64px;
-    margin-right: 26px;
+    margin: 67px 26px 64px 0px;
 
+    .calc-title {
+      color: #212121;
+      .font-alegreya;
+      .text-h4;
+      font-style: normal;
+    }
     .ant-form-item {
       margin-bottom: 0px;
     }
-    .container {
-      border-color: #eee8dc;
-      margin-left: 0px;
-      background-color: #fffefb;
-      .row-1,
-      .row-2 {
-        .ant-form-item-control-input {
-          width: 194px;
-        }
-        .ant-row .ant-form-item-row {
-          width: 194px;
-        }
-        .ant-col {
-          padding: 0px;
-        }
-        #advanced_search {
-          padding-left: 10px;
-        }
-        .ant-form-item-label {
-          .font-alegreya;
-          font-size: 14px;
-          line-height: 20px;
-          color: @color-black-100;
-        }
-      }
-      .row-1 {
-        .ant-input {
-          border-color: #d4d4d4;
-        }
-        .ant-input:focus {
-          box-shadow: 0px 0px 0px 1px #d4d4d4;
-        }
+    .calc-container {
+      margin-top: 7px;
+      border-radius: 4px;
+      border: 1px solid @color-border-white;
+      background: #fffefb;
+      padding: 20px 22px 33px 26px;
+
+      .ant-col .ant-form-item-label {
+        .font-alegreya;
+        font-size: 14px;
+        line-height: 20px;
+        .fw-400;
+        color: @color-black-100;
+        padding: 0px;
       }
 
-      #advanced_search .row-1 .row-1-col-2 {
+      .ant-form-item-control {
+        margin-top: 6px;
+      }
+      .td-calc-row-1,
+      .td-calc-row-2 {
+        display: flex;
+        gap: 17px;
+      }
+      .ant-col {
         padding: 0px !important;
       }
-
-      // }
-
-      .row-2 {
-        margin-top: 24px;
-
-        .row-2-col1,
-        .row-2-col2,
-        .row-2-col3,
-        .row-2-col4,
-        .row-2-col5 {
-          max-width: 194px;
-          display: flex;
-          .ant-form-item-label {
-            .font-alegreya;
-            font-size: 14px;
-            line-height: 20px;
-            color: @color-black-100;
-          }
+      .ant-row {
+        margin: 0px !important;
+      }
+      .td-calc-row-2 {
+        margin-top: 24px !important;
+      }
+      .td-calc-row-1 {
+        .ant-form-item-control {
+          height: 61px;
         }
-        .row-2-col2,
-        .row-2-col3,
-        .row-2-col4,
-        .row-2-col5 {
-          margin-left: 20px;
+      }
+      .ant-input-affix-wrapper {
+        border-radius: 2px;
+        border: 1px solid #d4d4d4;
+        background: var(--neutral-1, #fff);
+        padding: 8px 12px;
+        input {
+          color: #212121;
+          .font-calluna;
+          .text-regular;
+        }
+      }
+      .ant-input-affix-wrapper-focused {
+        border: 1px solid #b69056 !important;
+        background: var(--neutral-1, #fff) !important;
+        box-shadow: 0px 0px 0px 2px rgba(182, 144, 86, 0.2) !important;
+      }
+      .val-fill {
+        border-radius: 2px;
+        border: 1px solid #e2d3bb;
+        background: var(--neutral-1, #fff);
+        .ant-input-prefix {
+          color: #121212;
+        }
+      }
+      .val-not-filled {
+        .ant-input-prefix {
+          color: #8c8c8c;
         }
       }
     }
-    .ant-col .ant-col-5 .row-1-col-2 {
-      padding-left: 0px;
-    }
+  }
+  .ant-col .ant-col-5 .row-1-col-2 {
+    padding-left: 0px;
   }
 }
 

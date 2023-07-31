@@ -1,10 +1,11 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { Button, Col, Form, Input, Row, Space, message, theme } from 'antd';
+import { Button, Col, Form, Input, Row, Space, message } from 'antd';
+import cx from 'classnames';
 import { useEffect, useState } from 'react';
 
 import { CREATE_OR_UPDATE_MATH_CONSTANT } from 'graphql/mutations';
 import { GET_MATH_CONSTANT } from 'graphql/queries';
+import { validateNumber } from 'utils/helpers/validation';
 
 import '../../../assets/styles/touchdown-math.less';
 
@@ -14,14 +15,12 @@ const touchdownCalcRow1 = [
     label: 'Entry fee',
     placeholder: '',
     name: 'entryFee',
-    className: 'row-1-col-1',
   },
   {
     key: 2,
     label: 'Entrants',
     placeholder: 'Enter entrants',
     name: 'entrants',
-    className: 'row-1-col-2',
   },
 ];
 
@@ -31,49 +30,43 @@ const touchdownCalcRow2 = [
     label: 'Prize pool',
     placeholder: '',
     name: 'prizePool',
-    className: 'row-2-col1',
     disable: true,
-    isInfo: true,
   },
   {
     key: 4,
     label: '7-for-7',
     placeholder: '',
     name: 'sevenForSeven',
-    className: 'row-2-col2',
     disable: true,
-    isInfo: true,
   },
   {
     key: 5,
     label: '6-for-7',
     placeholder: '',
     name: 'sixForSeven',
-    className: 'row-2-col3',
     disable: true,
-    isInfo: true,
   },
   {
     key: 6,
     label: 'Weekly Reserve',
     placeholder: 'Enter entrants',
     name: 'weeklyReserve',
-    className: 'row-2-col4',
     disable: true,
-    isInfo: true,
   },
   {
     key: 7,
     label: 'Topprop Vig',
     placeholder: '',
     name: 'toppropVig',
-    className: 'row-2-col5',
     disable: true,
-    isInfo: true,
   },
 ];
 export default function TouchdownMath() {
   const [form] = Form.useForm();
+  const [calcForm] = Form.useForm();
+  // eslint-disable-next-line no-unused-vars
+  const watch = Form.useWatch([], calcForm);
+
   const [getMathConstants] = useLazyQuery(GET_MATH_CONSTANT);
   const [createOrUpdateMathConstants] = useMutation(
     CREATE_OR_UPDATE_MATH_CONSTANT,
@@ -82,14 +75,42 @@ export default function TouchdownMath() {
   const [constant, setConstant] = useState(null);
   // rename this
   const [obj, setObj] = useState([]);
+  const {
+    PRIZE_POOL,
+    SIX_FOR_SEVEN_NUMERATOR,
+    SIX_FOR_SEVEN_DENOMINATOR,
+    SIX_FOR_SEVEN_RESERVE,
+    WEEKLY_RESERVE,
+  } = constant || {};
 
-  const { token } = theme.useToken();
+  const calculatePrizePoolVal = (entryFees, totalEntrants) => {
+    const prizePoolAmount = parseFloat(
+      (totalEntrants * entryFees * PRIZE_POOL).toFixed(2),
+    );
+    const xSixForSeven = parseFloat(
+      (SIX_FOR_SEVEN_NUMERATOR / SIX_FOR_SEVEN_DENOMINATOR) * totalEntrants,
+    );
+    const sixForSevenAmount =
+      Math.round(
+        SIX_FOR_SEVEN_RESERVE * parseInt(entryFees, 10) * xSixForSeven * 10,
+      ) / 10;
+    const weeklyReserveAmount =
+      parseFloat((WEEKLY_RESERVE * prizePoolAmount).toFixed(2)) / 100;
 
-  const formStyle = {
-    maxWidth: 'none',
-    background: token.colorFillAlter,
-    borderRadius: token.borderRadiusLG,
-    padding: 24,
+    const jackpotAmount = parseFloat(
+      (prizePoolAmount - weeklyReserveAmount - sixForSevenAmount).toFixed(2),
+    );
+
+    const topPropVig = parseFloat(
+      (totalEntrants * entryFees - prizePoolAmount).toFixed(2),
+    );
+    calcForm.setFieldsValue({
+      prizePool: prizePoolAmount,
+      sevenForSeven: jackpotAmount,
+      sixForSeven: sixForSevenAmount,
+      weeklyReserve: weeklyReserveAmount,
+      toppropVig: topPropVig,
+    });
   };
 
   const onFinish = async () => {
@@ -109,39 +130,32 @@ export default function TouchdownMath() {
     }
 
     createOrUpdateMathConstants({ variables: { mathConstant: inputData } })
-      .then(() => {
+      .then((res) => {
+        const { data } = res;
+        const { createOrUpdateMathConstant } = data;
+        if (createOrUpdateMathConstant.length > 0) {
+          const updatedMathCon = createOrUpdateMathConstant.reduce(
+            (acc, { name, value }) => {
+              acc[name] = value;
+              return acc;
+            },
+            {},
+          );
+          setConstant(updatedMathCon);
+          calculatePrizePoolVal(
+            calcForm.getFieldValue('entryFee'),
+            calcForm.getFieldValue('entrants'),
+          );
+        }
         message.success('Equation updated');
       })
       .catch((error) => {
         message.error(error?.message);
       });
   };
-
   const handleChange = (value, constantName) => {
     setConstant({ ...constant, [constantName]: parseFloat(value) });
   };
-
-  function getLabel(label) {
-    return (
-      <>
-        {label} <InfoCircleOutlined style={{ paddingLeft: '4px' }} />
-      </>
-    );
-  }
-  const getFields = (data) => {
-    const children = data.map(
-      ({ key, className, label, name, disable, isInfo }) => (
-        <Col key={key} className={className} span={5}>
-          <Form.Item label={isInfo ? getLabel(label) : label} name={name}>
-            <Input disabled={disable} />
-          </Form.Item>
-        </Col>
-      ),
-    );
-
-    return children;
-  };
-
   useEffect(() => {
     getMathConstants().then(({ data }) => {
       const { getMathConstant } = data;
@@ -149,19 +163,27 @@ export default function TouchdownMath() {
       getMathConstant.forEach((con) => {
         initialValues[con.name] = con.value;
       });
-      console.log(getMathConstant);
       setConstant({ ...initialValues });
       setObj([...getMathConstant]);
     });
   }, []);
+  const handleChangeValues = (changedValues, allValues) => {
+    if (allValues.entryFee && allValues.entrants) {
+      const entryFees = Number(allValues.entryFee) || 0;
+      const totalEntrants = Number(allValues.entrants) || 0;
 
-  const {
-    PRIZE_POOL,
-    SIX_FOR_SEVEN_NUMERATOR,
-    SIX_FOR_SEVEN_DENOMINATOR,
-    SIX_FOR_SEVEN_RESERVE,
-    WEEKLY_RESERVE,
-  } = constant || {};
+      calculatePrizePoolVal(entryFees, totalEntrants);
+    }
+    if (allValues.entryFee === '' && allValues.entrants === '') {
+      calcForm.setFieldsValue({
+        prizePool: '',
+        sevenForSeven: '',
+        sixForSeven: '',
+        weeklyReserve: '',
+        toppropVig: '',
+      });
+    }
+  };
 
   return (
     <div className="touchdown-math">
@@ -307,21 +329,54 @@ export default function TouchdownMath() {
         )}
       </div>
       <div className="calculator">
-        <h1>Touchdown calculator</h1>
+        <div className="calc-title">Touchdown calculator</div>
 
-        <div className="container">
+        <div className="calc-container">
           <Form
-            form={form}
+            form={calcForm}
             layout="vertical"
-            name="advanced_search"
-            onFinish={onFinish}
-            style={formStyle}
+            name="td-calc-form"
+            onValuesChange={handleChangeValues}
           >
-            <Row className="row-1" gutter={24}>
-              {getFields(touchdownCalcRow1)}
+            <Row className="td-calc-row-1" gutter={24}>
+              {touchdownCalcRow1.map(({ key, label, name, placeholder }) => (
+                <Col key={key}>
+                  <Form.Item
+                    label={label}
+                    name={name}
+                    rules={validateNumber(name)}
+                  >
+                    <Input
+                      className={cx(
+                        calcForm.getFieldValue(name)
+                          ? 'val-fill'
+                          : 'val-not-filled',
+                      )}
+                      placeholder={placeholder}
+                      prefix="$"
+                    />
+                  </Form.Item>
+                </Col>
+              ))}
             </Row>
 
-            <Row className="row-2">{getFields(touchdownCalcRow2)}</Row>
+            <Row className="td-calc-row-2" gutter={24}>
+              {touchdownCalcRow2.map(({ key, label, name }) => (
+                <Col key={key}>
+                  <Form.Item label={label} name={name}>
+                    <Input
+                      className={cx(
+                        calcForm.getFieldValue(name)
+                          ? 'val-fill'
+                          : 'val-not-filled',
+                      )}
+                      disabled="true"
+                      prefix={calcForm.getFieldValue(name) ? '$' : '-'}
+                    />
+                  </Form.Item>
+                </Col>
+              ))}
+            </Row>
           </Form>
         </div>
       </div>
