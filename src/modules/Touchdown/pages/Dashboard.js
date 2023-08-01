@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from 'components/base/components/Button';
-import DatePicker from 'components/base/components/DatePicker';
+import WeekPicker from 'components/base/components/DatePicker/WeekPicker';
 import Table from 'components/base/components/Table';
 import { GET_TOUCHDOWN_BY_DATE } from 'graphql/queries';
 import { MM_DD_YYYY, dashboardTotalCountsLabels } from 'utils/constants/labels';
@@ -279,7 +279,7 @@ function Dashboard() {
                 className="font-alegreya"
                 justify="space-between"
               >
-                <DatePicker
+                <WeekPicker
                   dateRange={dateRange}
                   disabledDate={false}
                   iconColor="#B69056"

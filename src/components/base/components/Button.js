@@ -1,6 +1,7 @@
 import { Button as AntButton } from 'antd';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import '../less/button.less';
 
@@ -8,6 +9,7 @@ function Button({
   buttonText,
   className,
   onClick,
+  icon,
   textClassName,
   variant,
   ...props
@@ -15,25 +17,28 @@ function Button({
   const classNames = cx(className, variant);
 
   return (
-    <AntButton className={classNames} onClick={onClick} {...props}>
-      <span className={textClassName}> {buttonText} </span>
+    <AntButton className={classNames} icon={icon} onClick={onClick} {...props}>
+      {buttonText && <span className={textClassName}> {buttonText} </span>}
     </AntButton>
   );
 }
 
 Button.defaultProps = {
+  buttonText: '',
   className: '',
   textClassName: '',
   variant: '',
   onClick: () => {},
+  icon: React.Fragment,
 };
 
 Button.propTypes = {
-  buttonText: PropTypes.string.isRequired,
+  buttonText: PropTypes.string,
   className: PropTypes.string,
   textClassName: PropTypes.string,
   variant: PropTypes.string,
   onClick: PropTypes.func,
+  icon: PropTypes.node,
 };
 
 export default Button;

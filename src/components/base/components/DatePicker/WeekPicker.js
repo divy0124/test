@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { CalenderIcon } from 'components/core/Icons';
 import { MM_DD_YYYY } from 'utils/constants/labels';
 
-import '../less/datePicker.less';
+import '../../less/datePicker.less';
 
 dayjs.extend(updateLocale);
 dayjs.updateLocale('en', {
@@ -19,7 +19,7 @@ dayjs.updateLocale('en', {
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-function DatePicker({
+function WeekPicker({
   dateRange,
   selectedDate,
   className,
@@ -35,7 +35,6 @@ function DatePicker({
         className="border-1px br-2px border-primary-100 tp-date-picker date-picker"
         onClick={() => setOpenPicker(!openPicker)}
       >
-        {/* <BlurCalenderIcon /> */}
         <CalenderIcon color={iconColor} />
 
         <div className="fs-14 fw-500 l-22 mx-10 start-date">
@@ -59,13 +58,13 @@ function DatePicker({
   );
 }
 
-DatePicker.defaultProps = {
+WeekPicker.defaultProps = {
   className: '',
   onChange: () => {},
   selectedDate: dayjs(),
 };
 
-DatePicker.propTypes = {
+WeekPicker.propTypes = {
   className: PropTypes.string,
   dateRange: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func,
@@ -74,4 +73,4 @@ DatePicker.propTypes = {
   customDateDisable: PropTypes.bool.isRequired,
 };
 
-export default DatePicker;
+export default WeekPicker;

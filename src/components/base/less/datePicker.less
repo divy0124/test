@@ -17,3 +17,32 @@
   position: absolute;
 }
 
+.ant-picker-range {
+  .ant-picker-input {
+    &:first-child {
+      padding-left: 30px;
+    }
+    input {
+      .font-alegreya;
+      .text-medium;
+      &:placeholder-shown {
+        font-size: 14px;
+      }
+    }
+  }
+  &.ant-picker-focused {
+    box-shadow: none;
+  }
+  .ant-picker-suffix {
+    position: absolute;
+  }
+  .ant-picker-active-bar {
+    display: none;
+  }
+}
+.ant-picker-focused {
+  .ant-picker-suffix > span {
+    fill: #b69056 !important;
+  }
+}
+

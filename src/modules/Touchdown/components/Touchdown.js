@@ -8,7 +8,7 @@ import 'dayjs/locale/en';
 import { useState } from 'react';
 
 import Button from 'components/base/components/Button';
-import DatePicker from 'components/base/components/DatePicker';
+import WeekPicker from 'components/base/components/DatePicker/WeekPicker';
 import { BackArrowIcon } from 'components/core/Icons';
 import {
   CREATE_PRIZE_POOL,
@@ -470,7 +470,7 @@ function Touchdown() {
           <Row gutter={40}>
             <Col span={6}>
               <Form.Item colon={false} label="Select week">
-                <DatePicker
+                <WeekPicker
                   customDateDisable={disablePreviousWeeksDate}
                   dateRange={dateRange}
                   iconColor={dateRange.length === 0 ? '#d4d4d4' : '#B69056'}
