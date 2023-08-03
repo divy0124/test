@@ -8,7 +8,7 @@
     height: auto;
     margin-top: 10px;
     .six-for-seven-var {
-      display: flex;
+      .d-flex;
       pre {
         margin-left: 12px;
       }
@@ -26,8 +26,8 @@
     }
     .label-name {
       width: 154px;
-      display: flex;
-      text-transform: capitalize;
+      .d-flex;
+      .text-capitalize;
       .font-alegreya;
       .fw-500;
       .l-22;
@@ -43,7 +43,7 @@
       padding: 8px 12px;
     }
     pre {
-      display: flex;
+      .d-flex;
       margin-top: 14px;
     }
 
@@ -52,34 +52,29 @@
     }
     .prizePoolConstant {
       margin-top: -9px;
-      display: flex;
+      .d-flex;
       height: 37px;
       pre {
         .font-alegreya;
-        text-transform: capitalize;
+        .text-capitalize;
       }
-      font-size: 18px;
-      line-height: 22px;
+      .fs-18;
+      .l-22;
       .ant-input {
         width: 77px;
         height: 37px;
         padding: 8px 12px;
-        border-radius: 2px;
-        margin-left: 14px;
-        margin-top: 6px;
+        margin: 6px 0px 0px 14px;
         .font-alegreya;
-        font-size: 18px;
-        line-height: 22px;
-        border-color: @color-border-gold !important;
+        .fs-18;
       }
       .ant-input:focus {
-        box-shadow: 0 0 0 1px @color-border-gold;
+        .box-shadow;
       }
     }
     #PRIZE_POOL_help .ant-form-item-explain-error {
       position: absolute;
-      margin-left: 248px;
-      margin-top: 4px;
+      margin: 4px 0px 0px 248px;
     }
     .prizePoolConstant::after {
       content: '';
@@ -94,25 +89,21 @@
       pre {
         .fs-18;
         .font-alegreya;
-        text-transform: capitalize;
+        .text-capitalize;
         .d-flex;
         align-items: center;
-        margin-top: 5px;
-        margin-bottom: 0px;
-
+        margin: 5px 0px 0px 0px;
         .ant-input {
           width: 77px;
           height: 37px;
           padding: 8px 12px;
-          border-radius: 2px;
           .font-alegreya;
-          font-size: 18px;
-          line-height: 22px;
-          border-color: @color-border-gold !important;
+          .fs-18;
+          .l-22;
           margin-top: -8px;
         }
         .ant-input:focus {
-          box-shadow: 0 0 0 1px @color-border-gold;
+          .box-shadow;
         }
         .ant-space-compact {
           height: 25px;
@@ -136,15 +127,12 @@
           width: 77px;
           height: 37px;
           padding: 8px 12px;
-          border-radius: 2px;
           .font-alegreya;
-          font-size: 18px;
-          line-height: 22px;
-          border-color: @color-border-gold !important;
+          .fs-18;
           margin-top: -8px;
         }
         .ant-input:focus {
-          box-shadow: 0 0 0 1px @color-border-gold;
+          .box-shadow;
         }
       }
     }
@@ -153,9 +141,9 @@
       height: 37px;
       pre {
         .font-alegreya;
-        text-transform: capitalize;
-        font-size: 18px;
-        line-height: 22px;
+        .text-capitalize;
+        .fs-18;
+        .l-22;
         margin-top: 0px;
         .d-flex;
         align-items: center;
@@ -164,15 +152,12 @@
         width: 77px;
         height: 37px;
         padding: 8px 12px;
-        border-radius: 2px;
         margin-top: -1px;
         .font-alegreya;
-        font-size: 18px;
-        line-height: 22px;
-        border-color: @color-border-gold !important;
+        .fs-18;
       }
       .ant-input:focus {
-        box-shadow: 0 0 0 1px @color-border-gold;
+        .box-shadow;
       }
 
       #WEEKLY_RESERVE_help .ant-form-item-explain-error {
@@ -183,41 +168,32 @@
       margin-top: 30px;
       pre {
         .font-alegreya;
-        text-transform: capitalize;
-        font-size: 18px;
-        line-height: 22px;
+        .text-capitalize;
+        .fs-18;
+        .l-22;
         margin: 0px;
       }
-
-      // .ant-input:focus {
-      //   box-shadow: 0 0 0 1px @color-border-gold;
-      // }
     }
     .profit {
       margin-top: 30px;
       pre {
         .font-alegreya;
-        text-transform: capitalize;
-        font-size: 18px;
-        line-height: 22px;
+        .text-capitalize;
+        .fs-18;
+        .l-22;
         margin: 0px;
       }
     }
     .save {
-      margin-top: 30px;
-      margin-left: 0px;
+      margin: 30px 0px 0px 0px;
       Button {
         width: 140px;
-        border-radius: 4px;
         height: auto;
-        background-color: @color-primary;
         padding: 8px 15px;
-        .text-medium;
-        .font-alegreya;
+        .fw-500;
         margin-left: -9px;
       }
       Button:hover {
-        background-color: #d4a968;
         cursor: pointer;
       }
     }
@@ -247,8 +223,8 @@
 
       .ant-col .ant-form-item-label {
         .font-alegreya;
-        font-size: 14px;
-        line-height: 20px;
+        .fs-14;
+        .l-20;
         .fw-400;
         color: @color-black-100;
         padding: 0px;
@@ -259,8 +235,8 @@
       }
       .td-calc-row-1,
       .td-calc-row-2 {
-        display: flex;
-        gap: 17px;
+        .d-flex;
+        gap: 12px;
       }
       .ant-col {
         padding: 0px !important;
@@ -277,25 +253,19 @@
         }
       }
       .ant-input-affix-wrapper {
-        border-radius: 2px;
         border: 1px solid #d4d4d4;
-        background: var(--neutral-1, #fff);
         padding: 8px 12px;
         input {
-          color: #212121;
-          .font-calluna;
-          .text-regular;
+          .fw-400;
         }
       }
       .ant-input-affix-wrapper-focused {
-        border: 1px solid #b69056 !important;
-        background: var(--neutral-1, #fff) !important;
-        box-shadow: 0px 0px 0px 2px rgba(182, 144, 86, 0.2) !important;
+        .box-shadow !important;
       }
       .val-fill {
         border-radius: 2px;
-        border: 1px solid #e2d3bb;
-        background: var(--neutral-1, #fff);
+        border: 1px solid @color-primary-100;
+        background: @color-white;
         .ant-input-prefix {
           color: #121212;
         }
@@ -311,4 +281,3 @@
     padding-left: 0px;
   }
 }
-

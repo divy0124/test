@@ -47,18 +47,10 @@
 
         #sport-title_POINTS {
           width: @input-box-length;
-          border-color: @color-border-gold;
-          height: 38px;
           padding: 8px 12px 8px 12px;
-          border-radius: 2px;
-          .ant-input {
-            color: @color-black-100;
-            .text-regular;
-            .font-calluna !important;
-          }
         }
         .ant-input:focus {
-          box-shadow: 0 0 0 1px @color-border-gold;
+          .box-shadow;
         }
       }
     }
@@ -103,21 +95,13 @@
           .text-regular;
         }
         .ant-input {
-          color: @color-black-100;
-          .text-regular;
-          .font-calluna !important;
-          border-radius: 2px;
-          margin-left: 14px;
           padding: 8px 12px;
-          border-color: @color-border-gold;
         }
-
         .ant-input:focus {
-          box-shadow: 0 0 0 1px @color-border-gold;
+          .box-shadow;
         }
-        #sport-title_TOTAL_BASES_help,
-        #sport-title_STRIKEOUTS_help {
-          margin-left: 28px;
+        .ant-form-item-explain-error {
+          margin-left: 15px !important;
         }
       }
     }
@@ -133,7 +117,6 @@
     height: auto;
     .container {
       .d-flex;
-
       .soccer-logo {
         margin-left: 0px;
         padding: 4px 0px 0px 0px;
@@ -150,51 +133,41 @@
           .text-regular;
         }
         .ant-input {
-          color: @color-black-100;
-          .text-regular;
-          .font-calluna !important;
-          border-radius: 2px;
-          // margin-left: 14px;
           padding: 8px 12px;
-          border-color: @color-border-gold;
-          margin-left: 14px;
-          width: 446px;
         }
-
+        #sport-title_GOAL_KEEPER_SAVES {
+          margin-left: 10px;
+        }
         .ant-input:focus {
-          box-shadow: 0 0 0 1px @color-border-gold;
+          .box-shadow;
         }
         #sport-title_SHOTS,
         #sport-title_PASSES_COMPLETED,
         #sport-title_GOAL_KEEPER_SAVES {
           width: 436px;
         }
-        #sport-title_GOAL_KEEPER_SAVES {
-          width: 435px;
+        #sport-title_SHOTS,
+        #sport-title_PASSES_COMPLETED {
+          margin-left: -4px;
         }
-        #sport-title_GOAL_KEEPER_SAVES_help,
-        #sport-title_SHOTS_help,
-        #sport-title_PASSES_COMPLETED_help {
+        #sport-title_GOAL_KEEPER_SAVES_help {
           margin-left: 15px;
+        }
+        svg {
+          cursor: default !important;
         }
       }
     }
   }
-  // Save Button
-
   .save {
     margin-top: 20px;
     Button {
+      .fw-500;
       width: 140px;
-      border-radius: 4px;
       height: auto;
-      background-color: @color-primary;
       padding: 8px 15px;
-      .text-medium;
-      .font-alegreya;
     }
     Button:hover {
-      background-color: #d4a968;
       cursor: pointer;
     }
   }

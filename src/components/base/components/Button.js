@@ -1,7 +1,6 @@
 import { Button as AntButton } from 'antd';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import '../less/button.less';
 
@@ -29,7 +28,7 @@ Button.defaultProps = {
   textClassName: '',
   variant: '',
   onClick: () => {},
-  icon: React.Fragment,
+  icon: <div />,
 };
 
 Button.propTypes = {
