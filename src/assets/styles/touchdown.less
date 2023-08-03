@@ -12,11 +12,10 @@
     border: 1px solid @color-border-white;
     padding: 26px 26px 5px;
     border-radius: 4px;
-    background-color: #ffffff;
+    background-color: @color-white;
     position: sticky;
     top: -25px;
     z-index: 20;
-
     .before-selection {
       .tp-date-picker {
         border-color: #d4d4d4 !important;
@@ -29,42 +28,35 @@
         border-color: #d4d4d4 !important;
       }
     }
-
     .ant-form-item {
       .ant-form-item-label {
-        .font-alegreya;
         .fw-400;
         .fs-14;
         line-height: 20px;
       }
       .ant-form-item-control-input-content {
         .ant-input-affix-wrapper {
-          border: 1px solid @color-primary-100;
           padding: 8px 12px;
-          border-radius: 2px;
         }
         .ant-input-affix-wrapper-focused {
-          box-shadow: 0 0 0 1px @color-primary-100 !important;
+          .box-shadow;
         }
-
         #entryFees {
-          .font-alegreya;
-          .text-regular;
+          font-weight: 400;
           font-style: normal;
           text-transform: uppercase;
         }
         .ant-input-affix-wrapper-disabled {
-          border: 1px solid var(--neutral-5, #d9d9d9) !important;
-          background: #f5f5f5;
+          border: 1px solid #d9d9d9 !important;
         }
       }
     }
     .save-btn-item {
       margin-top: 24px !important;
       .save-btn:disabled {
-        background: @color-disable-button;
-        border: 0;
-        color: #efefef !important;
+        &:hover {
+          border: 1px solid #e4d2b5 !important;
+        }
       }
     }
   }
@@ -87,7 +79,6 @@
       margin: 26px 24px 26px 26px;
       p {
         margin: 0px 0px 3px 0px;
-        .font-alegreya;
         .fw-500;
         .fs-14;
         .l-20;
@@ -97,7 +88,6 @@
         .datetime > .date,
         .day,
         .status {
-          .font-alegreya;
           .text-capitalize;
         }
         .datetime {
@@ -145,7 +135,7 @@
           }
         }
         .border-draft-box {
-          border: 1px solid var(--gold, #b69056);
+          border: 1px solid @color-primary;
         }
       }
       .row-2 {
@@ -157,7 +147,6 @@
         form {
           display: flex;
           .ant-form-item-label {
-            .font-alegreya;
             .fw-400;
             .fs-14;
             .l-20;
@@ -170,21 +159,14 @@
             width: 216px;
           }
           input {
-            .font-calluna;
             .fw-400;
-            .fs-16;
-            .l-22;
-            border-color: @color-border-white;
-            border-radius: 2px;
             padding: 8px 12px;
             &:focus {
-              box-shadow: 0 0 0 1px @color-primary-100;
+              .box-shadow;
             }
           }
           .ant-input-disabled {
-            border-radius: 2px;
             border: 1px solid var(--neutral-5, #d9d9d9);
-            background: #f8f8f8;
           }
         }
       }
@@ -194,7 +176,6 @@
         .daily-matrix {
           p {
             color: #212121;
-            .font-alegreya;
             .text-h4;
             font-style: normal;
           }
@@ -209,7 +190,6 @@
                 .empty,
                 .pre,
                 .post {
-                  .font-alegreya;
                   .fw-400;
                   .l-22;
                   .fs-16;
@@ -217,7 +197,6 @@
               }
               .col-value {
                 .empty-val {
-                  .font-alegreya;
                   .fw-400;
                   .l-20;
                   .fs-14;
@@ -231,14 +210,11 @@
                 }
                 .pre-val,
                 .post-val {
-                  .font-alegreya;
                   .fs-18;
                   .fw-500;
                   .l-22;
                 }
-
                 margin-top: 11px;
-
                 &:nth-child(n + 2) {
                   margin-top: 14px !important;
                 }
@@ -253,30 +229,22 @@
               }
               input {
                 width: 198px;
-                .font-calluna;
-                .text-regular;
+                font-weight: 400;
               }
               .ant-input-affix-wrapper {
                 padding: 8px 12px;
-                border-radius: 2px;
-                border: 1px solid #e2d3bb;
-                background: var(--neutral-1, #fff);
               }
               .ant-input-affix-wrapper-focused {
-                box-shadow: 0 0 0 1px @color-primary-100 !important;
+                .box-shadow;
               }
               .ant-input-affix-wrapper-disabled {
-                border-radius: 2px;
                 border: 1px solid var(--neutral-5, #d9d9d9);
-                background: var(--neutral-3, #f5f5f5);
               }
               label {
-                .font-alegreya;
                 .fw-400;
                 .l-20;
                 .anticon-info-circle {
                   margin: 3px 0px 0px 4px;
-
                   svg {
                     width: 12px;
                     height: 12px;
@@ -289,7 +257,6 @@
         .weekly-matrix {
           p {
             color: #212121;
-            .font-alegreya;
             .text-h4;
             font-style: normal;
           }
@@ -299,20 +266,17 @@
             border: 1px solid #dbebe1;
 
             .ant-col {
-              .font-alegreya;
               .text-regular;
             }
             .ant-row:nth-child(n + 2) {
               .ant-col:nth-child(n + 2) {
                 color: var(--character-title-85, rgba(0, 0, 0, 0.85));
-                .font-alegreya;
                 font-style: normal;
                 .text-medium;
                 .fs-18;
                 .text-capitalize;
               }
             }
-
             .ant-row:first-child {
               margin-top: 21px;
             }
@@ -325,10 +289,8 @@
             }
             .total-amount {
               color: var(--character-title-85, rgba(0, 0, 0, 0.85));
-              .font-alegreya;
               .text-strong;
               font-size: 18px;
-
               text-transform: capitalize;
             }
             .ant-row {

@@ -58,7 +58,7 @@ export default Object.freeze({
       colorError: '#E2D3BB',
       colorTextPlaceholder: '#8C8C8C',
       colorBgContainerDisabled: '#F5F5F5',
-      colorTextDisabled: '#121212',
+      colorTextDisabled: 'rgba(0, 0, 0, 0.25)',
     },
     Button: {
       colorBgContainer: '#b69056',
@@ -68,7 +68,8 @@ export default Object.freeze({
       borderRadius: '4px',
       fontSize: '16px',
       lineHeight: '22px',
+      colorBgContainerDisabled: '#DBC7AA',
+      colorTextDisabled: '#EFEFEF',
     },
-    Form: {},
   },
 });

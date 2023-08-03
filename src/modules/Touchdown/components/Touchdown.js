@@ -467,7 +467,7 @@ function Touchdown() {
           onValuesChange={handleChange}
           onFinish={onFinish}
         >
-          <Row gutter={40}>
+          <Row gutter={110}>
             <Col span={6}>
               <Form.Item colon={false} label="Select week">
                 <WeekPicker
@@ -479,7 +479,7 @@ function Touchdown() {
                 />
               </Form.Item>
             </Col>
-            <Col span={5}>
+            <Col span={7}>
               <Form.Item
                 className={cx('entry-fee', disable && 'disable')}
                 colon={false}
@@ -494,7 +494,7 @@ function Touchdown() {
                 />
               </Form.Item>
             </Col>
-            <Col offset={9} span={4} style={{ textAlign: 'right' }}>
+            <Col offset={6} span={4} style={{ textAlign: 'right' }}>
               <Form.Item className="save-btn-item" colon={false}>
                 <Button
                   buttonText="SAVE"
