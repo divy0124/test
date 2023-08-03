@@ -4,26 +4,6 @@
 .touchdown-math {
   background-color: #fff;
   .equation {
-    width: 601px;
-    height: auto;
-    margin-top: 10px;
-    .six-for-seven-var {
-      .d-flex;
-      pre {
-        margin-left: 12px;
-      }
-    }
-    .constant-name {
-      width: 150px;
-    }
-
-    .ant-form-item {
-      margin: 0px;
-    }
-
-    .ant-form-item .ant-form-item-label > label.ant-form-item-required::before {
-      content: '';
-    }
     .label-name {
       width: 154px;
       .d-flex;
@@ -34,162 +14,45 @@
       .fs-20;
       margin-left: 0px;
     }
-    .label-name::after {
-      content: '';
-    }
 
-    .ant-input {
-      width: 68x;
-      padding: 8px 12px;
-    }
-    pre {
-      .d-flex;
-      margin-top: 14px;
-    }
-
-    .ant-form-item ::before {
-      content: '';
-    }
-    .prizePoolConstant {
-      margin-top: -9px;
-      .d-flex;
-      height: 37px;
-      pre {
-        .font-alegreya;
-        .text-capitalize;
-      }
-      .fs-18;
-      .l-22;
-      .ant-input {
-        width: 77px;
-        height: 37px;
-        padding: 8px 12px;
-        margin: 6px 0px 0px 14px;
-        font-weight: 400;
-      }
-      .ant-input:focus {
-        .box-shadow;
-      }
-    }
-    #PRIZE_POOL_help .ant-form-item-explain-error {
-      position: absolute;
-      margin: 4px 0px 0px 248px;
-    }
-    .prizePoolConstant::after {
-      content: '';
-    }
-
-    .label-name {
-      margin-top: 11px;
-    }
-    .six-for-seven-var {
-      margin-top: 30px;
-      height: 37px;
-      pre {
-        .fs-18;
-        .font-alegreya;
-        .text-capitalize;
-        .d-flex;
+    .equation-form {
+      .ant-row {
+        // border: 1px solid black;
+        display: flex;
         align-items: center;
-        margin: 5px 0px 0px 0px;
-        .ant-input {
-          width: 77px;
-          height: 37px;
-          padding: 8px 12px;
-          font-weight: 400;
-          margin-top: -8px;
-        }
-        .ant-input:focus {
-          .box-shadow;
-        }
-        .ant-space-compact {
-          height: 25px;
-        }
       }
-    }
-
-    .SixForSevenReserveConstant {
-      margin-top: 30px;
-      height: 37px;
-      pre {
-        margin-top: 6px;
-        .ant-form-item {
-          width: 77px;
-        }
-        text-transform: capitalize;
-        .font-alegreya;
-        .fs-18;
-        line-height: 22px;
-        .ant-input {
-          width: 77px;
-          height: 37px;
-          padding: 8px 12px;
-          font-weight: 400;
-          margin-top: -8px;
-        }
-        .ant-input:focus {
+      .ant-col:nth-child(n + 2) {
+        display: flex;
+        align-items: center;
+      }
+      .ant-form-item-control-input {
+        width: 70px;
+        // margin-top: 23px;
+      }
+      .ant-form-item {
+        margin-bottom: 23px;
+        margin-top: 18px;
+      }
+      .ant-input {
+        padding: 8px 12px;
+        &:focus {
           .box-shadow;
         }
       }
-    }
-    .weekly-reserve {
-      margin-top: 30px;
-      height: 37px;
-      pre {
-        .font-alegreya;
+      span {
+        color: var(--character-title-85, rgba(0, 0, 0, 0.85));
+        .text-regular;
+        font-size: 18px;
         .text-capitalize;
-        .fs-18;
-        .l-22;
-        margin-top: 0px;
-        .d-flex;
-        align-items: center;
       }
-      .ant-input {
-        width: 77px;
-        height: 37px;
-        padding: 8px 12px;
-        margin-top: -1px;
-        font-weight: 400;
-      }
-      .ant-input:focus {
-        .box-shadow;
-      }
-
-      #WEEKLY_RESERVE_help .ant-form-item-explain-error {
-        margin-top: -18px;
-      }
-    }
-    .jackpot {
-      margin-top: 30px;
-      pre {
-        .font-alegreya;
-        .text-capitalize;
-        .fs-18;
-        .l-22;
-        margin: 0px;
-      }
-    }
-    .profit {
-      margin-top: 30px;
-      pre {
-        .font-alegreya;
-        .text-capitalize;
-        .fs-18;
-        .l-22;
-        margin: 0px;
-      }
-    }
-    .save {
-      margin: 30px 0px 0px 0px;
-      Button {
+      .ant-btn {
         width: 140px;
         height: auto;
         padding: 8px 15px;
-        .fw-500;
-        margin-left: -9px;
-      }
-      Button:hover {
-        cursor: pointer;
+        margin-bottom: 0px;
+        span {
+          color: #fff;
+        }
       }
     }
   }
@@ -198,7 +61,7 @@
     .fs-20;
     .fw-500;
     .l-28;
-    margin: 67px 26px 64px 0px;
+    margin: 44px 26px 64px 0px;
 
     .calc-title {
       color: #212121;
@@ -258,6 +121,9 @@
       }
       .ant-input-affix-wrapper-focused {
         .box-shadow !important;
+      }
+      .ant-input-disabled {
+        color: #121212;
       }
       .val-fill {
         border-radius: 2px;

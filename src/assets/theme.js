@@ -21,14 +21,6 @@ export default Object.freeze({
     //   // orange color
     //   colorPrimary: 'orange',
     // },
-    // Input: {
-    //   controlHeight: 48,
-    //   borderRadius: 4,
-    // },
-    // Button: {
-    //   controlHeight: 60,
-    //   borderRadius: 10,
-    // },
     Checkbox: {
       borderRadius: 2,
     },

@@ -38,7 +38,7 @@ const initTouchdownData = {
 const initPrizePoolData = {
   entryFees: 0,
   totalEntrants: 0,
-  supportedSports: ['NBA', 'MLB', 'Soccer'],
+  supportedSports: process.env.REACT_APP_SUPPORTED_SPORTS.split(','),
   actualReserveAmount: {
     SIX_FOR_SEVEN: 0,
   },
@@ -576,6 +576,7 @@ function Touchdown() {
                   label="Entrants"
                   name="totalEntrants"
                   rules={validateNumber('Entrants')}
+                  style={{ height: '67px' }}
                 >
                   <Input disabled={disable} placeholder="Enter entrants" />
                 </Form.Item>
@@ -585,6 +586,7 @@ function Touchdown() {
                   label="Max Entries"
                   name="maxEntriesPerUser"
                   rules={validateNumber('Max Entries')}
+                  style={{ height: '67px' }}
                 >
                   <Input
                     disabled={disable}

@@ -1,5 +1,5 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { Button, Col, Form, Input, Row, Space, message } from 'antd';
+import { Button, Col, Form, Input, Row, message } from 'antd';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 
@@ -72,18 +72,22 @@ export default function TouchdownMath() {
     CREATE_OR_UPDATE_MATH_CONSTANT,
   );
 
-  const [constant, setConstant] = useState(null);
-  // rename this
-  const [obj, setObj] = useState([]);
+  const [constant, setConstant] = useState([]);
+
   const {
     PRIZE_POOL,
     SIX_FOR_SEVEN_NUMERATOR,
     SIX_FOR_SEVEN_DENOMINATOR,
     SIX_FOR_SEVEN_RESERVE,
     WEEKLY_RESERVE,
-  } = constant || {};
+  } =
+    constant.reduce((acc, { name, value }) => {
+      acc[name] = value;
+      return acc;
+    }, {}) || {};
 
   const calculatePrizePoolVal = (entryFees, totalEntrants) => {
+    console.log(PRIZE_POOL, SIX_FOR_SEVEN_NUMERATOR);
     const prizePoolAmount = parseFloat(
       (totalEntrants * entryFees * PRIZE_POOL).toFixed(2),
     );
@@ -96,11 +100,9 @@ export default function TouchdownMath() {
       ) / 10;
     const weeklyReserveAmount =
       parseFloat((WEEKLY_RESERVE * prizePoolAmount).toFixed(2)) / 100;
-
     const jackpotAmount = parseFloat(
       (prizePoolAmount - weeklyReserveAmount - sixForSevenAmount).toFixed(2),
     );
-
     const topPropVig = parseFloat(
       (totalEntrants * entryFees - prizePoolAmount).toFixed(2),
     );
@@ -114,38 +116,18 @@ export default function TouchdownMath() {
   };
 
   const onFinish = async () => {
-    // const inputData = [];
-
-    let inputData = obj.map((o) => ({ ...o, value: constant[o.name] }));
-    // Remove unwanted typename fields
-    inputData = inputData.map(({ id, name, value }) => ({
+    const data = form.getFieldsValue();
+    const inputData = constant.map(({ id, name }) => ({
       id,
       name,
-      value,
+      value: parseFloat(data[name]),
     }));
-    const isInvalid = inputData.find((e) => !/^-?\d*\.?\d+$/.test(e.value));
-    if (isInvalid) {
-      message.error('Only Numbers allowed.');
-      return;
-    }
-
     createOrUpdateMathConstants({ variables: { mathConstant: inputData } })
       .then((res) => {
         const { data } = res;
         const { createOrUpdateMathConstant } = data;
         if (createOrUpdateMathConstant.length > 0) {
-          const updatedMathCon = createOrUpdateMathConstant.reduce(
-            (acc, { name, value }) => {
-              acc[name] = value;
-              return acc;
-            },
-            {},
-          );
-          setConstant(updatedMathCon);
-          calculatePrizePoolVal(
-            calcForm.getFieldValue('entryFee'),
-            calcForm.getFieldValue('entrants'),
-          );
+          setConstant([...createOrUpdateMathConstant]);
         }
         message.success('Equation updated');
       })
@@ -153,20 +135,26 @@ export default function TouchdownMath() {
         message.error(error?.message);
       });
   };
-  const handleChange = (value, constantName) => {
-    setConstant({ ...constant, [constantName]: parseFloat(value) });
-  };
   useEffect(() => {
-    getMathConstants().then(({ data }) => {
-      const { getMathConstant } = data;
-      const initialValues = {};
-      getMathConstant.forEach((con) => {
-        initialValues[con.name] = con.value;
+    if (constant.length === 0) {
+      getMathConstants().then(({ data }) => {
+        const { getMathConstant } = data;
+        setConstant([...getMathConstant]);
+        const initialValues = getMathConstant.reduce((acc, { name, value }) => {
+          acc[name] = value;
+          return acc;
+        }, {});
+        form.setFieldsValue(initialValues);
       });
-      setConstant({ ...initialValues });
-      setObj([...getMathConstant]);
-    });
-  }, []);
+    } else {
+      const entryFee = calcForm.getFieldValue('entryFee');
+      const entrants = calcForm.getFieldValue('entrants');
+      if (entryFee && entrants) {
+        calculatePrizePoolVal(entryFee, entrants);
+      }
+    }
+  }, [constant]);
+
   const handleChangeValues = (changedValues, allValues) => {
     if (allValues.entryFee && allValues.entrants) {
       const entryFees = Number(allValues.entryFee) || 0;
@@ -189,142 +177,157 @@ export default function TouchdownMath() {
     <div className="touchdown-math">
       <div className="equation">
         {constant && (
-          <Form form={form} onFinish={onFinish}>
-            <Form.Item
-              colon={false}
-              label={<div className="label-name">prize pool :</div>}
-              name="PRIZE_POOL"
-              rules={[
-                {
-                  required: Number.isNaN(PRIZE_POOL),
-                  message: 'Is required',
-                },
-              ]}
-            >
-              <div className="prizePoolConstant">
-                <pre>( entrants &nbsp; X &nbsp; entry fee ) &nbsp;&nbsp;X </pre>
-                <Input
-                  defaultValue={() => PRIZE_POOL}
-                  onChange={(e) => handleChange(e.target.value, 'PRIZE_POOL')}
-                />
-              </div>
-            </Form.Item>
-            <div className="six-for-seven-var">
-              <div className="label-name">x 6-for-7 :</div>
-              <pre>
+          <Form
+            className="equation-form"
+            colon={false}
+            form={form}
+            onFinish={onFinish}
+          >
+            <Row>
+              <Col className="label-name" span={4}>
+                prize pool :
+              </Col>
+              <Col span={10}>
+                <span>
+                  ( entrants &nbsp; X &nbsp; entry fee )
+                  &nbsp;&nbsp;X&nbsp;&nbsp;{' '}
+                </span>
+                <Form.Item
+                  name="PRIZE_POOL"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Is required',
+                    },
+                    {
+                      pattern: /^[0-9]+(\.[0-9]+)?$/,
+                      message: 'Invalid',
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="label-name" span={4}>
+                x 6-for-7 :
+              </Col>
+              <Col span={10}>
+                <span>( &nbsp;</span>
+                <Form.Item
+                  name="SIX_FOR_SEVEN_NUMERATOR"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Is required',
+                    },
+                    {
+                      pattern: /^[0-9]+(\.[0-9]+)?$/,
+                      message: 'Invalid',
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <span>&nbsp; / &nbsp;</span>
+                <Form.Item
+                  name="SIX_FOR_SEVEN_DENOMINATOR"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Is required',
+                    },
+                    {
+                      pattern: /^[0-9]+(\.[0-9]+)?$/,
+                      message: 'Invalid',
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <span>&nbsp; ) &nbsp; X &nbsp; Entrants</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="label-name" span={4}>
+                6-for-7 reserve:
+              </Col>
+              <Col span={10}>
+                <span>Round (&nbsp;( &nbsp;</span>
+                <Form.Item
+                  name="SIX_FOR_SEVEN_RESERVE"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Is required',
+                    },
+                    {
+                      pattern: /^[0-9]+(\.[0-9]+)?$/,
+                      message: 'Invalid',
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <span>
+                  &nbsp; X &nbsp;Entry Fee) &nbsp; X &nbsp; &nbsp;x 6-for-7 , 1
+                  )
+                </span>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="label-name" span={4}>
+                weekly reserve :
+              </Col>
+              <Col span={10}>
+                <Form.Item
+                  name="WEEKLY_RESERVE"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Is required',
+                    },
+                    {
+                      pattern: /^[0-9]+(\.[0-9]+)?$/,
+                      message: 'Invalid',
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <span>&nbsp; % &nbsp;Prize Pool</span>
+              </Col>
+            </Row>
+            <Row style={{ marginTop: '20px' }}>
+              <Col className="label-name" span={4}>
+                jackpot:
+              </Col>
+              <Col span={10}>
                 {' '}
-                ( &nbsp;
-                <Space.Compact>
-                  <Form.Item
-                    className="numerator"
-                    name="SIX_FOR_SEVEN_NUMERATOR"
-                    rules={[
-                      {
-                        required: Number.isNaN(SIX_FOR_SEVEN_NUMERATOR),
-                        message: 'Is required',
-                      },
-                    ]}
-                  >
-                    <Input
-                      defaultValue={() => SIX_FOR_SEVEN_NUMERATOR}
-                      onChange={(e) =>
-                        handleChange(e.target.value, 'SIX_FOR_SEVEN_NUMERATOR')
-                      }
-                      onPressEnter={(event) => event.preventDefault()}
-                    />
-                  </Form.Item>{' '}
-                  &nbsp; / &nbsp;
-                  <Form.Item
-                    className="denominator"
-                    name="SIX_FOR_SEVEN_DENOMINATOR"
-                    rules={[
-                      {
-                        required: Number.isNaN(SIX_FOR_SEVEN_DENOMINATOR),
-                        message: 'Is required',
-                      },
-                    ]}
-                  >
-                    <Input
-                      defaultValue={() => SIX_FOR_SEVEN_DENOMINATOR}
-                      onChange={(e) =>
-                        handleChange(
-                          e.target.value,
-                          'SIX_FOR_SEVEN_DENOMINATOR',
-                        )
-                      }
-                      onPressEnter={(event) => event.preventDefault()}
-                    />
-                  </Form.Item>
-                </Space.Compact>
-                &nbsp; ) &nbsp; X &nbsp; Entrants
-              </pre>
-            </div>
-            <Form.Item
-              className="SixForSevenReserveConstant"
-              colon={false}
-              label={<div className="label-name">6-for-7 reserve:</div>}
-              rules={[{ required: true, message: 'Is required' }]}
-            >
-              <pre>
-                Round (( &nbsp;
-                <Input
-                  defaultValue={SIX_FOR_SEVEN_RESERVE}
-                  onChange={(e) =>
-                    handleChange(e.target.value, 'SIX_FOR_SEVEN_RESERVE')
-                  }
-                  onPressEnter={(event) => event.preventDefault()}
-                />
-                {'  '}&nbsp; X &nbsp;Entry Fee) &nbsp; X &nbsp; &nbsp;x 6-for-7
-                , 1 )
-              </pre>
-            </Form.Item>
-            <Form.Item
-              className="weekly-reserve"
-              colon={false}
-              label={<div className="label-name">weekly reserve :</div>}
-              name="WEEKLY_RESERVE"
-              rules={[
-                {
-                  required: Number.isNaN(WEEKLY_RESERVE),
-                  message: 'Is required',
-                },
-              ]}
-            >
-              <pre>
-                <Input
-                  defaultValue={() => WEEKLY_RESERVE}
-                  onChange={(e) =>
-                    handleChange(e.target.value, 'WEEKLY_RESERVE')
-                  }
-                  onPressEnter={(event) => event.preventDefault()}
-                />{' '}
-                &nbsp; % &nbsp;Prize Pool
-              </pre>
-            </Form.Item>
-            <Form.Item
-              className="jackpot"
-              colon={false}
-              label={<div className="label-name">jackpot:</div>}
-            >
-              <pre>
-                Prize Prize &nbsp; - &nbsp; Weekly Reserve &nbsp; - &nbsp;6 For
-                7 Reserve
-              </pre>
-            </Form.Item>
-            <Form.Item
-              className="profit"
-              colon={false}
-              label={<div className="label-name">Topprop Vig:</div>}
-            >
-              <pre>
-                ( Entrants &nbsp; X &nbsp;Entry Fee )&nbsp; - &nbsp;Prize Pool
-              </pre>
-            </Form.Item>
-            <Form.Item className="save" colon={false} label=" ">
-              <Button htmlType="submit" type="primary">
-                SAVE
-              </Button>
-            </Form.Item>
+                <span>
+                  Prize Prize &nbsp; - &nbsp; Weekly Reserve &nbsp; - &nbsp;6
+                  For 7 Reserve
+                </span>
+              </Col>
+            </Row>
+            <Row style={{ marginTop: '46px' }}>
+              <Col className="label-name" span={4}>
+                Topprop Vig:
+              </Col>
+              <Col span={10}>
+                <span>
+                  ( Entrants &nbsp; X &nbsp;Entry Fee )&nbsp; - &nbsp;Prize Pool
+                </span>
+              </Col>
+            </Row>
+            <Row style={{ marginTop: '30px' }}>
+              <Col span={4}>
+                <Form.Item>
+                  <Button htmlType="submit">SAVE</Button>
+                </Form.Item>
+              </Col>
+            </Row>
           </Form>
         )}
       </div>
