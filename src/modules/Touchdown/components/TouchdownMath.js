@@ -87,7 +87,6 @@ export default function TouchdownMath() {
     }, {}) || {};
 
   const calculatePrizePoolVal = (entryFees, totalEntrants) => {
-    console.log(PRIZE_POOL, SIX_FOR_SEVEN_NUMERATOR);
     const prizePoolAmount = parseFloat(
       (totalEntrants * entryFees * PRIZE_POOL).toFixed(2),
     );
