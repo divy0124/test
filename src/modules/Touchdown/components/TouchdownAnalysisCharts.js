@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Column } from '@ant-design/plots';
 
 const data = [

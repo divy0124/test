@@ -1,11 +1,13 @@
 import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 
 import { CalenderIcon } from 'components/core/Icons';
 import { MM_DD_YYYY } from 'utils/constants/labels';
+
 import '../../less/datePicker.less';
 
-function RangePicker({ className, onChange, ...props }) {
+function RangePicker({ className, dateRange, onChange, ...props }) {
   const { RangePicker: AntRangePicker } = DatePicker;
   return (
     <AntRangePicker
@@ -16,17 +18,20 @@ function RangePicker({ className, onChange, ...props }) {
       onChange={onChange}
       placeholder={['START DATE', 'END DATE']}
       suffixIcon={<CalenderIcon color="#D4D4D4" />}
+      value={dateRange}
       {...props}
     />
   );
 }
 RangePicker.defaultProps = {
   className: '',
+  dateRange: [],
   onChange: () => {},
 };
 
 RangePicker.propTypes = {
   className: PropTypes.string,
+  dateRange: PropTypes.arrayOf(dayjs),
   onChange: PropTypes.func,
 };
 

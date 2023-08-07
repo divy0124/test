@@ -127,8 +127,6 @@ export const GET_WEEKLY_LEADER_BOARD = gql`
   }
 `;
 
-//= =====> Create Touchdown Queries <====== //
-
 export const GET_TOUCHDOWN_BY_DATE_CUSTOM = gql`
   query GetTouchdownByDate($startDate: String!, $endDate: String!) {
     getTouchdownByDate(startDate: $startDate, endDate: $endDate) {
@@ -198,6 +196,85 @@ export const GET_WEEKLY_SUBSCRIBER = gql`
       }
       meta {
         totalItems
+      }
+    }
+  }
+`;
+
+export const GET_TOUCHDOWN_ANALYTICS = gql`
+  query GetTouchdownAnalytics(
+    $startDate: String!
+    $endDate: String!
+    $interval: String!
+  ) {
+    getTouchdownAnalytics(
+      startDate: $startDate
+      endDate: $endDate
+      interval: $interval
+    ) {
+      interval
+      actualEntryCount
+      allowedEntryCount
+      profit
+    }
+  }
+`;
+
+export const GET_CONTESTS_ANALYTICS = gql`
+  query GetContestsAnalytics(
+    $startDate: String!
+    $endDate: String!
+    $isIndividual: Boolean!
+    $limit: Int!
+  ) {
+    getContestsAnalytics(
+      startDate: $startDate
+      endDate: $endDate
+      isIndividual: $isIndividual
+      limit: $limit
+    ) {
+      nbaContestCount
+      mlbContestCount
+      soccerContestCount
+      totalUserEntry
+      soccerContests {
+        contestId
+        totalCount
+        startDate
+        player1Id
+        player2Id
+        player1FirstName
+        player2FirstName
+        player1LastName
+        player2LastName
+        player1Count
+        player2Count
+      }
+      nbaContests {
+        contestId
+        totalCount
+        startDate
+        player1Id
+        player2Id
+        player1FirstName
+        player2FirstName
+        player1LastName
+        player2LastName
+        player1Count
+        player2Count
+      }
+      mlbContests {
+        contestId
+        totalCount
+        startDate
+        player1Id
+        player2Id
+        player1FirstName
+        player2FirstName
+        player1LastName
+        player2LastName
+        player1Count
+        player2Count
       }
     }
   }

@@ -1,148 +1,187 @@
-/* eslint-disable*/
-import { Checkbox, Col, Row, Tabs } from 'antd';
+import { useLazyQuery } from '@apollo/client';
+import { Tabs } from 'antd';
+import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
 
-import Button from 'components/base/components/Button';
-import RangePicker from 'components/base/components/DatePicker/RangePicker';
-import Select from 'components/base/components/Select';
-import { ArrowIcon } from 'components/core/Icons';
+import { GET_CONTESTS_ANALYTICS } from 'graphql/queries';
+import { YYYY_MM_DD } from 'utils/constants/labels';
 
 import '../../../assets/styles/analytics.less';
+import ChartFilters from '../components/ChartFilters';
+import ContestAnalysisCharts from '../components/ContestAnalysisCharts';
+import TouchdownAnalysisCharts from '../components/TouchdownAnalysisCharts';
 
-const TouchdownAnalysis = () => {
-  const handleChange = (e) => {
-    console.log('first', e);
-  };
+const contestOptions = [
+  {
+    value: '10',
+    label: 'Top 10',
+  },
+  {
+    value: '30',
+    label: 'Top 30',
+  },
+  {
+    value: '50',
+    label: 'Top 50',
+  },
+];
 
-  const onClick = (e) => {
-    console.log('click', e);
-  };
-  const onRangeSelect = (a, b) => {
-    console.log('a', a);
-    console.log('a', b);
-  };
-
-  return (
-    <Row style={{ marginTop: '10px' }} gutter={20}>
-      <Col span={6}>
-        <span className="text-small">Date range </span>
-        <RangePicker onChange={onRangeSelect} style={{ marginTop: '5px' }} />
-      </Col>
-      <Col span={3}>
-        <span className="text-small">Time interval </span>
-        <Select
-          defaultValue="month"
-          onChange={handleChange}
-          options={[
-            {
-              value: 'day',
-              label: 'Daily',
-            },
-            {
-              value: 'week',
-              label: 'Weekly',
-            },
-            {
-              value: 'month',
-              label: 'Monthly',
-            },
-          ]}
-          style={{ marginTop: '5px' }}
-        />
-      </Col>
-      <Col offset={12} span={3} className="btn-container">
-        <Button
-          className="arrow-btn"
-          icon={<ArrowIcon />}
-          variant="btn-primary"
-          onClick={onClick}
-        />
-      </Col>
-    </Row>
-  );
-};
-
-const ContestAnalysis = () => {
-  const handleChange = (e) => {
-    console.log('first', e);
-  };
-
-  const onRangeSelect = (a, b) => {
-    console.log('a', a);
-    console.log('a', b);
-  };
-
-  const onClick = (e) => {
-    console.log('click', e);
-  };
-  const onChecked = (e) => {
-    console.log('e', e);
-  };
-
-  return (
-    <Row style={{ marginTop: '10px' }} gutter={20}>
-      <Col span={6}>
-        <span className="text-small">Date range </span>
-        <RangePicker onChange={onRangeSelect} style={{ marginTop: '5px' }} />
-      </Col>
-      <Col span={3}>
-        <span className="text-small">Time interval </span>
-        <Select
-          defaultValue="10"
-          onChange={handleChange}
-          options={[
-            {
-              value: '10',
-              label: 'Top 10',
-            },
-            {
-              value: '30',
-              label: 'Top 30',
-            },
-            {
-              value: '50',
-              label: 'Top 50',
-            },
-          ]}
-          style={{ marginTop: '5px' }}
-        />
-      </Col>
-      <Col span={5} className="checkbox-container">
-        <Checkbox onChange={onChecked}>
-          <span className="font-calluna"> Show Graphs by Sport</span>
-        </Checkbox>
-      </Col>
-      <Col offset={7} span={3} className="btn-container">
-        <Button
-          className="arrow-btn"
-          icon={<ArrowIcon />}
-          variant="btn-primary"
-          onClick={onClick}
-        />
-      </Col>
-    </Row>
-  );
-};
+const touchDownOptions = [
+  {
+    value: 'day',
+    label: 'Daily',
+  },
+  {
+    value: 'week',
+    label: 'Weekly',
+  },
+  {
+    value: 'month',
+    label: 'Monthly',
+  },
+];
 
 function Analytics() {
+  const [activeTab, setActiveTab] = useState('touchdown-analysis');
+  const [dateRange, setDateRange] = useState([
+    dayjs().startOf('month'),
+    dayjs().endOf('month'),
+  ]);
+  const [intervalRange, setIntervalRange] = useState('week');
+  const [showIndividualGraph, setShowIndividualGraph] = useState(true);
+  const [countsInfo, setCountsInfo] = useState({
+    mlbContestCount: 0,
+    nbaContestCount: 0,
+    soccerContestCount: 0,
+    totalUserEntry: 0,
+    totalContest: 0,
+  });
+  const [contestData, setContestData] = useState(null);
+
+  const [getContestsAnalytics] = useLazyQuery(GET_CONTESTS_ANALYTICS);
+
+  const fetchTouchdownAnalytics = () => {};
+
+  const fetchContestsAnalytics = (limit) => {
+    getContestsAnalytics({
+      variables: {
+        startDate: dateRange[0].format(YYYY_MM_DD),
+        endDate: dateRange[1].format(YYYY_MM_DD),
+        limit,
+        isIndividual: showIndividualGraph,
+      },
+    }).then((res) => {
+      const { getContestsAnalytics } = res.data || {};
+      if (getContestsAnalytics) {
+        const {
+          mlbContestCount,
+          nbaContestCount,
+          soccerContestCount,
+          totalUserEntry,
+          mlbContests,
+          nbaContests,
+          soccerContests,
+        } = getContestsAnalytics;
+
+        setCountsInfo({
+          mlbContestCount,
+          nbaContestCount,
+          soccerContestCount,
+          totalUserEntry,
+          totalContest: mlbContestCount + nbaContestCount + soccerContestCount,
+        });
+
+        setContestData({
+          nbaContests,
+          mlbContests,
+          soccerContests,
+        });
+      }
+    });
+  };
+
+  useEffect(() => {
+    fetchTouchdownAnalytics();
+  }, []);
+
+  const fetchGraphData = (selectedTab = activeTab, range = intervalRange) => {
+    if (selectedTab === 'touchdown-analysis') {
+      fetchTouchdownAnalytics();
+    } else {
+      fetchContestsAnalytics(parseInt(range, 10));
+    }
+  };
+
+  const onClick = () => {
+    fetchGraphData();
+  };
+
   const tabs = [
     {
       key: 'touchdown-analysis',
       label: `TOUCHDOWN ANALYSIS`,
-      children: <TouchdownAnalysis />,
+      children: (
+        <ChartFilters
+          dateRange={dateRange}
+          intervalRange={intervalRange}
+          onChecked={() => setShowIndividualGraph(!showIndividualGraph)}
+          onClick={onClick}
+          onRangeSelect={(_, range) => setDateRange(range)}
+          options={touchDownOptions}
+          setIntervalRange={setIntervalRange}
+          showIndividualGraph={showIndividualGraph}
+        />
+      ),
     },
     {
       key: 'contest-analysis',
       label: `CONTEST ANALYSIS`,
-      children: <ContestAnalysis />,
+      children: (
+        <ChartFilters
+          countsInfo={countsInfo}
+          dateRange={dateRange}
+          intervalRange={intervalRange}
+          isFromContest
+          onChecked={() => setShowIndividualGraph(!showIndividualGraph)}
+          onClick={onClick}
+          onRangeSelect={(range) => setDateRange(range)}
+          options={contestOptions}
+          setIntervalRange={setIntervalRange}
+          showIndividualGraph={showIndividualGraph}
+        />
+      ),
     },
   ];
+
+  const onTabChange = (tabValue) => {
+    const range = tabValue === 'touchdown-analysis' ? 'week' : '10';
+    setActiveTab(tabValue);
+    setIntervalRange(range);
+    fetchGraphData(tabValue, range);
+  };
+
   return (
-    <div className="analytics-container">
-      <Tabs
-        defaultActiveKey="touchdown-analysis"
-        items={tabs}
-        itemActiveColor={'#fff'}
-      />
+    <div>
+      <div className="analytics-container">
+        <Tabs
+          defaultActiveKey={activeTab}
+          items={tabs}
+          onChange={onTabChange}
+        />
+      </div>
+
+      {activeTab === 'touchdown-analysis' ? (
+        <TouchdownAnalysisCharts />
+      ) : (
+        <div>
+          {contestData && (
+            <ContestAnalysisCharts
+              contestData={contestData}
+              showIndividualGraph={showIndividualGraph}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }
