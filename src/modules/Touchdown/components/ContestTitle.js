@@ -1,14 +1,14 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { Button, Form, Input, message } from 'antd';
+import { Form, Input, message, Row, Col, Button } from 'antd';
 import { useEffect } from 'react';
 
 import { CREATE_OR_UPDATE_QUESTIONS } from 'graphql/mutations';
 import { GET_SPORTS_QUESTIONS } from 'graphql/queries';
 
-import mlb from '../../../assets/images/sports-logo/mlb.svg';
-import nba from '../../../assets/images/sports-logo/nba.svg';
-import soccer from '../../../assets/images/sports-logo/soccer.svg';
+import mlbSportLogo from '../../../assets/images/sports-logo/mlb.svg';
+import nbaSportLogo from '../../../assets/images/sports-logo/nba.svg';
+import soccerSportLogo from '../../../assets/images/sports-logo/soccer.svg';
 
 import '../../../assets/styles/contest-title.less';
 
@@ -59,11 +59,6 @@ export default function ContestTitle() {
       </div>
     );
   }
-
-  const tailLayout = {
-    wrapperCol: { offset: 0, span: 16 },
-  };
-
   useEffect(() => {
     getQuestions().then(({ data }) => {
       const titles = {};
@@ -85,87 +80,79 @@ export default function ContestTitle() {
         requiredMark={false}
         style={{ maxWidth: 500 }}
       >
-        <div className="nba">
-          <div className="nba-container">
-            <div className="nba-logo">{getLabel(nba, 'NBA')}</div>
-
-            <div className="nba-player">
-              <Form.Item
-                name="POINTS"
-                rules={[{ required: true, message: 'Title is required' }]}
-              >
-                <Input />
-              </Form.Item>
-            </div>
-          </div>
-        </div>
-
-        <div className="mlb">
-          <div className="container">
-            <div className="mlb-logo">{getLabel(mlb, 'MLB')}</div>
-            <div className="players-type">
-              <Form.Item
-                label="Pitchers"
-                name="TOTAL_BASES"
-                rules={[{ required: true, message: 'Title is required' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Hitters"
-                name="STRIKEOUTS"
-                rules={[{ required: true, message: 'Title is required' }]}
-              >
-                <Input />
-              </Form.Item>
-            </div>
-          </div>
-        </div>
-
-        <div className="soccer">
-          <div className="container">
-            <div className="soccer-logo">{getLabel(soccer, 'SOCCER')}</div>
-            <div className="player-type">
-              <Form.Item
-                label="GoalKeeper"
-                name="GOAL_KEEPER_SAVES"
-                rules={[{ required: true, message: 'Title is required' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="FieldPlayer"
-                name="PASSES_COMPLETED"
-                rules={[{ required: true, message: 'Title is required' }]}
-                tooltip={{
-                  title: 'Passes Completed',
-                  icon: <InfoCircleOutlined />,
-                }}
-              >
-                <Input name="Soccer" />
-              </Form.Item>
-              <Form.Item
-                label="FieldPlayer"
-                name="SHOTS"
-                rules={[{ required: true, message: 'Title is required' }]}
-                tooltip={{
-                  title: 'Shots',
-                  icon: <InfoCircleOutlined />,
-                }}
-              >
-                <Input />
-              </Form.Item>
-            </div>
-          </div>
-        </div>
-
-        <div className="save">
-          <Form.Item {...tailLayout}>
-            <Button htmlType="submit" type="primary">
-              SAVE
-            </Button>
-          </Form.Item>
-        </div>
+        <Row className="sport-item single-input">
+          <Col span={3}>{getLabel(nbaSportLogo, 'NBA')}</Col>
+          <Col span={11}>
+            <Form.Item
+              name="POINTS"
+              rules={[{ required: true, message: 'Title is required' }]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row className="sport-item font-calluna">
+          <Col span={3} style={{ marginTop: '27px' }}>
+            {getLabel(mlbSportLogo, 'MLB')}
+          </Col>
+          <Col span={11}>
+            <Form.Item
+              label="Pitchers"
+              name="TOTAL_BASES"
+              rules={[{ required: true, message: 'Title is required' }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Hitters"
+              name="STRIKEOUTS"
+              rules={[{ required: true, message: 'Title is required' }]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row className="sport-item">
+          <Col span={3} style={{ marginTop: '27px' }}>
+            {getLabel(soccerSportLogo, 'Soccer')}
+          </Col>
+          <Col span={11}>
+            <Form.Item
+              label="GoalKeeper"
+              name="GOAL_KEEPER_SAVES"
+              rules={[{ required: true, message: 'Title is required' }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="FieldPlayer"
+              name="PASSES_COMPLETED"
+              rules={[{ required: true, message: 'Title is required' }]}
+              tooltip={{
+                title: 'Passes Completed',
+                icon: <InfoCircleOutlined />,
+              }}
+            >
+              <Input name="Soccer" />
+            </Form.Item>
+            <Form.Item
+              label="FieldPlayer"
+              name="SHOTS"
+              rules={[{ required: true, message: 'Title is required' }]}
+              tooltip={{
+                title: 'Shots',
+                icon: <InfoCircleOutlined />,
+              }}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Form.Item>
+          <Button htmlType="submit" type="primary">
+            SAVE
+          </Button>
+        </Form.Item>
       </Form>
     </div>
   );

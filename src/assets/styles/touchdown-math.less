@@ -4,221 +4,55 @@
 .touchdown-math {
   background-color: #fff;
   .equation {
-    width: 601px;
-    height: auto;
-    margin-top: 10px;
-    .six-for-seven-var {
-      display: flex;
-      pre {
-        margin-left: 12px;
-      }
-    }
-    .constant-name {
-      width: 150px;
-    }
-
-    .ant-form-item {
-      margin: 0px;
-    }
-
-    .ant-form-item .ant-form-item-label > label.ant-form-item-required::before {
-      content: '';
-    }
     .label-name {
       width: 154px;
-      display: flex;
-      text-transform: capitalize;
+      .d-flex;
+      .text-capitalize;
       .font-alegreya;
       .fw-500;
       .l-22;
       .fs-20;
       margin-left: 0px;
     }
-    .label-name::after {
-      content: '';
-    }
 
-    .ant-input {
-      width: 68x;
-      padding: 8px 12px;
-    }
-    pre {
-      display: flex;
-      margin-top: 14px;
-    }
-
-    .ant-form-item ::before {
-      content: '';
-    }
-    .prizePoolConstant {
-      margin-top: -9px;
-      display: flex;
-      height: 37px;
-      pre {
-        .font-alegreya;
-        text-transform: capitalize;
-      }
-      font-size: 18px;
-      line-height: 22px;
-      .ant-input {
-        width: 77px;
-        height: 37px;
-        padding: 8px 12px;
-        border-radius: 2px;
-        margin-left: 14px;
-        margin-top: 6px;
-        .font-alegreya;
-        font-size: 18px;
-        line-height: 22px;
-        border-color: @color-border-gold !important;
-      }
-      .ant-input:focus {
-        box-shadow: 0 0 0 1px @color-border-gold;
-      }
-    }
-    #PRIZE_POOL_help .ant-form-item-explain-error {
-      position: absolute;
-      margin-left: 248px;
-      margin-top: 4px;
-    }
-    .prizePoolConstant::after {
-      content: '';
-    }
-
-    .label-name {
-      margin-top: 11px;
-    }
-    .six-for-seven-var {
-      margin-top: 30px;
-      height: 37px;
-      pre {
-        .fs-18;
-        .font-alegreya;
-        text-transform: capitalize;
-        .d-flex;
-        align-items: center;
-        margin-top: 5px;
-        margin-bottom: 0px;
-
-        .ant-input {
-          width: 77px;
-          height: 37px;
-          padding: 8px 12px;
-          border-radius: 2px;
-          .font-alegreya;
-          font-size: 18px;
-          line-height: 22px;
-          border-color: @color-border-gold !important;
-          margin-top: -8px;
-        }
-        .ant-input:focus {
-          box-shadow: 0 0 0 1px @color-border-gold;
-        }
-        .ant-space-compact {
-          height: 25px;
-        }
-      }
-    }
-
-    .SixForSevenReserveConstant {
-      margin-top: 30px;
-      height: 37px;
-      pre {
-        margin-top: 6px;
-        .ant-form-item {
-          width: 77px;
-        }
-        text-transform: capitalize;
-        .font-alegreya;
-        .fs-18;
-        line-height: 22px;
-        .ant-input {
-          width: 77px;
-          height: 37px;
-          padding: 8px 12px;
-          border-radius: 2px;
-          .font-alegreya;
-          font-size: 18px;
-          line-height: 22px;
-          border-color: @color-border-gold !important;
-          margin-top: -8px;
-        }
-        .ant-input:focus {
-          box-shadow: 0 0 0 1px @color-border-gold;
-        }
-      }
-    }
-    .weekly-reserve {
-      margin-top: 30px;
-      height: 37px;
-      pre {
-        .font-alegreya;
-        text-transform: capitalize;
-        font-size: 18px;
-        line-height: 22px;
-        margin-top: 0px;
-        .d-flex;
+    .equation-form {
+      .ant-row {
+        // border: 1px solid black;
+        display: flex;
         align-items: center;
       }
+      .ant-col:nth-child(n + 2) {
+        display: flex;
+        align-items: center;
+      }
+      .ant-form-item-control-input {
+        width: 70px;
+        // margin-top: 23px;
+      }
+      .ant-form-item {
+        margin-bottom: 23px;
+        margin-top: 18px;
+      }
       .ant-input {
-        width: 77px;
-        height: 37px;
         padding: 8px 12px;
-        border-radius: 2px;
-        margin-top: -1px;
-        .font-alegreya;
+        &:focus {
+          .box-shadow;
+        }
+      }
+      span {
+        color: var(--character-title-85, rgba(0, 0, 0, 0.85));
+        .text-regular;
         font-size: 18px;
-        line-height: 22px;
-        border-color: @color-border-gold !important;
+        .text-capitalize;
       }
-      .ant-input:focus {
-        box-shadow: 0 0 0 1px @color-border-gold;
-      }
-
-      #WEEKLY_RESERVE_help .ant-form-item-explain-error {
-        margin-top: -18px;
-      }
-    }
-    .jackpot {
-      margin-top: 30px;
-      pre {
-        .font-alegreya;
-        text-transform: capitalize;
-        font-size: 18px;
-        line-height: 22px;
-        margin: 0px;
-      }
-
-      // .ant-input:focus {
-      //   box-shadow: 0 0 0 1px @color-border-gold;
-      // }
-    }
-    .profit {
-      margin-top: 30px;
-      pre {
-        .font-alegreya;
-        text-transform: capitalize;
-        font-size: 18px;
-        line-height: 22px;
-        margin: 0px;
-      }
-    }
-    .save {
-      margin-top: 30px;
-      margin-left: 0px;
-      Button {
+      .ant-btn {
         width: 140px;
-        border-radius: 4px;
         height: auto;
-        background-color: @color-primary;
         padding: 8px 15px;
-        .text-medium;
-        .font-alegreya;
-        margin-left: -9px;
-      }
-      Button:hover {
-        background-color: #d4a968;
-        cursor: pointer;
+        margin-bottom: 0px;
+        span {
+          color: #fff;
+        }
       }
     }
   }
@@ -227,7 +61,7 @@
     .fs-20;
     .fw-500;
     .l-28;
-    margin: 67px 26px 64px 0px;
+    margin: 44px 26px 64px 0px;
 
     .calc-title {
       color: #212121;
@@ -247,8 +81,8 @@
 
       .ant-col .ant-form-item-label {
         .font-alegreya;
-        font-size: 14px;
-        line-height: 20px;
+        .fs-14;
+        .l-20;
         .fw-400;
         color: @color-black-100;
         padding: 0px;
@@ -259,8 +93,8 @@
       }
       .td-calc-row-1,
       .td-calc-row-2 {
-        display: flex;
-        gap: 17px;
+        .d-flex;
+        gap: 12px;
       }
       .ant-col {
         padding: 0px !important;
@@ -277,25 +111,24 @@
         }
       }
       .ant-input-affix-wrapper {
-        border-radius: 2px;
         border: 1px solid #d4d4d4;
-        background: var(--neutral-1, #fff);
         padding: 8px 12px;
-        input {
-          color: #212121;
-          .font-calluna;
-          .text-regular;
+
+        .ant-input {
+          .fw-400;
+          font-size: 16px !important;
         }
       }
       .ant-input-affix-wrapper-focused {
-        border: 1px solid #b69056 !important;
-        background: var(--neutral-1, #fff) !important;
-        box-shadow: 0px 0px 0px 2px rgba(182, 144, 86, 0.2) !important;
+        .box-shadow !important;
+      }
+      .ant-input-disabled {
+        color: #121212;
       }
       .val-fill {
         border-radius: 2px;
-        border: 1px solid #e2d3bb;
-        background: var(--neutral-1, #fff);
+        border: 1px solid @color-primary-100;
+        background: @color-white;
         .ant-input-prefix {
           color: #121212;
         }

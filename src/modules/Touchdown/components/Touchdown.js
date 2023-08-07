@@ -38,7 +38,7 @@ const initTouchdownData = {
 const initPrizePoolData = {
   entryFees: 0,
   totalEntrants: 0,
-  supportedSports: ['NBA', 'MLB', 'Soccer'],
+  supportedSports: process.env.REACT_APP_SUPPORTED_SPORTS.split(','),
   actualReserveAmount: {
     SIX_FOR_SEVEN: 0,
   },
@@ -467,7 +467,7 @@ function Touchdown() {
           onValuesChange={handleChange}
           onFinish={onFinish}
         >
-          <Row gutter={40}>
+          <Row gutter={110}>
             <Col span={6}>
               <Form.Item colon={false} label="Select week">
                 <WeekPicker
@@ -479,7 +479,7 @@ function Touchdown() {
                 />
               </Form.Item>
             </Col>
-            <Col span={5}>
+            <Col span={7}>
               <Form.Item
                 className={cx('entry-fee', disable && 'disable')}
                 colon={false}
@@ -494,7 +494,7 @@ function Touchdown() {
                 />
               </Form.Item>
             </Col>
-            <Col offset={9} span={4} style={{ textAlign: 'right' }}>
+            <Col offset={6} span={4} style={{ textAlign: 'right' }}>
               <Form.Item className="save-btn-item" colon={false}>
                 <Button
                   buttonText="SAVE"
@@ -576,6 +576,7 @@ function Touchdown() {
                   label="Entrants"
                   name="totalEntrants"
                   rules={validateNumber('Entrants')}
+                  style={{ height: '67px' }}
                 >
                   <Input disabled={disable} placeholder="Enter entrants" />
                 </Form.Item>
@@ -585,6 +586,7 @@ function Touchdown() {
                   label="Max Entries"
                   name="maxEntriesPerUser"
                   rules={validateNumber('Max Entries')}
+                  style={{ height: '67px' }}
                 >
                   <Input
                     disabled={disable}

@@ -19,7 +19,7 @@ const items = [
 
 function Configure() {
   return (
-    <div className="analytics-container">
+    <div className="container">
       <Tabs defaultActiveKey="touchdown-math" items={items} />
     </div>
   );
