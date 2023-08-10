@@ -61,7 +61,7 @@ const initPrizePoolData = {
 
 const currentDate = dayjs();
 
-function Touchdown() {
+function Touchdown({ back }) {
   const [prizePoolForm] = Form.useForm();
   const [dateRange, setDateRange] = useState([]);
   const [activeBox, setActiveBox] = useState(0);
@@ -87,9 +87,6 @@ function Touchdown() {
   };
 
   const getTouchDownByDateRange = async (dateRange) => {
-    const startDate = dayjs(dateRange[0], YYYY_MM_DD).format(YYYY_MM_DD);
-    const endDate = dayjs(dateRange[1], YYYY_MM_DD).format(YYYY_MM_DD);
-
     getTouchDown({ variables: { startDate, endDate } })
       .then(({ data }) => {
         const dates = [];
@@ -452,7 +449,10 @@ function Touchdown() {
 
   return (
     <div className="container">
-      <Row className="text-medium font-alegreya mb-20 pointer back-arrow">
+      <Row
+        className="text-medium font-alegreya mb-20 pointer back-arrow"
+        onClick={back}
+      >
         <BackArrowIcon /> &nbsp; BACK
       </Row>
 

@@ -57,7 +57,8 @@
   }
 }
 
-.leaderboard-tbl {
+.leaderboard-tbl,
+.subscriber-tbl {
   .w-100;
   .ant-table {
     .ant-table-container {
@@ -66,5 +67,21 @@
       }
     }
   }
+}
+.subscriber-tbl {
+  position: relative;
+  th {
+    &:first-child {
+      width: 350px;
+    }
+  }
+  .ant-row:first-child {
+    position: absolute;
+    top: -33px;
+    right: 3px;
+  }
+}
+.infinite-scroll-component__outerdiv {
+  width: 100% !important;
 }
 

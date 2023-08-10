@@ -1,0 +1,34 @@
+@import './variables.less';
+@import './utility.less';
+
+.ant-row {
+  display: flex;
+  align-items: center;
+}
+
+.cm-btn,
+.ct-btn {
+  border: 1px solid #b69056;
+  text-transform: uppercase;
+  height: auto;
+  span {
+    padding: 8px 15px;
+  }
+  font-weight: 500;
+}
+.cm-btn {
+  background-color: #fff;
+  color: #b69056;
+  &:hover {
+    background: #fffaf1;
+  }
+}
+.ct-btn {
+  background: #b69056;
+  color: #fff !important;
+  &:hover {
+    border: 1px solid #d2a867;
+    background: #d2a867;
+  }
+}
+
