@@ -40,7 +40,7 @@ const contestGraphInfo = {
   },
 };
 
-const prepareContestData = (contests, key = null) =>
+const prepareSportData = (contests, key = null) =>
   contests.map(
     ({
       player1FirstName,
@@ -91,7 +91,7 @@ const CustomYAxisTick = (props) => {
   );
 };
 
-const CustomTooltip = ({ payload, showIndividualGraph }) => {
+const CustomTooltip = ({ payload, individualSport }) => {
   if (payload?.length < 1) return;
 
   const {
@@ -106,7 +106,7 @@ const CustomTooltip = ({ payload, showIndividualGraph }) => {
   let player1Color;
   let player2Color;
 
-  if (showIndividualGraph) {
+  if (individualSport) {
     player1Color = payload?.[0]?.color || {};
     player2Color = payload?.[1]?.color || {};
   } else {
@@ -117,7 +117,7 @@ const CustomTooltip = ({ payload, showIndividualGraph }) => {
   return (
     <div className="chart-tooltip">
       <div className="text-h5">
-        {!showIndividualGraph && contestGraphInfo[key].key}{' '}
+        {!individualSport && contestGraphInfo[key]?.key}{' '}
         {dayjs(startDate).format(MM_DD_YYYY)}
       </div>
 
@@ -159,22 +159,22 @@ const CustomTooltip = ({ payload, showIndividualGraph }) => {
   );
 };
 
-function ContestAnalysisCharts({ contestData, showIndividualGraph }) {
+function ContestAnalysisCharts({ contestData }) {
+  const { sportsData, individualSport } = contestData || {};
   const [graphsData, setGraphsData] = useState([]);
 
   useEffect(() => {
-    if (showIndividualGraph) {
-      const graphList = Object.entries(contestData).map(([key, value]) => ({
-        data: prepareContestData(value),
+    if (individualSport) {
+      const graphList = Object.entries(sportsData).map(([key, value]) => ({
+        data: prepareSportData(value),
         contestName: contestGraphInfo[key]?.name,
         p1Color: contestGraphInfo[key]?.p1,
         p2Color: contestGraphInfo[key]?.p2,
       }));
-
       setGraphsData(graphList);
     } else {
-      const graphList = Object.entries(contestData).map(([key, value]) => ({
-        data: prepareContestData(value, key),
+      const graphList = Object.entries(sportsData).map(([key, value]) => ({
+        data: prepareSportData(value, key),
       }));
       const data = graphList
         .flatMap((graph) => graph.data)
@@ -191,7 +191,7 @@ function ContestAnalysisCharts({ contestData, showIndividualGraph }) {
             <Col className="text-h4">{contestName}</Col>
             {!isEmpty(data) && (
               <Col className="player-container">
-                {showIndividualGraph ? (
+                {individualSport ? (
                   <>
                     <div
                       className="player-color"
@@ -237,108 +237,99 @@ function ContestAnalysisCharts({ contestData, showIndividualGraph }) {
           </Row>
 
           {size(data) ? (
-            <>
-              <div
-                style={{
-                  overflowX: 'scroll',
-                  overflowY: 'hidden',
-                  paddingBottom: '15px',
+            <div className="bar-chart-wrapper">
+              <BarChart
+                width={data.length * 100}
+                height={300}
+                barCategoryGap="30%"
+                data={data}
+                layout="horizontal"
+                margin={{
+                  bottom: 10,
+                  top: 10,
+                  left: 10,
+                  right: 10,
                 }}
               >
-                <BarChart
-                  width={data.length * 100}
-                  height={300}
-                  barCategoryGap="25%"
-                  data={data}
-                  layout="horizontal"
-                  margin={{
-                    bottom: 10,
-                    top: 10,
-                    left: 10,
-                    right: 10,
-                  }}
+                <CartesianGrid
+                  color="#D4D4D4"
+                  horizontal={true}
+                  vertical={false}
+                  width="1px"
+                />
+                <XAxis
+                  axisLine={false}
+                  className="axis-label"
+                  dataKey="contestName"
+                  height={50}
+                  interval={0}
+                  tick={<CustomXAxisTick />}
+                />
+                <YAxis
+                  axisLine={false}
+                  className="axis-label fw-400"
+                  color="#8C8C8C"
+                  tick={<CustomYAxisTick />}
                 >
-                  <CartesianGrid
-                    color="#D4D4D4"
-                    horizontal={true}
-                    vertical={false}
-                    width="1px"
-                  />
-                  <XAxis
-                    axisLine={false}
-                    className="axis-label"
-                    dataKey="contestName"
-                    height={50}
-                    interval={0}
-                    tick={<CustomXAxisTick />}
-                  />
-                  <YAxis
-                    axisLine={false}
-                    className="axis-label fw-400"
+                  <Label
                     color="#8C8C8C"
-                    tick={<CustomYAxisTick />}
-                  >
-                    <Label
-                      color="#8C8C8C"
-                      offset={-28}
-                      position="insideBottom"
-                      value="PlayerA"
+                    offset={-28}
+                    position="insideBottom"
+                    value="PlayerA"
+                  />
+                  <Label
+                    color="#8C8C8C"
+                    offset={-54}
+                    position="insideBottom"
+                    value="PlayerB"
+                  />
+                </YAxis>
+                {data.length > 0 && (
+                  <Tooltip
+                    content={
+                      <CustomTooltip individualSport={individualSport} />
+                    }
+                    cursor={{ fill: '#F8F8F8' }}
+                  />
+                )}
+
+                {individualSport ? (
+                  <>
+                    <Bar
+                      active={false}
+                      dataKey="player1Count"
+                      fill={p1Color}
+                      stackId="a"
                     />
-                    <Label
-                      color="#8C8C8C"
-                      offset={-54}
-                      position="insideBottom"
-                      value="PlayerB"
+                    <Bar
+                      active={false}
+                      dataKey="player2Count"
+                      fill={p2Color}
+                      stackId="a"
                     />
-                  </YAxis>
-                  {data.length > 0 && (
-                    <Tooltip
-                      content={
-                        <CustomTooltip
-                          showIndividualGraph={showIndividualGraph}
+                  </>
+                ) : (
+                  <>
+                    <Bar active={false} dataKey="player1Count" stackId="a">
+                      {data.map(({ key, contestName }) => (
+                        <Cell
+                          key={contestName}
+                          fill={contestGraphInfo[key]?.p1}
                         />
-                      }
-                      cursor={{ fill: '#F8F8F8' }}
-                    />
-                  )}
-                  {showIndividualGraph ? (
-                    <>
-                      <Bar
-                        active={false}
-                        dataKey="player1Count"
-                        fill={p1Color}
-                        stackId="a"
-                      />
-                      <Bar
-                        active={false}
-                        dataKey="player2Count"
-                        fill={p2Color}
-                        stackId="a"
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <Bar active={false} dataKey="player1Count" stackId="a">
-                        {data.map(({ key, contestName }) => (
-                          <Cell
-                            key={contestName}
-                            fill={contestGraphInfo[key]?.p1}
-                          />
-                        ))}
-                      </Bar>
-                      <Bar active={false} dataKey="player2Count" stackId="a">
-                        {data.map(({ key, contestName }) => (
-                          <Cell
-                            key={contestName}
-                            fill={contestGraphInfo[key]?.p2}
-                          />
-                        ))}
-                      </Bar>
-                    </>
-                  )}
-                </BarChart>
-              </div>
-            </>
+                      ))}
+                    </Bar>
+                    <Bar active={false} dataKey="player2Count" stackId="a">
+                      {data.map(({ key, contestName }) => (
+                        <Cell
+                          key={contestName}
+                          fill={contestGraphInfo[key]?.p2}
+                        />
+                      ))}
+                    </Bar>
+                  </>
+                )}
+              </BarChart>
+            </div>
           ) : (
             <div style={{ marginTop: '30px', marginBottom: '50px' }}>
               <div className="item-center mb-20">

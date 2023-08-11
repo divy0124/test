@@ -1,9 +1,12 @@
 import { useLazyQuery } from '@apollo/client';
-import { Tabs } from 'antd';
+import { Spin, Tabs } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-import { GET_CONTESTS_ANALYTICS } from 'graphql/queries';
+import {
+  GET_CONTESTS_ANALYTICS,
+  GET_TOUCHDOWN_ANALYTICS,
+} from 'graphql/queries';
 import { YYYY_MM_DD } from 'utils/constants/labels';
 
 import '../../../assets/styles/analytics.less';
@@ -56,11 +59,32 @@ function Analytics() {
     totalUserEntry: 0,
     totalContest: 0,
   });
+  const [touchdownData, setTouchdownData] = useState(null);
   const [contestData, setContestData] = useState(null);
 
-  const [getContestsAnalytics] = useLazyQuery(GET_CONTESTS_ANALYTICS);
+  const [getContestsAnalytics, { loading: contestAnalyticLoading }] =
+    useLazyQuery(GET_CONTESTS_ANALYTICS);
+  const [getTouchdownAnalytics, { loading: touchdownAnalyticLoading }] =
+    useLazyQuery(GET_TOUCHDOWN_ANALYTICS);
 
-  const fetchTouchdownAnalytics = () => {};
+  const fetchTouchdownAnalytics = (interval) => {
+    getTouchdownAnalytics({
+      variables: {
+        startDate: dateRange[0].format(YYYY_MM_DD),
+        endDate: dateRange[1].format(YYYY_MM_DD),
+        interval,
+      },
+    }).then((res) => {
+      const { getTouchdownAnalytics } = res.data || {};
+      if (getTouchdownAnalytics) {
+        setTouchdownData(getTouchdownAnalytics);
+      }
+    });
+  };
+
+  useEffect(() => {
+    fetchTouchdownAnalytics(intervalRange);
+  }, []);
 
   const fetchContestsAnalytics = (limit) => {
     getContestsAnalytics({
@@ -92,21 +116,20 @@ function Analytics() {
         });
 
         setContestData({
-          nbaContests,
-          mlbContests,
-          soccerContests,
+          sportsData: {
+            nbaContests,
+            mlbContests,
+            soccerContests,
+          },
+          individualSport: showIndividualGraph,
         });
       }
     });
   };
 
-  useEffect(() => {
-    fetchTouchdownAnalytics();
-  }, []);
-
   const fetchGraphData = (selectedTab = activeTab, range = intervalRange) => {
     if (selectedTab === 'touchdown-analysis') {
-      fetchTouchdownAnalytics();
+      fetchTouchdownAnalytics(range);
     } else {
       fetchContestsAnalytics(parseInt(range, 10));
     }
@@ -126,7 +149,7 @@ function Analytics() {
           intervalRange={intervalRange}
           onChecked={() => setShowIndividualGraph(!showIndividualGraph)}
           onClick={onClick}
-          onRangeSelect={(_, range) => setDateRange(range)}
+          onRangeSelect={(range) => setDateRange(range)}
           options={touchDownOptions}
           setIntervalRange={setIntervalRange}
           showIndividualGraph={showIndividualGraph}
@@ -160,6 +183,12 @@ function Analytics() {
     fetchGraphData(tabValue, range);
   };
 
+  const renderLoading = () => (
+    <div className="item-center border-white bg-white br-4px p-25">
+      <Spin className="p-25" size="large" />
+    </div>
+  );
+
   return (
     <div>
       <div className="analytics-container">
@@ -170,18 +199,25 @@ function Analytics() {
         />
       </div>
 
-      {activeTab === 'touchdown-analysis' ? (
-        <TouchdownAnalysisCharts />
-      ) : (
-        <div>
-          {contestData && (
-            <ContestAnalysisCharts
-              contestData={contestData}
-              showIndividualGraph={showIndividualGraph}
-            />
-          )}
-        </div>
-      )}
+      <div>
+        {activeTab === 'touchdown-analysis' ? (
+          <div>
+            {touchdownAnalyticLoading || !touchdownData ? (
+              renderLoading()
+            ) : (
+              <TouchdownAnalysisCharts touchdownData={touchdownData} />
+            )}
+          </div>
+        ) : (
+          <div>
+            {contestAnalyticLoading || !contestData ? (
+              renderLoading()
+            ) : (
+              <ContestAnalysisCharts contestData={contestData} />
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

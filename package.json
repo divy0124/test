@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
-    "@ant-design/plots": "^1.2.5",
     "@apollo/client": "^3.7.16",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
@@ -113,3 +112,4 @@
     "*.{ts,tsx,js,jsx,}": "eslint src/**/*.{js,jsx,ts,tsx,json}"
   }
 }
+

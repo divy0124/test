@@ -553,7 +553,10 @@ function Touchdown({ backToPrevPage }) {
                           .format('DD ddd')
                           .split(' ')
                           .map((e, i) => (
-                            <span className={cx(i === 0 ? 'date' : 'day')}>
+                            <span
+                              key={e}
+                              className={cx(i === 0 ? 'date' : 'day')}
+                            >
                               {e}
                             </span>
                           ))}
