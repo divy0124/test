@@ -8,24 +8,24 @@ import { EST_TIME_ZONE, MM_DD_YYYY, YYYY_MM_DD } from 'utils/constants/labels';
 import Touchdown from '../components/Touchdown';
 import WeeklySubscriber from '../components/WeeklySubscriber';
 
+const today = dayjs().tz(EST_TIME_ZONE);
+const currentWeekStartDate = today.startOf('week').format(MM_DD_YYYY);
+const currentWeekEndDate = today.endOf('week').format(MM_DD_YYYY);
+
+const upcomingWeekStartDate = today
+  .add(1, 'week')
+  .startOf('week')
+  .format(MM_DD_YYYY);
+const upcomingWeekEndDate = today
+  .add(1, 'week')
+  .endOf('week')
+  .format(MM_DD_YYYY);
+
 function Contest() {
   const [weekDate, setWeekDate] = useState(null);
   const [viewComponent, setViewComponent] = useState(null);
 
   const setWeeksDate = () => {
-    const today = dayjs().tz(EST_TIME_ZONE);
-    const currentWeekStartDate = today.startOf('week').format(MM_DD_YYYY);
-    const currentWeekEndDate = today.endOf('week').format(MM_DD_YYYY);
-
-    const upcomingWeekStartDate = today
-      .add(1, 'week')
-      .startOf('week')
-      .format(MM_DD_YYYY);
-    const upcomingWeekEndDate = today
-      .add(1, 'week')
-      .endOf('week')
-      .format(MM_DD_YYYY);
-
     setWeekDate([
       currentWeekStartDate,
       currentWeekEndDate,
@@ -36,8 +36,6 @@ function Contest() {
   useEffect(() => {
     setWeeksDate();
   }, []);
-
-  const loadComponent = (component) => () => setViewComponent(component);
 
   const renderMainContent = () => (
     <>
@@ -50,7 +48,7 @@ function Contest() {
             <Col>
               <Button
                 className="cm-btn"
-                onClick={loadComponent('weeklySubscriber')}
+                onClick={() => setViewComponent('weeklySubscriber')}
               >
                 weekly subscriber
               </Button>
@@ -59,7 +57,10 @@ function Contest() {
               <Button className="cm-btn">weekly leaderboard</Button>
             </Col>
             <Col>
-              <Button className="ct-btn" onClick={loadComponent('touchdown')}>
+              <Button
+                className="ct-btn"
+                onClick={() => setViewComponent('touchdown')}
+              >
                 create touchdown
               </Button>
             </Col>
@@ -78,10 +79,12 @@ function Contest() {
   return (
     <div>
       {weekDate && !viewComponent && renderMainContent()}
-      {viewComponent === 'touchdown' && <Touchdown back={backToPage} />}
+      {viewComponent === 'touchdown' && (
+        <Touchdown backToPrevPage={backToPage} />
+      )}
       {viewComponent === 'weeklySubscriber' && (
         <WeeklySubscriber
-          back={backToPage}
+          backToPrevPage={backToPage}
           endDate={dayjs(weekDate[1]).format(YYYY_MM_DD)}
           search=""
           startDate={dayjs(weekDate[0]).format(YYYY_MM_DD)}

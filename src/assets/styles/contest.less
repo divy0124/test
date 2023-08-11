@@ -2,30 +2,30 @@
 @import './utility.less';
 
 .ant-row {
-  display: flex;
+  .d-flex;
   align-items: center;
 }
 
 .cm-btn,
 .ct-btn {
-  border: 1px solid #b69056;
-  text-transform: uppercase;
+  border: 1px solid @color-primary;
+  .text-uppercase;
   height: auto;
   span {
     padding: 8px 15px;
   }
-  font-weight: 500;
+  .fw-500;
 }
 .cm-btn {
-  background-color: #fff;
-  color: #b69056;
+  background-color: @color-white;
+  color: @color-primary;
   &:hover {
     background: #fffaf1;
   }
 }
 .ct-btn {
-  background: #b69056;
-  color: #fff !important;
+  background: @color-primary;
+  color: @color-white !important;
   &:hover {
     border: 1px solid #d2a867;
     background: #d2a867;

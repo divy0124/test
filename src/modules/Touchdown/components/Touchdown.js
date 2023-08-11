@@ -61,7 +61,7 @@ const initPrizePoolData = {
 
 const currentDate = dayjs();
 
-function Touchdown({ back }) {
+function Touchdown({ backToPrevPage }) {
   const [prizePoolForm] = Form.useForm();
   const [dateRange, setDateRange] = useState([]);
   const [activeBox, setActiveBox] = useState(0);
@@ -451,7 +451,7 @@ function Touchdown({ back }) {
     <div className="container">
       <Row
         className="text-medium font-alegreya mb-20 pointer back-arrow"
-        onClick={back}
+        onClick={backToPrevPage}
       >
         <BackArrowIcon /> &nbsp; BACK
       </Row>

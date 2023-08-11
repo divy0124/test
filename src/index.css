@@ -17,6 +17,3 @@ body {
 code {
   font-family: 'Alegreya SC', serif;
 }
-body div .ant-tooltip {
-  display: none;
-}

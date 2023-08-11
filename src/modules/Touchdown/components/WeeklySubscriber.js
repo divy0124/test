@@ -1,18 +1,19 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/order */
-/* eslint-disable import/no-unresolved */
 import { useLazyQuery } from '@apollo/client';
 import { Col, Row, message } from 'antd';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 
-import Input from 'components/base/components/Input';
 import Table from 'components/base/components/Table';
 import { BackArrowIcon } from 'components/core/Icons';
 import '../../../assets/styles/weekly-subscriber.less';
 import { GET_WEEKLY_SUBSCRIBER } from 'graphql/queries';
 
-export default function WeeklySubscriber({ startDate, endDate, search, back }) {
+export default function WeeklySubscriber({
+  startDate,
+  endDate,
+  search,
+  backToPrevPage,
+}) {
   const [getWeeklySubscribers] = useLazyQuery(GET_WEEKLY_SUBSCRIBER);
   const [weeklySubscriber, setWeeklySubscriber] = useState({
     items: [],
@@ -26,22 +27,12 @@ export default function WeeklySubscriber({ startDate, endDate, search, back }) {
       variables: { startDate, endDate, search, page, limit },
     })
       .then(({ data }) => {
-        if (data === undefined) {
-          setWeeklySubscriber({
-            ...weeklySubscriber,
-            items: [],
-            meta: { totalItems: 0 },
-          });
-        } else if (search.length === 0) {
-          const { getWeeklySubscribers } = data;
-          const { items, meta } = getWeeklySubscribers;
-          const allItems = [...weeklySubscriber.items, ...items];
-          setWeeklySubscriber({ ...weeklySubscriber, items: allItems, meta });
-        } else {
-          const { getWeeklySubscribers } = data;
-          const { items, meta } = getWeeklySubscribers;
-          setWeeklySubscriber({ ...weeklySubscriber, items, meta });
-        }
+        const { getWeeklySubscribers } = data;
+        const { items, meta } = getWeeklySubscribers;
+        const updatedItems =
+          page > 1 ? [...weeklySubscriber.items, ...items] : items;
+
+        setWeeklySubscriber({ ...weeklySubscriber, items: updatedItems, meta });
       })
       .catch((error) => {
         message.error(error?.message);
@@ -91,7 +82,7 @@ export default function WeeklySubscriber({ startDate, endDate, search, back }) {
     <>
       <Row
         className="text-medium font-alegreya mb-20 pointer back-arrow"
-        onClick={back}
+        onClick={backToPrevPage}
       >
         <BackArrowIcon /> &nbsp; BACK
       </Row>
@@ -119,5 +110,5 @@ WeeklySubscriber.propTypes = {
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
   search: PropTypes.string.isRequired,
-  back: PropTypes.func.isRequired,
+  backToPrevPage: PropTypes.func.isRequired,
 };

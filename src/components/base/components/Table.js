@@ -61,6 +61,7 @@ function Table({
             pagination={false}
             rowClassName={rowClassName}
             scroll={{ x: 1000 }}
+            showSorterTooltip={false}
             size="medium"
           />
         </InfiniteScroll>
