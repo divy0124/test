@@ -14,6 +14,7 @@ function Table({
   loadMoreFunc,
   rowClassName,
   type,
+  height,
 }) {
   const [hasMore, setHasMore] = useState(false);
   const [pagination, setPagination] = useState(1);
@@ -30,7 +31,7 @@ function Table({
   };
   return (
     <div className={`${className}`}>
-      <Row>
+      <Row className="r-1">
         <Col span={24}>
           {type === 'search' && (
             <Input
@@ -41,20 +42,17 @@ function Table({
           )}
         </Col>
       </Row>
-      <Row style={{ maxHeight: '700px', marginTop: '19px' }}>
+      <Row className="r-2">
         <InfiniteScroll
-          className="border-primary-100 br-2px border-1px mb-30"
           dataLength={totalCount || 0}
           hasMore={hasMore}
-          height={550}
+          height={height}
           loader={
-            <div className="text-center mt-1">
+            <div style={{ textAlign: 'center', padding: '10px 0px' }}>
               <Spin />
             </div>
           }
           next={loadMoreData}
-          scrollableTarget="scrollableDiv"
-          style={{ overflowY: 'scroll' }}
         >
           <AntTable
             className={className}
@@ -84,6 +82,7 @@ Table.propTypes = {
   rowClassName: PropTypes.func,
   loadMoreFunc: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
+  height: PropTypes.number.isRequired,
 };
 
 export default Table;

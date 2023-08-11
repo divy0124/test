@@ -105,6 +105,7 @@ export default function WeeklySubscriber({ startDate, endDate, search, back }) {
           className="subscriber-tbl"
           columns={weeklySubscriberColumn}
           dataSource={items}
+          height={550}
           loadMoreFunc={fetchWeeklySubscribers}
           totalCount={totalItems}
           type="search"
