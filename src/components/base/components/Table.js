@@ -21,7 +21,6 @@ function Table({
 
   useEffect(() => {
     setHasMore(dataSource.length < totalCount);
-    setPagination(1);
   }, [dataSource, totalCount]);
 
   const loadMoreData = () => {

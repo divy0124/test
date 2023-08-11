@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
-import { Col, Row } from 'antd';
+import { Col, Row, message } from 'antd';
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
@@ -82,22 +82,38 @@ function WeeklyLeaderBoard({
   const [getWeeklyLeaderBoard] = useLazyQuery(GET_WEEKLY_LEADER_BOARD);
 
   const [weeklyLeaderBoard, setWeeklyLeaderBoard] = useState([]);
+  const [totalCount, setTotalCount] = useState(0); // Will b removed onces the backend api received with proper format
 
+  const fetchWeeklyLeaderBoard = (searchStr, page, limit) => {
+    if (!touchdownId) {
+      message.error('Touchdown Id not found !!');
+      return;
+    }
+
+    console.count('Fetching more data.....');
+
+    getWeeklyLeaderBoard({
+      variables: {
+        touchdownId,
+        page,
+        limit,
+        searchStr,
+        prevRank: 1,
+        prevScore: 0,
+      },
+    }).then(({ data }) => {
+      const { getWeeklyLeaderBoard } = data;
+      setTotalCount(getWeeklyLeaderBoard.totalCount);
+      const updatedItems =
+        page > 1
+          ? [...weeklyLeaderBoard, ...getWeeklyLeaderBoard.data]
+          : [...getWeeklyLeaderBoard.data];
+      setWeeklyLeaderBoard([...updatedItems]);
+    });
+  };
   useEffect(() => {
     if (touchdownId) {
-      getWeeklyLeaderBoard({
-        variables: {
-          touchdownId,
-          page: 1,
-          limit: 10,
-          searchStr: '',
-          prevRank: 1,
-          prevScore: 0,
-        },
-      }).then(({ data }) => {
-        const { getWeeklyLeaderBoard } = data;
-        setWeeklyLeaderBoard([...getWeeklyLeaderBoard.data]);
-      });
+      fetchWeeklyLeaderBoard('', 1, 8);
     }
   }, [touchdownId]);
 
@@ -140,8 +156,8 @@ function WeeklyLeaderBoard({
           columns={weeklyLeaderBoardColumns}
           dataSource={weeklyLeaderBoard}
           height={height}
-          loadMoreFunc={() => {}}
-          totalCount={10} // need to change
+          loadMoreFunc={fetchWeeklyLeaderBoard}
+          totalCount={totalCount} // need to change
           type={type}
         />
       </Row>

@@ -119,7 +119,7 @@ function Contest() {
           backArrow
           backToPrevPage={backToPage}
           dateRange={[currentWeekStartDate, currentWeekEndDate]}
-          height={565}
+          height={550}
           touchdown={touchdownInfo}
           type=""
         />
