@@ -39,7 +39,7 @@ function Contest() {
 
   const renderMainContent = () => (
     <>
-      <Row>
+      <Row className="contest-container">
         <Col className="text-h4 fw-500">
           Current Week ({weekDate[0]} To {weekDate[1]})
         </Col>

@@ -1,10 +1,10 @@
-/* eslint-disable */
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { Col, Form, Input, Row, Tooltip, message } from 'antd';
 import cx from 'classnames';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 import Button from 'components/base/components/Button';
@@ -86,7 +86,25 @@ function Touchdown({ backToPrevPage }) {
     prizePoolForm.setFieldsValue(prizePoolObj);
   };
 
+  const getTouchdownMath = () => {
+    getMathConstant().then(({ data }) => {
+      const { getMathConstant } = data;
+      if (getMathConstant.length > 0) {
+        const constantObj = getMathConstant.reduce((acc, { name, value }) => {
+          acc[name] = value;
+          return acc;
+        }, {});
+        setMathConstants(constantObj);
+      } else {
+        message.error('Add Math constant into database.');
+      }
+    });
+  };
+
   const getTouchDownByDateRange = async (dateRange) => {
+    const startDate = dayjs(dateRange[0], YYYY_MM_DD).format(YYYY_MM_DD);
+    const endDate = dayjs(dateRange[1], YYYY_MM_DD).format(YYYY_MM_DD);
+
     getTouchDown({ variables: { startDate, endDate } })
       .then(({ data }) => {
         const dates = [];
@@ -160,21 +178,6 @@ function Touchdown({ backToPrevPage }) {
       .catch((error) => {
         message.error(error?.message);
       });
-  };
-
-  const getTouchdownMath = () => {
-    getMathConstant().then(({ data }) => {
-      const { getMathConstant } = data;
-      if (getMathConstant.length > 0) {
-        const constantObj = getMathConstant.reduce((acc, { name, value }) => {
-          acc[name] = value;
-          return acc;
-        }, {});
-        setMathConstants(constantObj);
-      } else {
-        message.error('Add Math constant into database.');
-      }
-    });
   };
 
   const handlePrizePoolChange = (index, data) => {
@@ -463,9 +466,9 @@ function Touchdown({ backToPrevPage }) {
           )}
           form={prizePoolForm}
           layout="vertical"
-          requiredMark={false}
-          onValuesChange={handleChange}
           onFinish={onFinish}
+          onValuesChange={handleChange}
+          requiredMark={false}
         >
           <Row gutter={110}>
             <Col span={6}>
@@ -567,8 +570,8 @@ function Touchdown({ backToPrevPage }) {
               <Form
                 form={prizePoolForm}
                 layout="vertical"
-                onValuesChange={handleChange}
                 onFinish={onFinish}
+                onValuesChange={handleChange}
               >
                 <Form.Item
                   className={cx(disable ? 'border-disable' : 'border-enable')}
@@ -663,9 +666,9 @@ function Touchdown({ backToPrevPage }) {
                       className="pp-form"
                       form={prizePoolForm}
                       layout="vertical"
-                      requiredMark={false}
-                      onValuesChange={handleChange}
                       onFinish={onFinish}
+                      onValuesChange={handleChange}
+                      requiredMark={false}
                     >
                       <Row gutter={20}>
                         {dailyMetrics.map(
@@ -772,5 +775,9 @@ function Touchdown({ backToPrevPage }) {
     </div>
   );
 }
+
+Touchdown.propTypes = {
+  backToPrevPage: PropTypes.func.isRequired,
+};
 
 export default Touchdown;
