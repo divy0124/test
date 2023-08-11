@@ -57,13 +57,41 @@
   }
 }
 
-.leaderboard-tbl {
+.leaderboard-tbl,
+.subscriber-tbl {
   .w-100;
   .ant-table {
     .ant-table-container {
       thead th {
         padding: 16px !important;
       }
+    }
+  }
+  .infinite-scroll-component__outerdiv {
+    width: 100%;
+  }
+}
+.subscriber-tbl {
+  position: relative;
+  th {
+    &:first-child {
+      width: 350px;
+    }
+  }
+  .ant-row:first-child {
+    position: absolute;
+    top: -33px;
+    right: 3px;
+  }
+  .r-2 {
+    margin-top: 19px;
+    max-height: 700px;
+
+    .infinite-scroll-component__outerdiv {
+      .border-primary-100;
+      .br-2px;
+      .border-1px;
+      .mb-30;
     }
   }
 }

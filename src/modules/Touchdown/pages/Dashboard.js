@@ -327,7 +327,10 @@ function Dashboard() {
                   </Col>
                 ))}
               </Row>
-              <Row className="border-primary-100 br-2px border-1px mb-30">
+              <Row
+                className="border-primary-100 br-2px border-1px mb-30"
+                style={{ overflowX: 'scroll', height: '100%' }}
+              >
                 <Table
                   columns={touchdownInfoColumns}
                   dataSource={touchdown?.prizePools || []}

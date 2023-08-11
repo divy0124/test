@@ -173,3 +173,32 @@ export const GET_TOUCHDOWN_BY_DATE_CUSTOM = gql`
     }
   }
 `;
+
+export const GET_WEEKLY_SUBSCRIBER = gql`
+  query GetWeeklySubscribers(
+    $startDate: String!
+    $endDate: String!
+    $search: String
+    $page: Int!
+    $limit: Int!
+  ) {
+    getWeeklySubscribers(
+      startDate: $startDate
+      endDate: $endDate
+      search: $search
+      page: $page
+      limit: $limit
+    ) {
+      items {
+        userName
+        fullName
+        subScriberDate
+        subScribedDays
+        entryFee
+      }
+      meta {
+        totalItems
+      }
+    }
+  }
+`;
