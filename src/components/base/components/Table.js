@@ -36,7 +36,7 @@ function Table({
           {type === 'search' && (
             <Input
               onSearch={(val) => loadMoreFunc(val, pagination, 15)}
-              placeholder=""
+              placeholder="Search"
               type="search"
             />
           )}

@@ -1,11 +1,14 @@
+import { useLazyQuery } from '@apollo/client';
 import { Button, Col, Row } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import '../../../assets/styles/contest.less';
+import { GET_TOUCHDOWN_BY_DATE } from 'graphql/queries';
 import { EST_TIME_ZONE, MM_DD_YYYY, YYYY_MM_DD } from 'utils/constants/labels';
 
 import Touchdown from '../components/Touchdown';
+import WeeklyLeaderBoard from '../components/WeeklyLeaderBoard';
 import WeeklySubscriber from '../components/WeeklySubscriber';
 
 const today = dayjs().tz(EST_TIME_ZONE);
@@ -24,6 +27,8 @@ const upcomingWeekEndDate = today
 function Contest() {
   const [weekDate, setWeekDate] = useState(null);
   const [viewComponent, setViewComponent] = useState(null);
+  const [touchdownInfo, setTouchdownInfo] = useState(null);
+  const [getTouchDown] = useLazyQuery(GET_TOUCHDOWN_BY_DATE);
 
   const setWeeksDate = () => {
     setWeekDate([
@@ -33,8 +38,22 @@ function Contest() {
       upcomingWeekEndDate,
     ]);
   };
+
+  const getTouchDownByDateRange = async (weekStartDate, weekEndDate) => {
+    const startDate = dayjs(weekStartDate, MM_DD_YYYY).format('YYYY-MM-DD');
+    const endDate = dayjs(weekEndDate, MM_DD_YYYY).format('YYYY-MM-DD');
+
+    getTouchDown({ variables: { startDate, endDate } }).then(({ data }) => {
+      const { getTouchdownByDate } = data;
+      if (getTouchdownByDate.length > 0) {
+        const firstObj = getTouchdownByDate[0];
+        setTouchdownInfo(firstObj);
+      }
+    });
+  };
   useEffect(() => {
     setWeeksDate();
+    getTouchDownByDateRange(currentWeekStartDate, currentWeekEndDate);
   }, []);
 
   const renderMainContent = () => (
@@ -54,7 +73,12 @@ function Contest() {
               </Button>
             </Col>
             <Col>
-              <Button className="cm-btn">weekly leaderboard</Button>
+              <Button
+                className="cm-btn"
+                onClick={() => setViewComponent('weeklyLeaderboard')}
+              >
+                weekly leaderboard
+              </Button>
             </Col>
             <Col>
               <Button
@@ -88,6 +112,16 @@ function Contest() {
           endDate={dayjs(weekDate[1]).format(YYYY_MM_DD)}
           search=""
           startDate={dayjs(weekDate[0]).format(YYYY_MM_DD)}
+        />
+      )}
+      {viewComponent === 'weeklyLeaderboard' && (
+        <WeeklyLeaderBoard
+          backArrow
+          backToPrevPage={backToPage}
+          dateRange={[currentWeekStartDate, currentWeekEndDate]}
+          height={565}
+          touchdown={touchdownInfo}
+          type=""
         />
       )}
     </div>

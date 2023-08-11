@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 
 import Input from 'components/base/components/Input';
 import Table from 'components/base/components/Table';
+import { BackArrowIcon } from 'components/core/Icons';
 import { GET_WEEKLY_LEADER_BOARD } from 'graphql/queries';
 
 const weeklyLeaderBoardColumns = [
@@ -19,6 +20,7 @@ const weeklyLeaderBoardColumns = [
         {text}
       </span>
     ),
+    sorter: (a, b) => a.rank - b.rank,
   },
   {
     title: 'Winning amount',
@@ -29,6 +31,7 @@ const weeklyLeaderBoardColumns = [
         {text > 0 ? <> ${parseFloat(text).toFixed(2)}</> : '-'}
       </span>
     ),
+    sorter: (a, b) => a.winAmount - b.winAmount,
   },
 
   {
@@ -36,12 +39,14 @@ const weeklyLeaderBoardColumns = [
     dataIndex: 'name',
     key: 'name',
     render: (text) => <span className="text-capitalize">{text}</span>,
+    sorter: (a, b) => a.name.localeCompare(b.name),
   },
   {
     title: 'Points',
     dataIndex: 'score',
     key: 'score',
     render: (text) => <span>{text}</span>,
+    sorter: (a, b) => a.score - b.score,
   },
   {
     title: 'Status',
@@ -65,7 +70,14 @@ const weeklyLeaderBoardColumns = [
   },
 ];
 
-function WeeklyLeaderBoard({ dateRange, touchdown }) {
+function WeeklyLeaderBoard({
+  dateRange,
+  touchdown,
+  backArrow,
+  backToPrevPage,
+  height,
+  type,
+}) {
   const { touchdownId } = touchdown || {};
   const [getWeeklyLeaderBoard] = useLazyQuery(GET_WEEKLY_LEADER_BOARD);
 
@@ -93,12 +105,20 @@ function WeeklyLeaderBoard({ dateRange, touchdown }) {
 
   return (
     <>
+      {backArrow && (
+        <Row
+          className="text-medium font-alegreya mb-20 pointer back-arrow"
+          onClick={backToPrevPage}
+        >
+          <BackArrowIcon /> &nbsp; BACK
+        </Row>
+      )}
       <Row align="middle" className="mb-20" justify="space-between">
         <Col className="text-h4 font-alegreya">
           Weekly Leaderboard &nbsp;
           {dateRange?.length > 0 && (
             <>
-              - &nbsp; {dateRange[0]} - {dateRange[1]}
+              ( {dateRange[0]} - {dateRange[1]} )
             </>
           )}
         </Col>
@@ -119,6 +139,10 @@ function WeeklyLeaderBoard({ dateRange, touchdown }) {
           className="leaderboard-tbl"
           columns={weeklyLeaderBoardColumns}
           dataSource={weeklyLeaderBoard}
+          height={height}
+          loadMoreFunc={() => {}}
+          totalCount={10} // need to change
+          type={type}
         />
       </Row>
     </>
@@ -126,8 +150,18 @@ function WeeklyLeaderBoard({ dateRange, touchdown }) {
 }
 
 WeeklyLeaderBoard.propTypes = {
+  backToPrevPage: PropTypes.func,
   dateRange: PropTypes.arrayOf(PropTypes.string).isRequired,
   touchdown: PropTypes.objectOf(Object).isRequired,
+  backArrow: PropTypes.bool.isRequired,
+  height: PropTypes.number,
+  type: PropTypes.string,
+};
+
+WeeklyLeaderBoard.defaultProps = {
+  backToPrevPage: () => {},
+  height: '600',
+  type: '',
 };
 
 export default WeeklyLeaderBoard;
