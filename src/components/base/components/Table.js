@@ -21,7 +21,6 @@ function Table({
 
   useEffect(() => {
     setHasMore(dataSource.length < totalCount);
-    setPagination(1);
   }, [dataSource, totalCount]);
 
   const loadMoreData = () => {
@@ -36,7 +35,7 @@ function Table({
           {type === 'search' && (
             <Input
               onSearch={(val) => loadMoreFunc(val, pagination, 15)}
-              placeholder=""
+              placeholder="Search"
               type="search"
             />
           )}
