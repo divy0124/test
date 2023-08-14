@@ -90,8 +90,6 @@ function WeeklyLeaderBoard({
       return;
     }
 
-    console.count('Fetching more data.....');
-
     getWeeklyLeaderBoard({
       variables: {
         touchdownId,
@@ -113,7 +111,7 @@ function WeeklyLeaderBoard({
   };
   useEffect(() => {
     if (touchdownId) {
-      fetchWeeklyLeaderBoard('', 1, 8);
+      fetchWeeklyLeaderBoard('', 1, 15);
     }
   }, [touchdownId]);
 
