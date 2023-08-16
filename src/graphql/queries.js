@@ -279,3 +279,48 @@ export const GET_CONTESTS_ANALYTICS = gql`
     }
   }
 `;
+
+export const GET_TOUCHDOWN_BY_DATE_FOR_CURRENT_WEEK = gql`
+  query GetTouchdownByDate($startDate: String!, $endDate: String!) {
+    getTouchdownByDate(startDate: $startDate, endDate: $endDate) {
+      touchdownId
+      startDate
+      endDate
+      weeklyPrize
+      touchDownType
+      prizePools {
+        prizePoolId
+        startDate
+        endDate
+        entryFees
+        totalEntrants
+        maxEntriesPerUser
+        predetermineJackpot
+        predetermineWeeklyReserveAmount
+        predetermineReserveAmount {
+          SIX_FOR_SEVEN
+        }
+        actualReserveAmount {
+          SIX_FOR_SEVEN
+        }
+        actualJackpotAmount
+        actualWeeklyReserveAmount
+        actualTopPropFees
+        userEntryCount
+        status
+        jackpotWinnersCount
+        sixForSevenWinnersCount
+        nbaContestsCount
+        mlbContestsCount
+        pgaContestsCount
+        nflContestsCount
+        soccerContestsCount
+        rollsOver
+        topPropVig
+        prizePool
+        profit
+        addedByTopProp
+      }
+    }
+  }
+`;
