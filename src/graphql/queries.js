@@ -324,3 +324,56 @@ export const GET_TOUCHDOWN_BY_DATE_FOR_CURRENT_WEEK = gql`
     }
   }
 `;
+
+export const GET_TOUCHDOWN_WEEKLY_HISTORY = gql`
+  query GetWeeklyHistoryByDateRange($startDate: String!, $endDate: String!) {
+    getWeeklyHistoryByDateRange(startDate: $startDate, endDate: $endDate) {
+      weekDate
+      entryFee
+      totalUserEntry
+      totalEntryFees
+      totalTopropVig
+      totalWeeklyReserve
+      weeklyPrize
+      profit
+      totalSubscribers
+      moneyAddedByTopprop
+      allSportContestCount {
+        NBA
+        MLB
+        Soccer
+      }
+    }
+  }
+`;
+
+export const GET_TOUCHDOWN_DAILY_HISTORY = gql`
+  query GetTouchdownByDate($startDate: String!, $endDate: String!) {
+    getTouchdownByDate(startDate: $startDate, endDate: $endDate) {
+      prizePools {
+        prizePoolId
+        entryFees
+        totalEntrants
+        actualReserveAmount {
+          SIX_FOR_SEVEN
+        }
+        actualJackpotAmount
+        actualWeeklyReserveAmount
+        startDate
+        endDate
+        actualTopPropFees
+        userEntryCount
+        jackpotWinnersCount
+        sixForSevenWinnersCount
+        nbaContestsCount
+        mlbContestsCount
+        soccerContestsCount
+        rollsOver
+        topPropVig
+        profit
+        addedByTopProp
+        actualPrizePool
+      }
+    }
+  }
+`;

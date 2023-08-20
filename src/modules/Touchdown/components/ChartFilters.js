@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 
 import Button from 'components/base/components/Button';
-import RangePicker from 'components/base/components/DatePicker/RangePicker';
+import CustomRangePicker from 'components/base/components/DatePicker/CustomRangePicker';
 import Select from 'components/base/components/Select';
 import { ArrowIcon } from 'components/core/Icons';
 
@@ -31,7 +31,7 @@ function ChartFilters({
       <Row gutter={20} style={{ marginTop: '10px' }}>
         <Col span={6}>
           <span className="text-small">Date range </span>
-          <RangePicker
+          <CustomRangePicker
             dateRange={dateRange}
             onChange={onRangeSelect}
             style={{ marginTop: '5px' }}

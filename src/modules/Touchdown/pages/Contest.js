@@ -71,7 +71,7 @@ function Contest() {
         formatAmount(pp.predetermineJackpot || 0),
       ),
 
-      actualJackpot: '$'.concat(formatAmount(pp.actualJackpotAmount)),
+      actualJackpot: '$'.concat(formatAmount(pp.actualJackpotAmount || 0)),
 
       predetermineSixForSeven: '$'.concat(
         formatAmount(pp.predetermineReserveAmount.SIX_FOR_SEVEN),

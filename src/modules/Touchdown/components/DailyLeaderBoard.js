@@ -77,7 +77,8 @@ const dailyLeaderBoardColumns = [
 
 function DailyLeaderBoard({ onBack, prizePool }) {
   const { prizePoolId, startDate } = prizePool;
-  const [getDailyLeaderBoard] = useLazyQuery(GET_DAILY_LEADER_BOARD);
+  const [getDailyLeaderBoard, { loading: loadingDailyLeaderboard }] =
+    useLazyQuery(GET_DAILY_LEADER_BOARD);
 
   const [dailyLeaderBoard, setDailyLeaderBoard] = useState([]);
 
@@ -133,7 +134,7 @@ function DailyLeaderBoard({ onBack, prizePool }) {
           className="leaderboard-tbl"
           columns={dailyLeaderBoardColumns}
           dataSource={dailyLeaderBoard}
-          pagination
+          loading={loadingDailyLeaderboard}
         />
       </Row>
     </div>

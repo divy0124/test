@@ -200,7 +200,6 @@ function Touchdown({ backToPrevPage }) {
     setDateRange([...selectedWeek]);
     setSelectedDate(date);
     getTouchDownByDateRange(selectedWeek);
-    // getTouchdownMath();
   };
 
   const disablePreviousWeeksDate = (current) => {
