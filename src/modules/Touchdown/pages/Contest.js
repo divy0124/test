@@ -43,12 +43,9 @@ const initialPrizePool = {
 function Contest() {
   const location = useLocation();
   const { state } = location;
-  const { fromDashboard } = state;
 
   const [weekDate, setWeekDate] = useState(null);
-  const [viewComponent, setViewComponent] = useState(
-    fromDashboard ? 'touchdown' : null,
-  );
+  const [viewComponent, setViewComponent] = useState(state || null);
   const [currentWeekTouchdownInfo, setCurrentWeekTouchdownInfo] =
     useState(null);
   const [upcomingWeekTouchdownInfo, setUpcomingWeekTouchdownInfo] =
@@ -575,13 +572,12 @@ function Contest() {
   );
 
   const backToPage = () => {
-    console.log('CLickinn..');
     setViewComponent(null);
   };
   return (
     <div>
       {weekDate && !viewComponent && renderMainContent()}
-      {(viewComponent === 'touchdown' || fromDashboard === 'Dashboard') && (
+      {viewComponent === 'touchdown' && (
         <Touchdown backToPrevPage={backToPage} />
       )}
       {viewComponent === 'weeklySubscriber' && (

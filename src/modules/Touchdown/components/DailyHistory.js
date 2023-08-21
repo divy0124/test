@@ -1,8 +1,7 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import { useLazyQuery } from '@apollo/client';
 import { Col, Row, message } from 'antd';
 import dayjs from 'dayjs';
+import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 
 import Button from 'components/base/components/Button';
@@ -14,17 +13,14 @@ import { MM_DD_YYYY } from 'utils/constants/labels';
 import DailyLeaderBoard from './DailyLeaderBoard';
 
 function DailyHistory({ backToPrevPage, dateRange }) {
-  const startDate = dateRange[0].format('YYYY-MM-DD');
-  const endDate = dateRange[1].format('YYYY-MM-DD');
   const [prizePoolInfo, setPrizePoolInfo] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [selectedLeaderboard, setSelectedLeaderboard] = useState(null);
 
   const [getDailyTouchdownHistory, { loading: dailyTouchdownHistory }] =
     useLazyQuery(GET_TOUCHDOWN_DAILY_HISTORY);
 
   const renderTextOnCurrentWeekCell = (text) => <div>{text}</div>;
-  const renderLeaderboardButton = (record, text) => (
+  const renderLeaderboardButton = () => (
     <Button
       buttonText="VIEW"
       className="fw-500 fs-14 "
@@ -204,7 +200,8 @@ function DailyHistory({ backToPrevPage, dateRange }) {
     }));
 
   const fetchDailyHistoryDate = () => {
-    setLoading(true);
+    const startDate = dateRange[0].format('YYYY-MM-DD');
+    const endDate = dateRange[1].format('YYYY-MM-DD');
     getDailyTouchdownHistory({ variables: { startDate, endDate } })
       .then(({ data }) => {
         const { getTouchdownByDate } = data;
@@ -218,7 +215,6 @@ function DailyHistory({ backToPrevPage, dateRange }) {
         }
       })
       .catch((error) => message.error(error?.message));
-    setLoading(false);
   };
   useEffect(() => {
     fetchDailyHistoryDate();
@@ -260,4 +256,8 @@ function DailyHistory({ backToPrevPage, dateRange }) {
   );
 }
 
+DailyHistory.propTypes = {
+  backToPrevPage: PropTypes.func.isRequired,
+  dateRange: PropTypes.arrayOf(dayjs).isRequired,
+};
 export default DailyHistory;

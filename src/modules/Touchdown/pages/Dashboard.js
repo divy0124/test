@@ -293,7 +293,7 @@ function Dashboard() {
                     className="fw-500 fs-16"
                     onClick={() =>
                       navigate('/touchdown/contest', {
-                        state: { fromDashboard: true },
+                        state: 'touchdown',
                       })
                     }
                     style={{ padding: '8px 15px' }}

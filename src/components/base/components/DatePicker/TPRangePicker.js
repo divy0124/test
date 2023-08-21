@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
@@ -8,11 +7,11 @@ import { MM_DD_YYYY } from 'utils/constants/labels';
 
 import '../../less/datePicker.less';
 
-function CustomRangePicker({ className, dateRange, onChange, ...props }) {
-  const { RangePicker } = DatePicker;
+function TPRangePicker({ className, dateRange, onChange, ...props }) {
+  const { RangePicker: AntRangePicker } = DatePicker;
 
   return (
-    <RangePicker
+    <AntRangePicker
       allowClear={false}
       className={className}
       direction="down"
@@ -25,16 +24,16 @@ function CustomRangePicker({ className, dateRange, onChange, ...props }) {
     />
   );
 }
-CustomRangePicker.defaultProps = {
+TPRangePicker.defaultProps = {
   className: '',
   dateRange: [],
   onChange: () => {},
 };
 
-CustomRangePicker.propTypes = {
+TPRangePicker.propTypes = {
   className: PropTypes.string,
   dateRange: PropTypes.arrayOf(dayjs),
   onChange: PropTypes.func,
 };
 
-export default CustomRangePicker;
+export default TPRangePicker;

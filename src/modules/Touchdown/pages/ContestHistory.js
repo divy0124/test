@@ -4,11 +4,10 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import Button from 'components/base/components/Button';
-import CustomRangePicker from 'components/base/components/DatePicker/CustomRangePicker';
+import TPRangePicker from 'components/base/components/DatePicker/TPRangePicker';
 import Table from 'components/base/components/Table';
 import { GET_TOUCHDOWN_WEEKLY_HISTORY } from 'graphql/queries';
 import { YYYY_MM_DD } from 'utils/constants/labels';
-import getColumn, { getColumnWithChildren } from 'utils/helpers/column';
 
 import DailyHistory from '../components/DailyHistory';
 
@@ -20,7 +19,7 @@ function ContestHistory() {
     prevWeekStartDate,
     prevWeekEndDate,
   ]);
-  const [tdWeeklyHistory, setTdWeeklyHistory] = useState(null);
+  const [touchdownWeeklyHistory, setTouchdownWeeklyHistory] = useState(null);
   const [viewComponent, setViewComponent] = useState('weekly-history');
 
   const [getTouchDownHistory, { loading: loadingWeeklyHistory }] = useLazyQuery(
@@ -45,77 +44,97 @@ function ContestHistory() {
 
         if (getWeeklyHistoryByDateRange.length > 0) {
           const weeklyHistory = setContestCountCol(getWeeklyHistoryByDateRange);
-          setTdWeeklyHistory([...weeklyHistory]);
+          setTouchdownWeeklyHistory([...weeklyHistory]);
         } else {
-          setTdWeeklyHistory([]);
+          setTouchdownWeeklyHistory([]);
         }
       })
       .catch((error) => message.error(error));
   };
 
   const weeklyHistoryColumn = [
-    // Title, dataIndex, key , ...
-    getColumn('Week', 'weekDate', 'weekDate', '', 'week-date'),
-    getColumn('Entry Fee', 'entryFee', 'entryFee'),
-    getColumn(
-      'User entry',
-      'totalUserEntry',
-      'totalUserEntry',
-      (a, b) => a.totalUserEntry - b.totalUserEntry,
-    ),
-    getColumn('Received Fees', 'totalEntryFees', 'totalEntryFees'),
-    getColumn(
-      'Total topprop vig',
-      'totalTopropVig',
-      'totalTopropVig',
-      (a, b) => a.totalTopropVig - b.totalTopropVig,
-    ),
-    getColumn(
-      'Total weekly reserve',
-      'totalWeeklyReserve',
-      'totalWeeklyReserve',
-    ),
-    getColumn('Weekly Prize', 'weeklyPrize', 'weeklyPrize'),
-    getColumn(
-      'Money added by topprop',
-      'moneyAddedByTopprop',
-      'moneyAddedByTopprop',
-    ),
-    getColumn('Profit/loss', 'profit', 'profit', (a, b) => a.profit - b.profit),
-    getColumnWithChildren(
-      'Created Contest',
-      'allSportContestCount',
-      'col-divider contest-count',
-      [
-        getColumn(
-          'NBA',
-          'nbaContestCount',
-          'nbaContestCount',
-          '',
-          'hide-col-divider',
-        ),
-        getColumn(
-          'MLB',
-          'mlbContestCount',
-          'mlbContestCount',
-          '',
-          'hide-col-divider',
-        ),
-        getColumn(
-          'Soccer',
-          'soccerContestCount',
-          'soccerContestCount',
-          '',
-          'col-divider colspan',
-        ),
+    {
+      title: 'Week',
+      dataIndex: 'weekDate',
+      key: 'weekDate',
+      className: 'week-date',
+    },
+    {
+      title: 'Entry Fee',
+      dataIndex: 'entryFee',
+      key: 'entryFee',
+    },
+    {
+      title: 'User entry',
+      dataIndex: 'totalUserEntry',
+      key: 'totalUserEntry',
+      sorter: (a, b) => a.totalUserEntry - b.totalUserEntry,
+    },
+    {
+      title: 'Received Fees',
+      dataIndex: 'totalEntryFees',
+      key: 'totalEntryFees',
+    },
+    {
+      title: 'Total topprop vig',
+      dataIndex: 'totalTopropVig',
+      key: 'totalTopropVig',
+      sorter: (a, b) => a.totalTopropVig - b.totalTopropVig,
+    },
+    {
+      title: 'Total weekly reserve',
+      dataIndex: 'totalWeeklyReserve',
+      key: 'totalWeeklyReserve',
+    },
+    {
+      title: 'Weekly Prize',
+      dataIndex: 'weeklyPrize',
+      key: 'weeklyPrize',
+    },
+    {
+      title: 'Money added by topprop',
+      dataIndex: 'moneyAddedByTopprop',
+      key: 'moneyAddedByTopprop',
+    },
+    {
+      title: 'Profit/loss',
+      dataIndex: 'profit',
+      key: 'profit',
+      sorter: (a, b) => a.profit - b.profit,
+    },
+
+    {
+      title: 'Created Contest',
+      key: 'allSportContestCount',
+      className: 'col-divider contest-count',
+      children: [
+        {
+          title: 'NBA',
+          dataIndex: 'nbaContestCount',
+          key: 'nbaContestCount',
+          className: 'hide-col-divider',
+        },
+        {
+          title: 'MLB',
+          dataIndex: 'mlbContestCount',
+          key: 'mlbContestCount',
+          className: 'hide-col-divider',
+        },
+        {
+          title: 'Soccer',
+          dataIndex: 'soccerContestCount',
+          key: 'soccerContestCount',
+          className: 'col-divider colspan',
+        },
       ],
-    ),
-    getColumn(
-      'Weekly Subscriber',
-      'totalSubscribers',
-      'totalSubscribers',
-      (a, b) => a.totalSubscribers - b.totalSubscribers,
-    ),
+    },
+
+    {
+      title: 'Weekly Subscriber',
+      dataIndex: 'totalSubscribers',
+      key: 'totalSubscribers',
+      sorter: (a, b) => a.totalSubscribers - b.totalSubscribers,
+    },
     {
       className: 'leaderboard-btn',
       title: 'Weekly Leaderboard',
@@ -171,7 +190,7 @@ function ContestHistory() {
               Weekly History
             </Col>
             <Col style={{ width: '22%', marginInlineStart: '59.333333%' }}>
-              <CustomRangePicker
+              <TPRangePicker
                 className="weekly-history-range-picker"
                 dateRange={dateRange}
                 disabledDate={disabledDate}
@@ -189,7 +208,7 @@ function ContestHistory() {
               <Table
                 className="weekly-contest-tbl"
                 columns={weeklyHistoryColumn}
-                dataSource={tdWeeklyHistory || []}
+                dataSource={touchdownWeeklyHistory || []}
                 height={600}
                 loading={loadingWeeklyHistory}
                 type="range-picker"
