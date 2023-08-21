@@ -55,7 +55,7 @@ function ContestHistory() {
 
   const weeklyHistoryColumn = [
     // Title, dataIndex, key , ...
-    getColumn('Week', 'weekDate', 'weekDate'),
+    getColumn('Week', 'weekDate', 'weekDate', '', 'week-date'),
     getColumn('Entry Fee', 'entryFee', 'entryFee'),
     getColumn(
       'User entry',
@@ -190,6 +190,7 @@ function ContestHistory() {
                 className="weekly-contest-tbl"
                 columns={weeklyHistoryColumn}
                 dataSource={tdWeeklyHistory || []}
+                height={600}
                 loading={loadingWeeklyHistory}
                 type="range-picker"
               />

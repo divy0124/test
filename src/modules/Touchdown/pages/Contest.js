@@ -2,6 +2,7 @@ import { useLazyQuery } from '@apollo/client';
 import { Button as AntdBtn, Col, Row, message } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import Button from 'components/base/components/Button';
 import Table from 'components/base/components/Table';
@@ -40,8 +41,14 @@ const initialPrizePool = {
   predetermineWeeklyReserve: 0,
 };
 function Contest() {
+  const location = useLocation();
+  const { state } = location;
+  const { fromDashboard } = state;
+
   const [weekDate, setWeekDate] = useState(null);
-  const [viewComponent, setViewComponent] = useState(null);
+  const [viewComponent, setViewComponent] = useState(
+    fromDashboard ? 'touchdown' : null,
+  );
   const [currentWeekTouchdownInfo, setCurrentWeekTouchdownInfo] =
     useState(null);
   const [upcomingWeekTouchdownInfo, setUpcomingWeekTouchdownInfo] =
@@ -538,7 +545,7 @@ function Contest() {
             className="current-week-tbl"
             columns={currentWeekTableColumns}
             dataSource={prizePools}
-            height={458}
+            height={452}
             loadMoreFunc={() => {}}
             rowClassName={(record) =>
               record.status === 'LIVE' ? 'bg-red-200' : ''
@@ -568,12 +575,13 @@ function Contest() {
   );
 
   const backToPage = () => {
+    console.log('CLickinn..');
     setViewComponent(null);
   };
   return (
     <div>
       {weekDate && !viewComponent && renderMainContent()}
-      {viewComponent === 'touchdown' && (
+      {(viewComponent === 'touchdown' || fromDashboard === 'Dashboard') && (
         <Touchdown backToPrevPage={backToPage} />
       )}
       {viewComponent === 'weeklySubscriber' && (

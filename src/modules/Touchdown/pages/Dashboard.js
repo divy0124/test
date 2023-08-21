@@ -291,7 +291,11 @@ function Dashboard() {
                   <Button
                     buttonText="CREATE TOUCHDOWN"
                     className="fw-500 fs-16"
-                    onClick={() => navigate('/touchdown/contest')}
+                    onClick={() =>
+                      navigate('/touchdown/contest', {
+                        state: { fromDashboard: true },
+                      })
+                    }
                     style={{ padding: '8px 15px' }}
                     variant="btn-primary"
                   />
