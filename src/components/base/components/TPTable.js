@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import '../less/table.less';
 
-import Input from 'components/base/components/Input';
+import TPInput from 'components/base/components/TPInput';
 
-function Table({
+function TPTable({
   className,
   columns,
   dataSource,
@@ -34,7 +34,7 @@ function Table({
       <Row className="r-1">
         <Col span={24}>
           {type === 'search' && (
-            <Input
+            <TPInput
               onSearch={(val) => {
                 setPagination(1);
                 loadMoreFunc(val, 1, 15);
@@ -81,12 +81,12 @@ function Table({
   );
 }
 
-Table.defaultProps = {
+TPTable.defaultProps = {
   className: '',
   rowClassName: () => {},
 };
 
-Table.propTypes = {
+TPTable.propTypes = {
   dataSource: PropTypes.arrayOf(Object).isRequired,
   columns: PropTypes.arrayOf(Object).isRequired,
   totalCount: PropTypes.number.isRequired,
@@ -98,4 +98,4 @@ Table.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-export default Table;
+export default TPTable;

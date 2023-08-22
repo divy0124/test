@@ -7,8 +7,8 @@ import 'dayjs/locale/en';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-import Button from 'components/base/components/Button';
-import WeekPicker from 'components/base/components/DatePicker/WeekPicker';
+import TPWeekPicker from 'components/base/components/DatePicker/TPWeekPicker';
+import TPButton from 'components/base/components/TPButton';
 import { BackArrowIcon } from 'components/core/Icons';
 import {
   CREATE_PRIZE_POOL,
@@ -472,7 +472,7 @@ function Touchdown({ backToPrevPage }) {
           <Row gutter={110}>
             <Col span={6}>
               <Form.Item colon={false} label="Select week">
-                <WeekPicker
+                <TPWeekPicker
                   customDateDisable={disablePreviousWeeksDate}
                   dateRange={dateRange}
                   iconColor={dateRange.length === 0 ? '#d4d4d4' : '#B69056'}
@@ -498,7 +498,7 @@ function Touchdown({ backToPrevPage }) {
             </Col>
             <Col offset={6} span={4} style={{ textAlign: 'right' }}>
               <Form.Item className="save-btn-item" colon={false}>
-                <Button
+                <TPButton
                   buttonText="SAVE"
                   className={cx('fw-500 fs-16 save-btn')}
                   disabled={disable}

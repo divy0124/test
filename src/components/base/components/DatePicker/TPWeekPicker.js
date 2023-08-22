@@ -19,7 +19,7 @@ dayjs.updateLocale('en', {
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-function WeekPicker({
+function TPWeekPicker({
   dateRange,
   selectedDate,
   className,
@@ -58,13 +58,13 @@ function WeekPicker({
   );
 }
 
-WeekPicker.defaultProps = {
+TPWeekPicker.defaultProps = {
   className: '',
   onChange: () => {},
   selectedDate: dayjs(),
 };
 
-WeekPicker.propTypes = {
+TPWeekPicker.propTypes = {
   className: PropTypes.string,
   dateRange: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func,
@@ -73,4 +73,4 @@ WeekPicker.propTypes = {
   customDateDisable: PropTypes.bool.isRequired,
 };
 
-export default WeekPicker;
+export default TPWeekPicker;

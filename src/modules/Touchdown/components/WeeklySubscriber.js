@@ -3,10 +3,10 @@ import { Col, Row, message } from 'antd';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 
-import Table from 'components/base/components/Table';
+import TPTable from 'components/base/components/TPTable';
 import { BackArrowIcon } from 'components/core/Icons';
-import '../../../assets/styles/weekly-subscriber.less';
 import { GET_WEEKLY_SUBSCRIBER } from 'graphql/queries';
+import '../../../assets/styles/weekly-subscriber.less';
 
 export default function WeeklySubscriber({
   startDate,
@@ -92,7 +92,7 @@ export default function WeeklySubscriber({
         </Col>
       </Row>
       <Row>
-        <Table
+        <TPTable
           className="subscriber-tbl"
           columns={weeklySubscriberColumn}
           dataSource={items}

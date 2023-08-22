@@ -4,8 +4,8 @@ import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 
-import Input from 'components/base/components/Input';
-import Table from 'components/base/components/Table';
+import TPInput from 'components/base/components/TPInput';
+import TPTable from 'components/base/components/TPTable';
 import { BackArrowIcon } from 'components/core/Icons';
 import { GET_WEEKLY_LEADER_BOARD } from 'graphql/queries';
 
@@ -137,7 +137,7 @@ function WeeklyLeaderBoard({
           )}
         </Col>
         <Col>
-          <Input
+          <TPInput
             className="br-2px"
             onSearch={handleSearch}
             placeholder="Search"
@@ -149,7 +149,7 @@ function WeeklyLeaderBoard({
         </Col>
       </Row>
       <Row className="border-primary-100 br-2px border-1px">
-        <Table
+        <TPTable
           className="leaderboard-tbl"
           columns={weeklyLeaderBoardColumns}
           dataSource={weeklyLeaderBoard}

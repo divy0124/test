@@ -4,8 +4,8 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import Button from 'components/base/components/Button';
-import Table from 'components/base/components/Table';
+import TPButton from 'components/base/components/TPButton';
+import TPTable from 'components/base/components/TPTable';
 import { GET_TOUCHDOWN_BY_DATE_FOR_CURRENT_WEEK } from 'graphql/queries';
 import { EST_TIME_ZONE, MM_DD_YYYY, YYYY_MM_DD } from 'utils/constants/labels';
 import '../../../assets/styles/contest.less';
@@ -186,7 +186,7 @@ function Contest() {
       {record.status === 'DRAFT' || record.status === 'PENDING' ? (
         '-'
       ) : (
-        <Button
+        <TPButton
           buttonText="VIEW"
           className="fw-500 fs-14 "
           icon={false}
@@ -538,7 +538,7 @@ function Contest() {
           span={24}
           style={{ overflowX: 'scroll', height: '100%' }}
         >
-          <Table
+          <TPTable
             className="current-week-tbl"
             columns={currentWeekTableColumns}
             dataSource={prizePools}
@@ -561,7 +561,7 @@ function Contest() {
           span={24}
           style={{ overflowX: 'scroll', height: '100%' }}
         >
-          <Table
+          <TPTable
             className="upcoming-week-tbl"
             columns={upcomingWeekTableColumn}
             dataSource={upcomingWeekTouchdownInfo?.prizePools || []}

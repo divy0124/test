@@ -4,8 +4,8 @@ import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 
-import Input from 'components/base/components/Input';
-import Table from 'components/base/components/Table';
+import TPInput from 'components/base/components/TPInput';
+import TPTable from 'components/base/components/TPTable';
 import { BackArrowIcon } from 'components/core/Icons';
 import { GET_DAILY_LEADER_BOARD } from 'graphql/queries';
 import { MM_DD_YYYY } from 'utils/constants/labels';
@@ -118,7 +118,7 @@ function DailyLeaderBoard({ onBack, prizePool }) {
           Daily Leaderboard ({dayjs(startDate).format(MM_DD_YYYY)})
         </Col>
         <Col>
-          <Input
+          <TPInput
             className="br-2px"
             onSearch={handleSearch}
             placeholder="Search"
@@ -130,7 +130,7 @@ function DailyLeaderBoard({ onBack, prizePool }) {
         </Col>
       </Row>
       <Row className="border-1px br-2px border-primary-100">
-        <Table
+        <TPTable
           className="leaderboard-tbl"
           columns={dailyLeaderBoardColumns}
           dataSource={dailyLeaderBoard}

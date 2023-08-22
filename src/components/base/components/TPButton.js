@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import '../less/button.less';
 
-function Button({
+function TPButton({
   buttonText,
   className,
   onClick,
@@ -22,7 +22,7 @@ function Button({
   );
 }
 
-Button.defaultProps = {
+TPButton.defaultProps = {
   buttonText: '',
   className: '',
   textClassName: '',
@@ -31,7 +31,7 @@ Button.defaultProps = {
   icon: <div />,
 };
 
-Button.propTypes = {
+TPButton.propTypes = {
   buttonText: PropTypes.string,
   className: PropTypes.string,
   textClassName: PropTypes.string,
@@ -40,4 +40,4 @@ Button.propTypes = {
   icon: PropTypes.node,
 };
 
-export default Button;
+export default TPButton;

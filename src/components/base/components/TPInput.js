@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import '../less/input.less';
 
-function Input({ className, onSearch, placeholder, type, ...props }) {
+function TPInput({ className, onSearch, placeholder, type, ...props }) {
   if (type === 'search') {
     return (
       <AntInput.Search
@@ -17,17 +17,17 @@ function Input({ className, onSearch, placeholder, type, ...props }) {
   return <AntInput>AntInput</AntInput>;
 }
 
-Input.defaultProps = {
+TPInput.defaultProps = {
   className: '',
   placeholder: '',
   type: '',
 };
 
-Input.propTypes = {
+TPInput.propTypes = {
   className: PropTypes.string,
   onSearch: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   type: PropTypes.string,
 };
 
-export default Input;
+export default TPInput;

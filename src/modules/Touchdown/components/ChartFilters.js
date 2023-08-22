@@ -2,9 +2,9 @@ import { Checkbox, Col, Row } from 'antd';
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 
-import Button from 'components/base/components/Button';
 import TPRangePicker from 'components/base/components/DatePicker/TPRangePicker';
-import Select from 'components/base/components/Select';
+import TPButton from 'components/base/components/TPButton';
+import TPSelect from 'components/base/components/TPSelect';
 import { ArrowIcon } from 'components/core/Icons';
 
 function ChartFilters({
@@ -41,7 +41,7 @@ function ChartFilters({
           <span className="text-small">
             {isFromContest ? 'Contests' : 'Time interval'}
           </span>
-          <Select
+          <TPSelect
             onChange={setIntervalRange}
             options={options}
             style={{ marginTop: '5px' }}
@@ -56,7 +56,7 @@ function ChartFilters({
           </Col>
         )}
         <Col className="btn-container" offset={isFromContest ? 7 : 12} span={3}>
-          <Button
+          <TPButton
             className="arrow-btn"
             icon={<ArrowIcon />}
             onClick={onClick}

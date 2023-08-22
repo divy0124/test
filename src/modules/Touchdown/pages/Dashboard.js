@@ -5,9 +5,9 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Button from 'components/base/components/Button';
-import WeekPicker from 'components/base/components/DatePicker/WeekPicker';
-import Table from 'components/base/components/Table';
+import TPWeekPicker from 'components/base/components/DatePicker/TPWeekPicker';
+import TPButton from 'components/base/components/TPButton';
+import TPTable from 'components/base/components/TPTable';
 import { GET_TOUCHDOWN_BY_DATE } from 'graphql/queries';
 import { MM_DD_YYYY, dashboardTotalCountsLabels } from 'utils/constants/labels';
 
@@ -238,7 +238,7 @@ function Dashboard() {
           {record.status === 'DRAFT' ? (
             '-'
           ) : (
-            <Button
+            <TPButton
               buttonText="VIEW"
               className="fw-500 fs-14"
               onClick={() => {}}
@@ -279,7 +279,7 @@ function Dashboard() {
                 className="font-alegreya"
                 justify="space-between"
               >
-                <WeekPicker
+                <TPWeekPicker
                   dateRange={dateRange}
                   disabledDate={false}
                   iconColor="#B69056"
@@ -288,7 +288,7 @@ function Dashboard() {
                 />
 
                 <Col>
-                  <Button
+                  <TPButton
                     buttonText="CREATE TOUCHDOWN"
                     className="fw-500 fs-16"
                     onClick={() =>
@@ -335,7 +335,7 @@ function Dashboard() {
                 className="border-primary-100 br-2px border-1px mb-30"
                 style={{ overflowX: 'scroll', height: '100%' }}
               >
-                <Table
+                <TPTable
                   columns={touchdownInfoColumns}
                   dataSource={touchdown?.prizePools || []}
                   rowClassName={(record) => getRowClassName(record)}

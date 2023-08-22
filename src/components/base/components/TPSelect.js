@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import '../less/select.less';
 
-function AntSelect({ className, onChange, options, value, ...rest }) {
+function TPSelect({ className, onChange, options, value, ...rest }) {
   return (
     <Select
       className={className}
@@ -17,15 +17,15 @@ function AntSelect({ className, onChange, options, value, ...rest }) {
   );
 }
 
-AntSelect.defaultProps = {
+TPSelect.defaultProps = {
   className: '',
 };
 
-AntSelect.propTypes = {
+TPSelect.propTypes = {
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(Object).isRequired,
   value: PropTypes.string.isRequired,
 };
 
-export default AntSelect;
+export default TPSelect;

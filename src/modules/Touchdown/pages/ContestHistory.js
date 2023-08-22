@@ -3,9 +3,9 @@ import { Col, Row, message } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-import Button from 'components/base/components/Button';
 import TPRangePicker from 'components/base/components/DatePicker/TPRangePicker';
-import Table from 'components/base/components/Table';
+import TPButton from 'components/base/components/TPButton';
+import TPTable from 'components/base/components/TPTable';
 import { GET_TOUCHDOWN_WEEKLY_HISTORY } from 'graphql/queries';
 import { YYYY_MM_DD } from 'utils/constants/labels';
 
@@ -141,7 +141,7 @@ function ContestHistory() {
       dataIndex: 'touchdownId',
       key: 'touchdownId',
       render: () => (
-        <Button
+        <TPButton
           buttonText="VIEW"
           className="fw-500 fs-14 "
           icon={false}
@@ -205,7 +205,7 @@ function ContestHistory() {
               span={24}
               style={{ overflowX: 'scroll', height: '100%' }}
             >
-              <Table
+              <TPTable
                 className="weekly-contest-tbl"
                 columns={weeklyHistoryColumn}
                 dataSource={touchdownWeeklyHistory || []}

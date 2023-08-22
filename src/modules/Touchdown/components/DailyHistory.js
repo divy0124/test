@@ -4,8 +4,8 @@ import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 
-import Button from 'components/base/components/Button';
-import Table from 'components/base/components/Table';
+import TPButton from 'components/base/components/TPButton';
+import TPTable from 'components/base/components/TPTable';
 import { BackArrowIcon } from 'components/core/Icons';
 import { GET_TOUCHDOWN_DAILY_HISTORY } from 'graphql/queries';
 import { MM_DD_YYYY } from 'utils/constants/labels';
@@ -21,7 +21,7 @@ function DailyHistory({ backToPrevPage, dateRange }) {
 
   const renderTextOnCurrentWeekCell = (text) => <div>{text}</div>;
   const renderLeaderboardButton = () => (
-    <Button
+    <TPButton
       buttonText="VIEW"
       className="fw-500 fs-14 "
       icon={false}
@@ -236,7 +236,7 @@ function DailyHistory({ backToPrevPage, dateRange }) {
               span={24}
               style={{ overflowX: 'scroll', height: '100%' }}
             >
-              <Table
+              <TPTable
                 className="daily-history-table"
                 columns={dailyHistoryColumn}
                 dataSource={prizePoolInfo || []}
