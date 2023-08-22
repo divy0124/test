@@ -7,8 +7,9 @@ import { MM_DD_YYYY } from 'utils/constants/labels';
 
 import '../../less/datePicker.less';
 
-function RangePicker({ className, dateRange, onChange, ...props }) {
+function TPRangePicker({ className, dateRange, onChange, ...props }) {
   const { RangePicker: AntRangePicker } = DatePicker;
+
   return (
     <AntRangePicker
       allowClear={false}
@@ -23,16 +24,16 @@ function RangePicker({ className, dateRange, onChange, ...props }) {
     />
   );
 }
-RangePicker.defaultProps = {
+TPRangePicker.defaultProps = {
   className: '',
   dateRange: [],
   onChange: () => {},
 };
 
-RangePicker.propTypes = {
+TPRangePicker.propTypes = {
   className: PropTypes.string,
   dateRange: PropTypes.arrayOf(dayjs),
   onChange: PropTypes.func,
 };
 
-export default RangePicker;
+export default TPRangePicker;

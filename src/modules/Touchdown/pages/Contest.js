@@ -2,6 +2,7 @@ import { useLazyQuery } from '@apollo/client';
 import { Button as AntdBtn, Col, Row, message } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import Button from 'components/base/components/Button';
 import Table from 'components/base/components/Table';
@@ -40,8 +41,11 @@ const initialPrizePool = {
   predetermineWeeklyReserve: 0,
 };
 function Contest() {
+  const location = useLocation();
+  const { state } = location;
+
   const [weekDate, setWeekDate] = useState(null);
-  const [viewComponent, setViewComponent] = useState(null);
+  const [viewComponent, setViewComponent] = useState(state || null);
   const [currentWeekTouchdownInfo, setCurrentWeekTouchdownInfo] =
     useState(null);
   const [upcomingWeekTouchdownInfo, setUpcomingWeekTouchdownInfo] =
@@ -71,7 +75,7 @@ function Contest() {
         formatAmount(pp.predetermineJackpot || 0),
       ),
 
-      actualJackpot: '$'.concat(formatAmount(pp.actualJackpotAmount)),
+      actualJackpot: '$'.concat(formatAmount(pp.actualJackpotAmount || 0)),
 
       predetermineSixForSeven: '$'.concat(
         formatAmount(pp.predetermineReserveAmount.SIX_FOR_SEVEN),
@@ -538,7 +542,7 @@ function Contest() {
             className="current-week-tbl"
             columns={currentWeekTableColumns}
             dataSource={prizePools}
-            height={458}
+            height={452}
             loadMoreFunc={() => {}}
             rowClassName={(record) =>
               record.status === 'LIVE' ? 'bg-red-200' : ''

@@ -1,8 +1,8 @@
 import { Table as AntTable, Col, Row, Spin } from 'antd';
 import PropTypes from 'prop-types';
-import '../less/table.less';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import '../less/table.less';
 
 import Input from 'components/base/components/Input';
 
@@ -15,6 +15,7 @@ function Table({
   rowClassName,
   type,
   height,
+  loading,
 }) {
   const [hasMore, setHasMore] = useState(false);
   const [pagination, setPagination] = useState(1);
@@ -34,7 +35,10 @@ function Table({
         <Col span={24}>
           {type === 'search' && (
             <Input
-              onSearch={(val) => loadMoreFunc(val, pagination, 15)}
+              onSearch={(val) => {
+                setPagination(1);
+                loadMoreFunc(val, 1, 15);
+              }}
               placeholder="Search"
               type="search"
             />
@@ -57,6 +61,14 @@ function Table({
             className={className}
             columns={columns}
             dataSource={dataSource}
+            loading={loading}
+            // onRow={(record, rowIndex) => ({
+            //   onHeaderRow: (event) => {
+            //     event.preventDefault();
+            //     onRowClick(record, rowIndex);
+            //   },
+            //   // onCell,
+            // })}
             pagination={false}
             rowClassName={rowClassName}
             scroll={{ x: 1000 }}
@@ -83,6 +95,7 @@ Table.propTypes = {
   loadMoreFunc: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   height: PropTypes.number.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default Table;
