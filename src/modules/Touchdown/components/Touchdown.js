@@ -5,7 +5,7 @@ import cx from 'classnames';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Button from 'components/base/components/Button';
 import WeekPicker from 'components/base/components/DatePicker/WeekPicker';
@@ -23,6 +23,9 @@ import { EST_TIME_ZONE, YYYY_MM_DD } from 'utils/constants/labels';
 import { validateNumber } from 'utils/helpers/validation';
 
 import emptySelection from '../../../assets/images/empty-selection.svg';
+
+import ContestCreation from './ContestCreation';
+
 import '../../../assets/styles/touchdown.less';
 
 const initTouchdownData = {
@@ -179,6 +182,16 @@ function Touchdown({ backToPrevPage }) {
         message.error(error?.message);
       });
   };
+
+  useEffect(() => {
+    const monday = dayjs().startOf('week').format(YYYY_MM_DD);
+    const sunday = dayjs().endOf('week').format(YYYY_MM_DD);
+    const selectedWeek = [monday, sunday];
+    setActiveBox(0);
+    setDateRange([...selectedWeek]);
+    setSelectedDate(dayjs());
+    getTouchDownByDateRange(selectedWeek);
+  }, []);
 
   const handlePrizePoolChange = (index, data) => {
     const { prizePoolId, status, startDate: selectedDate } = data;
@@ -604,8 +617,8 @@ function Touchdown({ backToPrevPage }) {
               <Col className="daily-matrix" span={12}>
                 <p>Daily Metrics</p>
                 <div className="box-daily">
-                  {touchdownInfo &&
-                  touchdownInfo.prizePools[activeBox].status === 'COMPLETED' ? (
+                  {touchdownInfo?.prizePools[activeBox]?.status ===
+                  'COMPLETED' ? (
                     <div className="completed">
                       <Col>
                         <Row className="col-title">
@@ -771,6 +784,7 @@ function Touchdown({ backToPrevPage }) {
                 </div>
               </Col>
             </Row>
+            <ContestCreation />
           </div>
         </div>
       )}

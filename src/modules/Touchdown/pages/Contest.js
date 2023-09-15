@@ -45,7 +45,9 @@ function Contest() {
   const { state } = location;
 
   const [weekDate, setWeekDate] = useState(null);
-  const [viewComponent, setViewComponent] = useState(state || null);
+  const [viewComponent, setViewComponent] = useState(
+    'touchdown' || state || null,
+  );
   const [currentWeekTouchdownInfo, setCurrentWeekTouchdownInfo] =
     useState(null);
   const [upcomingWeekTouchdownInfo, setUpcomingWeekTouchdownInfo] =
