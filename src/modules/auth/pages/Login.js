@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useState } from 'react';
 
 function Login({ username }) {
@@ -5,6 +6,18 @@ function Login({ username }) {
 
   const handleChange = (e) => {
     setUserInput(e.target.value);
+  };
+
+  // Test Comment
+
+  const a = (a, b) => {
+    a + b;
+  };
+
+  // const a = 1;
+
+  const test = () => {
+    console.log('🚀 ~ Login ~ test:', test);
   };
 
   return (
@@ -21,5 +34,9 @@ function Login({ username }) {
     </div>
   );
 }
+
+// Login.prototype = {
+//   username: string,
+// };
 
 export default Login;
