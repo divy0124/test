@@ -38,7 +38,7 @@ const initTouchdownData = {
 const initPrizePoolData = {
   entryFees: 0,
   totalEntrants: 0,
-  supportedSports: process.env.REACT_APP_SUPPORTED_SPORTS.split(','),
+  supportedSports: process.env.REACT_APP_SUPPORTED_SPORTS?.split(',') ?? [],
   actualReserveAmount: {
     SIX_FOR_SEVEN: 0,
   },

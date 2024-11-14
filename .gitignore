@@ -67,3 +67,6 @@ amplifytools.xcconfig
 codealike.json
 
 yarn.lock
+
+#virtual env
+patchwork_env
