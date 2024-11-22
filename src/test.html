@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vulnerable Eval Example</title>
+  </head>
+  <body>
+    <h1>Evaluate Expression</h1>
+    <form id="evalForm">
+      <input
+        type="text"
+        id="expressionInput"
+        placeholder="Enter an expression"
+        required
+      />
+      <button type="submit">Evaluate</button>
+    </form>
+    <h2>Result:</h2>
+    <div id="resultContainer"></div>
+
+    <script>
+      const evalForm = document.getElementById('evalForm');
+      const expressionInput = document.getElementById('expressionInput');
+      const resultContainer = document.getElementById('resultContainer');
+
+      evalForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent page refresh
+
+        // Vulnerable line: using eval to execute user input
+        const expression = expressionInput.value;
+        try {
+          const result = eval(expression); // Dangerous use of eval
+          resultContainer.textContent = `Result: ${result}`;
+        } catch (e) {
+          resultContainer.textContent = `Error: ${e.message}`;
+        }
+
+        // Clear the input field
+        expressionInput.value = '';
+      });
+    </script>
+  </body>
+</html>
