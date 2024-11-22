@@ -1,47 +1,3 @@
-// /* eslint-disable */
-// import { useState } from 'react';
-
-// function Login({ username }) {
-//   const a =        'test';
-//   const [userInput, setUserInput] = useState('');
-
-//   const handleChange = (e) => {
-//     setUserInput(e.target.value);
-//   };
-
-//   // Test Comment
-
-//   const a = (a, b) => {
-//     a + b;
-//   };
-
-//   // const a = 1;
-
-//   const test = () => {
-//     console.log('🚀 ~ Login ~ test:', test);
-//   };
-
-//   return (
-//     <div>
-//       <h1>Welcome, {username}!</h1>
-//       <textarea
-//         onChange={handleChange}
-//         placeholder="Type something here..."
-//         value={userInput}
-//       />
-//       <p>Output:</p>
-//       {/* This is vulnerable to XSS attacks */}
-//       <div dangerouslySetInnerHTML={{ __html: userInput }} />
-//     </div>
-//   );
-// }
-
-// // Login.prototype = {
-// //   username: string,
-// // };
-
-// export default Login;
-
 import { useState } from 'react';
 
 function Login() {
@@ -51,12 +7,22 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    // Check the protocol and redirect if HTTP
+    const currentProtocol = window.location.protocol;
+    if(currentProtocol === "http:" || currentProtocol === "https:"){
+      // Redirect to HTTPS with a new URL
+      fetch(window.location.href.replace(currentProtocol, 'https'), {mode: 'navigate'})
+      .then(() => {
+        handleLogin();
+      });
+    }
+    
     // SQL Injection vulnerability: User input is sent directly to the backend without sanitization
     const body = JSON.stringify({ username, password });
 
     try {
       // CSRF vulnerability: No token or protection mechanism is used
-      const response = await fetch('http://example.com/api/login', {
+      const response = await fetch('https://example.com/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body,
